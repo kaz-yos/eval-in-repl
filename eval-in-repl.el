@@ -96,13 +96,13 @@ Sends expression to a repl and have it evaluated."
 	 (region-string (buffer-substring-no-properties start end)))
 
     ;; Change other window to REPL
-    (funcall 'fun-change-to-repl)
+    (funcall fun-change-to-repl)
     ;; Move to end of buffer
     (end-of-buffer)
     ;; Insert the string
     (insert region-string)
     ;; Execute
-    (funcall 'fun-execute)
+    (funcall fun-execute)
     ;; Come back to the script
     (select-window script-window)
     ;; Return nil
@@ -174,25 +174,11 @@ A function definition is detected by a string specified in DEFUN-STRING
 (defun eir-send-to-ielm (start end)
   "Sends expression to *ielm* and have it evaluated."
 
-  (interactive "r")
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string (buffer-substring-no-properties start end)))
-
-    ;; Change other window to REPL
-    (switch-to-buffer-other-window "*ielm*")
-    ;; Move to end of buffer
-    (end-of-buffer)
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (ielm-return)
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil
-    nil
-    ))
+  (eir-send-to-repl start end
+		    ;; fun-change-to-repl
+		    #'(lambda () (switch-to-buffer-other-window "*ielm*"))
+		    ;; fun-execute
+		    #'ielm-return))
 ;;
 ;;; eir-eval-in-ielm
 (defun eir-eval-in-ielm ()
@@ -211,11 +197,11 @@ A function definition is detected by a string specified in DEFUN-STRING
 ;;
 ;;; define keys
 ;; .el files
-(define-key emacs-lisp-mode-map (kbd "<C-return>") 'eir-eval-in-ielm)
+(define-key emacs-lisp-mode-map		(kbd "<C-return>") 'eir-eval-in-ielm)
 ;; *scratch*
-(define-key lisp-interaction-mode-map (kbd "<C-return>") 'eir-eval-in-ielm)
+(define-key lisp-interaction-mode-map	(kbd "<C-return>") 'eir-eval-in-ielm)
 ;; M-x info
-(define-key Info-mode-map (kbd "<C-return>") 'eir-eval-in-ielm)
+(define-key Info-mode-map		(kbd "<C-return>") 'eir-eval-in-ielm)
 
 
 
@@ -247,25 +233,11 @@ This function should not be invoked directly."
 (defun eir-send-to-cider (start end)
   "Sends expression to *cider-repl* and have it evaluated."
 
-  (interactive "r")
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string (buffer-substring-no-properties start end)))
-
-    ;; Change to cider REPL
-    (cider-switch-to-repl-buffer)
-    ;; Move to end of buffer
-    (end-of-buffer)
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (cider-repl-return)
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil
-    nil
-    ))
+  (eir-send-to-repl start end
+		    ;; fun-change-to-repl
+		    #'cider-switch-to-repl-buffer
+		    ;; fun-execute
+		    #'cider-repl-return))
 ;;
 ;;; eir-eval-in-cider
 (defun eir-eval-in-cider ()
@@ -283,9 +255,7 @@ This function should not be invoked directly."
    "(defn "))
 ;;
 ;;; define keys
-(add-hook 'clojure-mode-hook
-	  '(lambda ()
-	     (local-set-key (kbd "<C-return>") 'eir-eval-in-cider)))
+(define-key clojure-mode-map		(kbd "<C-return>") 'eir-eval-in-cider)
 
 
 
@@ -296,25 +266,11 @@ This function should not be invoked directly."
 (defun eir-send-to-slime (start end)
   "Sends expression to *slime-repl* and have it evaluated."
 
-  (interactive "r")
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string (buffer-substring-no-properties start end)))
-
-    ;; Change to slime REPL
-    (slime-switch-to-output-buffer)
-    ;; Move to end of buffer
-    (end-of-buffer)
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (slime-repl-return)
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil
-    nil
-    ))
+  (eir-send-to-repl start end
+		    ;; fun-change-to-repl
+		    #'slime-switch-to-output-buffer
+		    ;; fun-execute
+		    #'slime-repl-return))
 ;;
 ;;; eir-eval-in-slime
 (defun eir-eval-in-slime ()
@@ -332,9 +288,8 @@ This function should not be invoked directly."
    "(defn "))
 ;;
 ;;; define keys
-(add-hook 'slime-mode-hook
-	  '(lambda ()
-	     (local-set-key (kbd "<C-return>") 'eir-eval-in-slime)))
+(define-key slime-mode-map		(kbd "<C-return>") 'eir-eval-in-slime)
+
 
 
 ;;;
@@ -344,27 +299,15 @@ This function should not be invoked directly."
 (defun eir-send-to-scheme (start end)
   "Sends expression to *scheme* and have it evaluated."
 
-  (interactive "r")
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string (buffer-substring-no-properties start end)))
-
-    ;; Move to the other window
-    (other-window 1)
-    ;; Change to scheme REPL
-    (switch-to-scheme t)
-    ;; Move to end of buffer
-    (end-of-buffer)
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (comint-send-input)
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil
-    nil
-    ))
+  (eir-send-to-repl start end
+		    ;; fun-change-to-repl
+		    #'(lambda ()
+			;; Move to the other window
+			(other-window 1)
+			;; Change to scheme REPL
+			(switch-to-scheme t))
+		    ;; fun-execute
+		    #'comint-send-input))
 ;;
 ;;; eir-eval-in-scheme
 (defun eir-eval-in-scheme ()
@@ -382,9 +325,7 @@ This function should not be invoked directly."
    "(define "))
 ;;
 ;;; define keys
-(add-hook 'scheme-mode-hook
-	  '(lambda ()
-	     (local-set-key (kbd "<C-return>") 'eir-eval-in-scheme)))
+(define-key scheme-mode-map		(kbd "<C-return>") 'eir-eval-in-scheme)
 
 
 
@@ -394,27 +335,16 @@ This function should not be invoked directly."
 (defun eir-send-to-python (start end)
   "Sends expression to *Python* and have it evaluated."
 
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string (buffer-substring-no-properties start end)))
-
-    ;; Change to Python shell
-    (python-shell-switch-to-shell)
-    ;; Move to end of buffer
-    (end-of-buffer)
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (comint-send-input)
-    ;; One more time if not ending with \n
-    (if (not (equal (substring region-string -1) "\n"))
-	(comint-send-input))
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil
-    nil
-    ))
+  (eir-send-to-repl start end
+		    ;; fun-change-to-repl
+		    #'python-shell-switch-to-shell
+		    ;; fun-execute
+		    #'(lambda ()
+			;; Execute
+			(comint-send-input)
+			;; One more time if not ending with \n
+			(if (not (equal (substring region-string -1) "\n"))
+			    (comint-send-input)))))
 ;;
 ;;; eir-eval-in-python
 ;; http://www.reddit.com/r/emacs/comments/1h4hyw/selecting_regions_pythonel/
@@ -458,10 +388,8 @@ This function should not be invoked directly."
       (select-window w-script)
       )))
 ;;; define keys
-(add-hook 'python-mode-hook		; For Python script
-          '(lambda()
-	     (local-set-key (kbd "<C-return>") 'eir-eval-in-python)
-	     ))
+(define-key python-mode-map		(kbd "<C-return>") 'eir-eval-in-python)
+
 
 
 ;;;
@@ -476,24 +404,11 @@ This function should not be invoked directly."
 (defun eir-send-to-shell (start end)
   "Sends expression to *shell* and have it evaluated."
 
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string (buffer-substring-no-properties start end)))
-
-    ;; Change to shell
-    (switch-to-buffer-other-window "*shell*")
-    ;; Move to end of buffer
-    (end-of-buffer)
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (comint-send-input)
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil
-    nil
-    ))
+    (eir-send-to-repl start end
+		    ;; fun-change-to-repl
+		    #'(lambda () (switch-to-buffer-other-window "*shell*"))
+		    ;; fun-execute
+		    #'comint-send-input))
 ;;
 ;;; eir-eval-in-shell
 (defun eir-eval-in-shell ()
@@ -535,10 +450,8 @@ This function should not be invoked directly."
       )))
 ;;
 ;;; define keys
-(add-hook 'sh-mode-hook		; For shell script mode
-          '(lambda()
-             (local-set-key (kbd "S-<return>") 'eir-eval-in-shell)
-	     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
+(define-key sh-mode-map		(kbd "<C-return>") 'eir-eval-in-shell)
+
 
 
 
