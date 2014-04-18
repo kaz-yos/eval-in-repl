@@ -81,7 +81,33 @@ Also vertically split the current frame when staring a REPL."
 	  ;; Select the script window on the right (window2)
 	  (select-window window2)
 	  ))))
+;;
+;;
+;;; eir-send-to-repl
+(defun eir-send-to-repl (start end fun-change-to-repl fun-execute)
+  "Sekeleton function to be used with a wrapper.
 
+Sends expression to a repl and have it evaluated."
+
+  (interactive "r")
+  (let* (;; Assign the current buffer
+	 (script-window (selected-window))
+	 ;; Assign the region as a string
+	 (region-string (buffer-substring-no-properties start end)))
+
+    ;; Change other window to REPL
+    (funcall 'fun-change-to-repl)
+    ;; Move to end of buffer
+    (end-of-buffer)
+    ;; Insert the string
+    (insert region-string)
+    ;; Execute
+    (funcall 'fun-execute)
+    ;; Come back to the script
+    (select-window script-window)
+    ;; Return nil
+    nil
+    ))
 
 
 ;;;
