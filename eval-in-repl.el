@@ -288,7 +288,9 @@ This function should not be invoked directly."
    "(defn "))
 ;;
 ;;; define keys
-(define-key slime-mode-map		(kbd "<C-return>") 'eir-eval-in-slime)
+(add-hook 'slime-mode-hook
+	  '(lambda ()
+	     (local-set-key (kbd "<C-return>") 'eir-eval-in-slime)))
 
 
 
@@ -325,7 +327,9 @@ This function should not be invoked directly."
    "(define "))
 ;;
 ;;; define keys
-(define-key scheme-mode-map		(kbd "<C-return>") 'eir-eval-in-scheme)
+(add-hook 'scheme-mode-hook
+	  '(lambda ()
+	     (local-set-key (kbd "<C-return>") 'eir-eval-in-scheme)))
 
 
 
@@ -450,14 +454,14 @@ This function should not be invoked directly."
       )))
 ;;
 ;;; define keys
-(define-key sh-mode-map		(kbd "<C-return>") 'eir-eval-in-shell)
-
-
+(add-hook 'sh-mode-hook		; For shell script mode
+          '(lambda()
+	     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
 
 
 ;;;
 
 
-;; (provide 'eval-in-repl)
+(provide 'eval-in-repl)
 ;;; eval-in-repl.el ends here
 
