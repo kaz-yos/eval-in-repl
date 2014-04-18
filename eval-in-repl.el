@@ -42,8 +42,12 @@
 ;; https://stat.ethz.ch/pipermail/ess-help/2012-December/008426.html
 ;; http://t7331.codeinpro.us/q/51502552e8432c0426273040
 (defun eir-repl-start (repl-buffer-regexp fun-repl-start)
-  "Start an REPL using a function specified in FUN-REPL-START,
-if a buffer named REPL-BUFFER-REGEXP is not already available."
+  "Start a REPL if not already available.
+
+Start a REPL using a function specified in FUN-REPL-START,
+if a buffer matching REPL-BUFFER-REGEXP is not already available.
+Also vertically split the current frame when staring a REPL."
+  
   (interactive)
   ;; Create local variables
   (let* (window1 window2 name-script-buffer name-repl-buffer)
@@ -77,15 +81,13 @@ if a buffer named REPL-BUFFER-REGEXP is not already available."
 	  ;; Select the script window on the right (window2)
 	  (select-window window2)
 	  ))))
-;;
-;; eg. R interpreter
-;; (eir-repl-start "*R*" #'R)
+
 
 
 ;;;
 ;;; COMMON ELEMENTS FOR LISP LANGUAGES
-;;; eir-eval-in-repl for lisp languages (used as a skeleton for eir-*-eval)
-(defun eir-eval-in-repl (repl-buffer-regexp fun-repl-start fun-repl-send defun-string)
+;;; eir-eval-in-repl-lisp for lisp languages (used as a skeleton for eir-*-eval)
+(defun eir-eval-in-repl-lisp (repl-buffer-regexp fun-repl-start fun-repl-send defun-string)
     "Evaluates expression using a REPL specified by repl-buffer-regexp. Sends
 expression using a function specified in fun-repl-start. A function definition
  is detected by a string specified in defun-string and handled accordingly."
@@ -163,10 +165,10 @@ expression using a function specified in fun-repl-start. A function definition
 ;;
 ;;; eir-eval-in-ielm
 (defun eir-eval-in-ielm ()
-  "This is a customized version of eir-eval-in-repl for ielm."
+  "This is a customized version of eir-eval-in-repl-lisp for ielm."
 
   (interactive)
-  (eir-eval-in-repl	; defined in 200_eir-misc-functions-and-bindings.el
+  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
    ;; repl-buffer-regexp
    "\\*ielm\\*"
    ;; fun-repl-start
@@ -236,10 +238,10 @@ This function should not be invoked directly."
 ;;
 ;;; eir-eval-in-cider
 (defun eir-eval-in-cider ()
-  "This is a customized version of eir-eval-in-repl for cider."
+  "This is a customized version of eir-eval-in-repl-lisp for cider."
 
   (interactive)
-  (eir-eval-in-repl	; defined in 200_eir-misc-functions-and-bindings.el
+  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
    ;; repl-buffer-regexp
    "\\*cider-repl.*\\*$"
    ;; fun-repl-start
@@ -285,10 +287,10 @@ This function should not be invoked directly."
 ;;
 ;;; eir-eval-in-slime
 (defun eir-eval-in-slime ()
-  "This is a customized version of eir-eval-in-repl for slime."
+  "This is a customized version of eir-eval-in-repl-lisp for slime."
 
   (interactive)
-  (eir-eval-in-repl	; defined in 200_eir-misc-functions-and-bindings.el
+  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
    ;; repl-buffer-regexp
    "\\*slime-repl.*\\*$"
    ;; fun-repl-start
@@ -335,10 +337,10 @@ This function should not be invoked directly."
 ;;
 ;;; eir-eval-in-scheme
 (defun eir-eval-in-scheme ()
-  "This is a customized version of eir-eval-in-repl for scheme."
+  "This is a customized version of eir-eval-in-repl-lisp for scheme."
 
   (interactive)
-  (eir-eval-in-repl	; defined in 200_eir-misc-functions-and-bindings.el
+  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
    ;; repl-buffer-regexp
    "\\*scheme\\*"
    ;; fun-repl-start
