@@ -86,11 +86,16 @@ Also vertically split the current frame when staring a REPL."
 
 ;;;
 ;;; COMMON ELEMENTS FOR LISP LANGUAGES
-;;; eir-eval-in-repl-lisp for lisp languages (used as a skeleton for eir-*-eval)
+;;; eir-eval-in-repl-lisp (used as a skeleton)
 (defun eir-eval-in-repl-lisp (repl-buffer-regexp fun-repl-start fun-repl-send defun-string)
-    "Evaluates expression using a REPL specified by repl-buffer-regexp. Sends
-expression using a function specified in fun-repl-start. A function definition
- is detected by a string specified in defun-string and handled accordingly."
+    "Skeleton function to be used with a wrapper.
+
+Evaluates expression using a REPL specified by REPL-BUFFER-REGEXP.
+If not present, a REPL is started using FUN-REPL-START.
+Sends expression using a function specified in FUN-REPL-SEND.
+A function definition is detected by a string specified in DEFUN-STRING
+ and handled accordingly."
+    
   (interactive)
   (let* (;; Save current point
 	 (initial-point (point)))
