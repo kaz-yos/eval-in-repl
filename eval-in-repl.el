@@ -20,7 +20,14 @@
 
 ;;; Commentary:
 
+;; Emacs Speaks Statistics (ESS) package has a nice function called
+;; ess-eval-region-or-line-and-step, which is assigned to C-RET.
+;; This function sends a line or a selected region to the corresponding
+;; R, Julia, Stata, etc shell. It also start up a shell if there is none.
 ;;
+;; This package implements similar work flow for Emacs Lisp (ielm), Clojure
+;; (via cider), other lisps (via SLIME), Scheme (via scheme-mode), Python
+;; (via python.el), and shell (via essh.el).
 
 ;;; Code:
 
