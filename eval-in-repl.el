@@ -20,15 +20,22 @@
 
 ;;; Commentary:
 
+;; Emacs Speaks Statistics (ESS) package has a nice function called
+;; ess-eval-region-or-line-and-step, which is assigned to C-RET.
+;; This function sends a line or a selected region to the corresponding
+;; R, Julia, Stata, etc shell. It also start up a shell if there is none.
 ;;
+;; This package implements similar work flow for Emacs Lisp (ielm), Clojure
+;; (via cider), other lisps (via SLIME), Scheme (via scheme-mode), Python
+;; (via python.el), and shell (via essh.el).
 
 ;;; Code:
 
 
 ;;;
 ;;; COMMON ELEMENTS
-;;; my-matching-elements
-(defun my-matching-elements (regexp list)
+;;; eir--matching-elements
+(defun eir--matching-elements (regexp list)
   "Return a list of elements matching the REGEXP in the LIST."
   ;; emacs version of filter
   (delete-if-not
@@ -37,17 +44,21 @@
    list))
 ;;
 ;;
-;;; my-start-repl
+;;; eir-start-repl
 ;; A function to start a REPL if not already available
 ;; https://stat.ethz.ch/pipermail/ess-help/2012-December/008426.html
 ;; http://t7331.codeinpro.us/q/51502552e8432c0426273040
-(defun my-repl-start (repl-buffer-regexp fun-repl-start)
-  "Start an REPL using a function specified in FUN-REPL-START,
-if a buffer named REPL-BUFFER-REGEXP is not already available."
+(defun eir-repl-start (repl-buffer-regexp fun-repl-start)
+  "Start a REPL if not already available.
+
+Start a REPL using a function specified in FUN-REPL-START,
+if a buffer matching REPL-BUFFER-REGEXP is not already available.
+Also vertically split the current frame when staring a REPL."
+  
   (interactive)
   ;; Create local variables
   (let* (window1 window2 name-script-buffer name-repl-buffer)
-    (if (not (my-matching-elements repl-buffer-regexp (mapcar #'buffer-name (buffer-list))))
+    (if (not (eir--matching-elements repl-buffer-regexp (mapcar #'buffer-name (buffer-list))))
 	(progn
 	  ;; C-x 1 Keep only the window from which this function was called.
 	  (delete-other-windows)
@@ -78,23 +89,52 @@ if a buffer named REPL-BUFFER-REGEXP is not already available."
 	  (select-window window2)
 	  ))))
 ;;
-;; eg. R interpreter
-;; (my-repl-start "*R*" #'R)
+;;
+;;; eir-send-to-repl
+(defun eir-send-to-repl (start end fun-change-to-repl fun-execute)
+  "Sekeleton function to be used with a wrapper.
+
+Sends expression to a repl and have it evaluated."
+
+  (interactive "r")
+  (let* (;; Assign the current buffer
+	 (script-window (selected-window))
+	 ;; Assign the region as a string
+	 (region-string (buffer-substring-no-properties start end)))
+
+    ;; Change other window to REPL
+    (funcall fun-change-to-repl)
+    ;; Move to end of buffer
+    (end-of-buffer)
+    ;; Insert the string
+    (insert region-string)
+    ;; Execute
+    (funcall fun-execute)
+    ;; Come back to the script
+    (select-window script-window)
+    ;; Return nil
+    nil
+    ))
 
 
 ;;;
 ;;; COMMON ELEMENTS FOR LISP LANGUAGES
-;;; my-eval-in-repl for lisp languages (used as a skeleton for my-*-eval)
-(defun my-eval-in-repl (repl-buffer-regexp fun-repl-start fun-repl-send defun-string)
-    "Evaluates expression using a REPL specified by repl-buffer-regexp. Sends
-expression using a function specified in fun-repl-start. A function definition
- is detected by a string specified in defun-string and handled accordingly."
+;;; eir-eval-in-repl-lisp (used as a skeleton)
+(defun eir-eval-in-repl-lisp (repl-buffer-regexp fun-repl-start fun-repl-send defun-string)
+    "Skeleton function to be used with a wrapper.
+
+Evaluates expression using a REPL specified by REPL-BUFFER-REGEXP.
+If not present, a REPL is started using FUN-REPL-START.
+Sends expression using a function specified in FUN-REPL-SEND.
+A function definition is detected by a string specified in DEFUN-STRING
+ and handled accordingly."
+    
   (interactive)
   (let* (;; Save current point
 	 (initial-point (point)))
 
-    ;; defined in 200_my-misc-functions-and-bindings.el
-    (my-repl-start repl-buffer-regexp fun-repl-start)
+    ;; defined in 200_eir-misc-functions-and-bindings.el
+    (eir-repl-start repl-buffer-regexp fun-repl-start)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
@@ -137,66 +177,52 @@ expression using a function specified in fun-repl-start. A function definition
 
 ;;;
 ;;; EMACS LISP RELATED
-;;; my-send-to-ielm
-(defun my-send-to-ielm (start end)
+;;; eir-send-to-ielm
+(defun eir-send-to-ielm (start end)
   "Sends expression to *ielm* and have it evaluated."
 
-  (interactive "r")
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string (buffer-substring-no-properties start end)))
-
-    ;; Change other window to REPL
-    (switch-to-buffer-other-window "*ielm*")
-    ;; Move to end of buffer
-    (end-of-buffer)
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (ielm-return)
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil
-    nil
-    ))
+  (eir-send-to-repl start end
+		    ;; fun-change-to-repl
+		    #'(lambda () (switch-to-buffer-other-window "*ielm*"))
+		    ;; fun-execute
+		    #'ielm-return))
 ;;
-;;; my-eval-in-ielm
-(defun my-eval-in-ielm ()
-  "This is a customized version of my-eval-in-repl for ielm."
+;;; eir-eval-in-ielm
+(defun eir-eval-in-ielm ()
+  "This is a customized version of eir-eval-in-repl-lisp for ielm."
 
   (interactive)
-  (my-eval-in-repl	; defined in 200_my-misc-functions-and-bindings.el
+  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
    ;; repl-buffer-regexp
    "\\*ielm\\*"
    ;; fun-repl-start
    #'ielm
    ;; fun-repl-send
-   #'my-send-to-ielm
+   #'eir-send-to-ielm
    ;; defun-string
    "(defun "))
 ;;
 ;;; define keys
 ;; .el files
-(define-key emacs-lisp-mode-map (kbd "<C-return>") 'my-eval-in-ielm)
+(define-key emacs-lisp-mode-map		(kbd "<C-return>") 'eir-eval-in-ielm)
 ;; *scratch*
-(define-key lisp-interaction-mode-map (kbd "<C-return>") 'my-eval-in-ielm)
+(define-key lisp-interaction-mode-map	(kbd "<C-return>") 'eir-eval-in-ielm)
 ;; M-x info
-(define-key Info-mode-map (kbd "<C-return>") 'my-eval-in-ielm)
+(define-key Info-mode-map		(kbd "<C-return>") 'eir-eval-in-ielm)
 
 
 
 ;;;
 ;;; CIDER FOR CLOJURE RELATED
-;;; my-cider-jack-in
-(defun my-cider-jack-in ()
+;;; eir-cider-jack-in
+(defun eir-cider-jack-in ()
   "Invoke cider-jack-in and wait for activation.
 If *nrepl-** buffers are remaining, kill them silently.
 This function should not be invoked directly."
 
   (interactive)
   ;; If *nrepl-* buffers exist although *cider-repl* does not, kill them for safety.
-  (let* ((nrepl-buffer-names (my-matching-elements "\\*nrepl-.*\\*$" (mapcar #'buffer-name (buffer-list)))))
+  (let* ((nrepl-buffer-names (eir--matching-elements "\\*nrepl-.*\\*$" (mapcar #'buffer-name (buffer-list)))))
     (when nrepl-buffer-names
       (mapcar (lambda (elt)
 		;; kill-buffer without asking
@@ -210,194 +236,142 @@ This function should not be invoked directly."
     (message "waiting for cider...")
     (sit-for 5)))
 ;;
-;;; my-send-to-cider
-(defun my-send-to-cider (start end)
+;;; eir-send-to-cider
+(defun eir-send-to-cider (start end)
   "Sends expression to *cider-repl* and have it evaluated."
 
-  (interactive "r")
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string (buffer-substring-no-properties start end)))
-
-    ;; Change to cider REPL
-    (cider-switch-to-repl-buffer)
-    ;; Move to end of buffer
-    (end-of-buffer)
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (cider-repl-return)
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil
-    nil
-    ))
+  (eir-send-to-repl start end
+		    ;; fun-change-to-repl
+		    #'cider-switch-to-repl-buffer
+		    ;; fun-execute
+		    #'cider-repl-return))
 ;;
-;;; my-eval-in-cider
-(defun my-eval-in-cider ()
-  "This is a customized version of my-eval-in-repl for cider."
+;;; eir-eval-in-cider
+(defun eir-eval-in-cider ()
+  "This is a customized version of eir-eval-in-repl-lisp for cider."
 
   (interactive)
-  (my-eval-in-repl	; defined in 200_my-misc-functions-and-bindings.el
+  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
    ;; repl-buffer-regexp
    "\\*cider-repl.*\\*$"
    ;; fun-repl-start
-   'my-cider-jack-in
+   'eir-cider-jack-in
    ;; fun-repl-send
-   'my-send-to-cider
+   'eir-send-to-cider
    ;; defun-string
    "(defn "))
 ;;
 ;;; define keys
-(add-hook 'clojure-mode-hook
-	  '(lambda ()
-	     (local-set-key (kbd "<C-return>") 'my-eval-in-cider)))
+(define-key clojure-mode-map		(kbd "<C-return>") 'eir-eval-in-cider)
 
 
 
 ;;;
 ;;; SLIME RELATED
-;;; my-send-to-slime
+;;; eir-send-to-slime
 ;; send to slime
-(defun my-send-to-slime (start end)
+(defun eir-send-to-slime (start end)
   "Sends expression to *slime-repl* and have it evaluated."
 
-  (interactive "r")
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string (buffer-substring-no-properties start end)))
-
-    ;; Change to slime REPL
-    (slime-switch-to-output-buffer)
-    ;; Move to end of buffer
-    (end-of-buffer)
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (slime-repl-return)
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil
-    nil
-    ))
+  (eir-send-to-repl start end
+		    ;; fun-change-to-repl
+		    #'slime-switch-to-output-buffer
+		    ;; fun-execute
+		    #'slime-repl-return))
 ;;
-;;; my-eval-in-slime
-(defun my-eval-in-slime ()
-  "This is a customized version of my-eval-in-repl for slime."
+;;; eir-eval-in-slime
+(defun eir-eval-in-slime ()
+  "This is a customized version of eir-eval-in-repl-lisp for slime."
 
   (interactive)
-  (my-eval-in-repl	; defined in 200_my-misc-functions-and-bindings.el
+  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
    ;; repl-buffer-regexp
    "\\*slime-repl.*\\*$"
    ;; fun-repl-start
    'slime
    ;; fun-repl-send
-   'my-send-to-slime
+   'eir-send-to-slime
    ;; defun-string
    "(defn "))
 ;;
 ;;; define keys
 (add-hook 'slime-mode-hook
 	  '(lambda ()
-	     (local-set-key (kbd "<C-return>") 'my-eval-in-slime)))
+	     (local-set-key (kbd "<C-return>") 'eir-eval-in-slime)))
+
 
 
 ;;;
 ;;; SCHEME RELATED
-;;; my-send-to-scheme
+;;; eir-send-to-scheme
 ;; send to scheme
-(defun my-send-to-scheme (start end)
+(defun eir-send-to-scheme (start end)
   "Sends expression to *scheme* and have it evaluated."
 
-  (interactive "r")
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string (buffer-substring-no-properties start end)))
-
-    ;; Move to the other window
-    (other-window 1)
-    ;; Change to scheme REPL
-    (switch-to-scheme t)
-    ;; Move to end of buffer
-    (end-of-buffer)
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (comint-send-input)
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil
-    nil
-    ))
+  (eir-send-to-repl start end
+		    ;; fun-change-to-repl
+		    #'(lambda ()
+			;; Move to the other window
+			(other-window 1)
+			;; Change to scheme REPL
+			(switch-to-scheme t))
+		    ;; fun-execute
+		    #'comint-send-input))
 ;;
-;;; my-eval-in-scheme
-(defun my-eval-in-scheme ()
-  "This is a customized version of my-eval-in-repl for scheme."
+;;; eir-eval-in-scheme
+(defun eir-eval-in-scheme ()
+  "This is a customized version of eir-eval-in-repl-lisp for scheme."
 
   (interactive)
-  (my-eval-in-repl	; defined in 200_my-misc-functions-and-bindings.el
+  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
    ;; repl-buffer-regexp
    "\\*scheme\\*"
    ;; fun-repl-start
    'run-scheme
    ;; fun-repl-send
-   'my-send-to-scheme
+   'eir-send-to-scheme
    ;; defun-string
    "(define "))
 ;;
 ;;; define keys
 (add-hook 'scheme-mode-hook
 	  '(lambda ()
-	     (local-set-key (kbd "<C-return>") 'my-eval-in-scheme)))
+	     (local-set-key (kbd "<C-return>") 'eir-eval-in-scheme)))
 
 
 
 ;;;
 ;;; PYTHON-MODE RELATED
-;;; my-send-to-python
-(defun my-send-to-python (start end)
+;;; eir-send-to-python
+(defun eir-send-to-python (start end)
   "Sends expression to *Python* and have it evaluated."
 
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string (buffer-substring-no-properties start end)))
-
-    ;; Change to Python shell
-    (python-shell-switch-to-shell)
-    ;; Move to end of buffer
-    (end-of-buffer)
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (comint-send-input)
-    ;; One more time if not ending with \n
-    (if (not (equal (substring region-string -1) "\n"))
-	(comint-send-input))
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil
-    nil
-    ))
+  (eir-send-to-repl start end
+		    ;; fun-change-to-repl
+		    #'python-shell-switch-to-shell
+		    ;; fun-execute
+		    #'(lambda ()
+			;; Execute
+			(comint-send-input)
+			;; One more time if not ending with \n
+			(if (not (equal (substring region-string -1) "\n"))
+			    (comint-send-input)))))
 ;;
-;;; my-eval-in-python
+;;; eir-eval-in-python
 ;; http://www.reddit.com/r/emacs/comments/1h4hyw/selecting_regions_pythonel/
-(defun my-eval-in-python ()
+(defun eir-eval-in-python ()
   "Evaluates Python expressions"
   (interactive)
   ;; Define local variables
   (let* (w-script)
 
-    ;; defined in 200_my-misc-functions-and-bindings.el
-    (my-repl-start "*Python*" #'run-python)
+    ;; defined in 200_eir-misc-functions-and-bindings.el
+    (eir-repl-start "*Python*" #'run-python)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(my-send-to-python (point) (mark))
+	(eir-send-to-python (point) (mark))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -410,7 +384,7 @@ This function should not be invoked directly."
       (python-nav-end-of-block)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  (my-send-to-python (point) (mark))
+	  (eir-send-to-python (point) (mark))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
@@ -425,10 +399,8 @@ This function should not be invoked directly."
       (select-window w-script)
       )))
 ;;; define keys
-(add-hook 'python-mode-hook		; For Python script
-          '(lambda()
-	     (local-set-key (kbd "<C-return>") 'my-eval-in-python)
-	     ))
+(define-key python-mode-map		(kbd "<C-return>") 'eir-eval-in-python)
+
 
 
 ;;;
@@ -439,43 +411,30 @@ This function should not be invoked directly."
 ;; http://www.kieranhealy.org/blog/archives/2009/10/12/make-shift-enter-do-a-lot-in-ess/
 ;; Adapted with one minor change from Felipe Salazar at
 ;; http://www.emacswiki.org/emacs/ESSShiftEnter
-;;; my-send-to-shell
-(defun my-send-to-shell (start end)
+;;; eir-send-to-shell
+(defun eir-send-to-shell (start end)
   "Sends expression to *shell* and have it evaluated."
 
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string (buffer-substring-no-properties start end)))
-
-    ;; Change to shell
-    (switch-to-buffer-other-window "*shell*")
-    ;; Move to end of buffer
-    (end-of-buffer)
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (comint-send-input)
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil
-    nil
-    ))
+    (eir-send-to-repl start end
+		    ;; fun-change-to-repl
+		    #'(lambda () (switch-to-buffer-other-window "*shell*"))
+		    ;; fun-execute
+		    #'comint-send-input))
 ;;
-;;; my-eval-in-shell
-(defun my-eval-in-shell ()
+;;; eir-eval-in-shell
+(defun eir-eval-in-shell ()
   "Evaluates shell expressions in shell scripts."
   (interactive)
   ;; Define local variables
   (let* (w-script)
 
-    ;; defined in 200_my-misc-functions-and-bindings.el
-    (my-repl-start "\\*shell\\*" #'shell)
+    ;; defined in 200_eir-misc-functions-and-bindings.el
+    (eir-repl-start "\\*shell\\*" #'shell)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(my-send-to-shell (point) (mark))
+	(eir-send-to-shell (point) (mark))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -486,7 +445,7 @@ This function should not be invoked directly."
       (end-of-line)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  (my-send-to-shell (point) (mark))
+	  (eir-send-to-shell (point) (mark))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
@@ -504,14 +463,12 @@ This function should not be invoked directly."
 ;;; define keys
 (add-hook 'sh-mode-hook		; For shell script mode
           '(lambda()
-             (local-set-key (kbd "S-<return>") 'my-eval-in-shell)
-	     (local-set-key (kbd "C-<return>") 'my-eval-in-shell)))
-
+	     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
 
 
 ;;;
 
 
-;; (provide 'eval-in-repl)
+(provide 'eval-in-repl)
 ;;; eval-in-repl.el ends here
 
