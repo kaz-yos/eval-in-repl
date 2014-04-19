@@ -350,12 +350,7 @@ This function should not be invoked directly."
 		    ;; fun-change-to-repl
 		    #'python-shell-switch-to-shell
 		    ;; fun-execute
-		    #'(lambda ()
-			;; Execute
-			(comint-send-input)
-			;; One more time if not ending with \n
-			(if (not (equal (substring region-string -1) "\n"))
-			    (comint-send-input)))))
+		    #'comint-send-input))
 ;;
 ;;; eir-eval-in-python
 ;; http://www.reddit.com/r/emacs/comments/1h4hyw/selecting_regions_pythonel/
