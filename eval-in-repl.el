@@ -54,7 +54,7 @@
 Start a REPL using a function specified in FUN-REPL-START,
 if a buffer matching REPL-BUFFER-REGEXP is not already available.
 Also vertically split the current frame when staring a REPL."
-  
+
   (interactive)
   ;; Create local variables
   (let* (window1 window2 name-script-buffer name-repl-buffer)
@@ -128,7 +128,7 @@ If not present, a REPL is started using FUN-REPL-START.
 Sends expression using a function specified in FUN-REPL-SEND.
 A function definition is detected by a string specified in DEFUN-STRING
  and handled accordingly."
-    
+
   (interactive)
   (let* (;; Save current point
 	 (initial-point (point)))
@@ -295,7 +295,7 @@ This function should not be invoked directly."
    "(defn "))
 ;;
 ;;; define keys
-(add-hook 'slime-mode-hook
+(add-hook 'lisp-mode-hook
 	  '(lambda ()
 	     (local-set-key (kbd "<C-return>") 'eir-eval-in-slime)))
 
@@ -356,6 +356,7 @@ This function should not be invoked directly."
 ;; http://www.reddit.com/r/emacs/comments/1h4hyw/selecting_regions_pythonel/
 (defun eir-eval-in-python ()
   "Evaluates Python expressions"
+
   (interactive)
   ;; Define local variables
   (let* (w-script)
@@ -379,7 +380,10 @@ This function should not be invoked directly."
       (python-nav-end-of-block)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  (eir-send-to-python (point) (mark))
+	  ;; Add one more character for newline
+	  ;; This does not work if a fuction asks for an input.
+	  ;; In that case, just select the line.
+	  (eir-send-to-python (+ (point) 1) (mark))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
