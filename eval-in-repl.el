@@ -231,11 +231,10 @@ This function should not be invoked directly."
 	      nrepl-buffer-names)))
   ;; Activate cider
   (cider-jack-in)
-  ;; ;; Wait for connection
-  ;; (when (not (cider-connected-p))
-  ;;   (message "waiting for cider...")
-  ;;   (sit-for ))
-  )
+  ;; Wait for connection
+  (when (not (cider-connected-p))
+    (message "waiting for cider...")
+    (sit-for 1)))
 ;;
 ;;; eir-send-to-cider
 (defun eir-send-to-cider (start end)
