@@ -54,7 +54,7 @@
 Start a REPL using a function specified in FUN-REPL-START,
 if a buffer matching REPL-BUFFER-REGEXP is not already available.
 Also vertically split the current frame when staring a REPL."
-  
+
   (interactive)
   ;; Create local variables
   (let* (window1 window2 name-script-buffer name-repl-buffer)
@@ -128,7 +128,7 @@ If not present, a REPL is started using FUN-REPL-START.
 Sends expression using a function specified in FUN-REPL-SEND.
 A function definition is detected by a string specified in DEFUN-STRING
  and handled accordingly."
-    
+
   (interactive)
   (let* (;; Save current point
 	 (initial-point (point)))
@@ -234,7 +234,7 @@ This function should not be invoked directly."
   ;; Wait for connection
   (when (not (cider-connected-p))
     (message "waiting for cider...")
-    (sit-for 5)))
+    (sit-for 1)))
 ;;
 ;;; eir-send-to-cider
 (defun eir-send-to-cider (start end)
@@ -244,7 +244,10 @@ This function should not be invoked directly."
 		    ;; fun-change-to-repl
 		    #'cider-switch-to-repl-buffer
 		    ;; fun-execute
-		    #'cider-repl-return))
+		    ;; #'(lambda () (progn (cider-repl-return t) (cider-repl-return t)))
+		    #'cider-repl-return
+		    ;; #'(lambda () (cider-repl--send-input t))
+		    ))
 ;;
 ;;; eir-eval-in-cider
 (defun eir-eval-in-cider ()
@@ -295,7 +298,7 @@ This function should not be invoked directly."
    "(defn "))
 ;;
 ;;; define keys
-(add-hook 'slime-mode-hook
+(add-hook 'lisp-mode-hook
 	  '(lambda ()
 	     (local-set-key (kbd "<C-return>") 'eir-eval-in-slime)))
 
@@ -350,17 +353,13 @@ This function should not be invoked directly."
 		    ;; fun-change-to-repl
 		    #'python-shell-switch-to-shell
 		    ;; fun-execute
-		    #'(lambda ()
-			;; Execute
-			(comint-send-input)
-			;; One more time if not ending with \n
-			(if (not (equal (substring region-string -1) "\n"))
-			    (comint-send-input)))))
+		    #'comint-send-input))
 ;;
 ;;; eir-eval-in-python
 ;; http://www.reddit.com/r/emacs/comments/1h4hyw/selecting_regions_pythonel/
 (defun eir-eval-in-python ()
   "Evaluates Python expressions"
+
   (interactive)
   ;; Define local variables
   (let* (w-script)
@@ -384,7 +383,10 @@ This function should not be invoked directly."
       (python-nav-end-of-block)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  (eir-send-to-python (point) (mark))
+	  ;; Add one more character for newline
+	  ;; This does not work if a fuction asks for an input.
+	  ;; In that case, just select the line.
+	  (eir-send-to-python (+ (point) 1) (mark))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
