@@ -178,43 +178,6 @@ A function definition is detected by a string specified in DEFUN-STRING
 
 
 
-
-
-;;;
-;;; SLIME RELATED
-;;; eir-send-to-slime
-;; send to slime
-(defun eir-send-to-slime (start end)
-  "Sends expression to *slime-repl* and have it evaluated."
-
-  (eir-send-to-repl start end
-		    ;; fun-change-to-repl
-		    #'slime-switch-to-output-buffer
-		    ;; fun-execute
-		    #'slime-repl-return))
-;;
-;;; eir-eval-in-slime
-(defun eir-eval-in-slime ()
-  "This is a customized version of eir-eval-in-repl-lisp for slime."
-
-  (interactive)
-  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
-   ;; repl-buffer-regexp
-   "\\*slime-repl.*\\*$"
-   ;; fun-repl-start
-   'slime
-   ;; fun-repl-send
-   'eir-send-to-slime
-   ;; defun-string
-   "(defn "))
-;;
-;;; define keys
-(add-hook 'lisp-mode-hook
-	  '(lambda ()
-	     (local-set-key (kbd "<C-return>") 'eir-eval-in-slime)))
-
-
-
 ;;;
 ;;; SCHEME RELATED
 ;;; eir-send-to-scheme
