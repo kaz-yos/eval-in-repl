@@ -244,7 +244,10 @@ This function should not be invoked directly."
 		    ;; fun-change-to-repl
 		    #'cider-switch-to-repl-buffer
 		    ;; fun-execute
-		    #'cider-repl-return))
+		    ;; #'(lambda () (progn (cider-repl-return t) (cider-repl-return t)))
+		    #'cider-repl-return
+		    ;; #'(lambda () (cider-repl--send-input t))
+		    ))
 ;;
 ;;; eir-eval-in-cider
 (defun eir-eval-in-cider ()
