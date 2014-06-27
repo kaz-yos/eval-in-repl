@@ -175,41 +175,6 @@ A function definition is detected by a string specified in DEFUN-STRING
 	))))
 ;;
 
-;;;
-;;; EMACS LISP RELATED
-;;; eir-send-to-ielm
-(defun eir-send-to-ielm (start end)
-  "Sends expression to *ielm* and have it evaluated."
-
-  (eir-send-to-repl start end
-		    ;; fun-change-to-repl
-		    #'(lambda () (switch-to-buffer-other-window "*ielm*"))
-		    ;; fun-execute
-		    #'ielm-return))
-;;
-;;; eir-eval-in-ielm
-(defun eir-eval-in-ielm ()
-  "This is a customized version of eir-eval-in-repl-lisp for ielm."
-
-  (interactive)
-  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
-   ;; repl-buffer-regexp
-   "\\*ielm\\*"
-   ;; fun-repl-start
-   #'ielm
-   ;; fun-repl-send
-   #'eir-send-to-ielm
-   ;; defun-string
-   "(defun "))
-;;
-;;; define keys
-;; .el files
-(define-key emacs-lisp-mode-map		(kbd "<C-return>") 'eir-eval-in-ielm)
-;; *scratch*
-(define-key lisp-interaction-mode-map	(kbd "<C-return>") 'eir-eval-in-ielm)
-;; M-x info
-(define-key Info-mode-map		(kbd "<C-return>") 'eir-eval-in-ielm)
-
 
 
 ;;;
