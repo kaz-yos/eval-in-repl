@@ -178,44 +178,6 @@ A function definition is detected by a string specified in DEFUN-STRING
 
 
 
-;;;
-;;; SCHEME RELATED
-;;; eir-send-to-scheme
-;; send to scheme
-(defun eir-send-to-scheme (start end)
-  "Sends expression to *scheme* and have it evaluated."
-
-  (eir-send-to-repl start end
-		    ;; fun-change-to-repl
-		    #'(lambda ()
-			;; Move to the other window
-			(other-window 1)
-			;; Change to scheme REPL
-			(switch-to-scheme t))
-		    ;; fun-execute
-		    #'comint-send-input))
-;;
-;;; eir-eval-in-scheme
-(defun eir-eval-in-scheme ()
-  "This is a customized version of eir-eval-in-repl-lisp for scheme."
-
-  (interactive)
-  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
-   ;; repl-buffer-regexp
-   "\\*scheme\\*"
-   ;; fun-repl-start
-   'run-scheme
-   ;; fun-repl-send
-   'eir-send-to-scheme
-   ;; defun-string
-   "(define "))
-;;
-;;; define keys
-(add-hook 'scheme-mode-hook
-	  '(lambda ()
-	     (local-set-key (kbd "<C-return>") 'eir-eval-in-scheme)))
-
-
 
 ;;;
 ;;; PYTHON-MODE RELATED
