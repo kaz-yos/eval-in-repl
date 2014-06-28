@@ -47,6 +47,7 @@
 ;;;
 ;;; COMMON ELEMENTS
 ;;; eir--matching-elements
+;;;###autoload
 (defun eir--matching-elements (regexp lst)
   "Return a list of elements matching the REGEXP in the LIST."
 
@@ -62,6 +63,7 @@
 ;; A function to start a REPL if not already available
 ;; https://stat.ethz.ch/pipermail/ess-help/2012-December/008426.html
 ;; http://t7331.codeinpro.us/q/51502552e8432c0426273040
+;;;###autoload
 (defun eir-repl-start (repl-buffer-regexp fun-repl-start)
   "Start a REPL if not already available.
 
@@ -104,6 +106,7 @@ Also vertically split the current frame when staring a REPL."
 ;;
 ;;
 ;;; eir-send-to-repl
+;;;###autoload
 (defun eir-send-to-repl (start end fun-change-to-repl fun-execute)
   "Sekeleton function to be used with a wrapper.
 
@@ -132,6 +135,7 @@ Send expression to a REPL and have it evaluated."
 ;;;
 ;;; COMMON ELEMENTS FOR LISP LANGUAGES
 ;;; eir-eval-in-repl-lisp (used as a skeleton)
+;;;###autoload
 (defun eir-eval-in-repl-lisp (repl-buffer-regexp fun-repl-start fun-repl-send defun-string)
     "Skeleton function to be used with a wrapper.
 

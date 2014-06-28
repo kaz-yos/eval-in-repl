@@ -57,6 +57,7 @@
 ;;;
 ;;; CIDER FOR CLOJURE RELATED
 ;;; eir--cider-jack-in
+;;;###autoload
 (defun eir--cider-jack-in ()
   "Invoke cider-jack-in and wait for activation.
 If *nrepl-** buffers are remaining, kill them silently.
@@ -79,6 +80,7 @@ This function should not be invoked directly."
     (sit-for 1)))
 ;;
 ;;; eir-send-to-cider
+;;;###autoload
 (defun eir-send-to-cider (start end)
   "Sends expression to *cider-repl* and have it evaluated."
 
@@ -92,6 +94,7 @@ This function should not be invoked directly."
 		    ))
 ;;
 ;;; eir-eval-in-cider
+;;;###autoload
 (defun eir-eval-in-cider ()
   "This is a customized version of eir-eval-in-repl-lisp for cider."
 

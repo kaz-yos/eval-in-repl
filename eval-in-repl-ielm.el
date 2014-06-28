@@ -63,6 +63,7 @@
 ;;;
 ;;; EMACS LISP RELATED
 ;;; eir-send-to-ielm
+;;;###autoload
 (defun eir-send-to-ielm (start end)
   "Sends expression to *ielm* and have it evaluated."
 
@@ -73,6 +74,7 @@
 		    #'ielm-return))
 ;;
 ;;; eir-eval-in-ielm
+;;;###autoload
 (defun eir-eval-in-ielm ()
   "This is a customized version of eir-eval-in-repl-lisp for ielm."
 

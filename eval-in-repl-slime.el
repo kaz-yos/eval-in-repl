@@ -59,6 +59,7 @@
 ;;; SLIME RELATED
 ;;; eir-send-to-slime
 ;; send to slime
+;;;###autoload
 (defun eir-send-to-slime (start end)
   "Sends expression to *slime-repl* and have it evaluated."
 
@@ -69,11 +70,12 @@
 		    #'slime-repl-return))
 ;;
 ;;; eir-eval-in-slime
+;;;###autoload
 (defun eir-eval-in-slime ()
   "This is a customized version of eir-eval-in-repl-lisp for slime."
 
   (interactive)
-  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
+  (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
    "\\*slime-repl.*\\*$"
    ;; fun-repl-start

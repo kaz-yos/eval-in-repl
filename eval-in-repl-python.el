@@ -58,6 +58,7 @@
 ;;;
 ;;; PYTHON-MODE RELATED
 ;;; eir-send-to-python
+;;;###autoload
 (defun eir-send-to-python (start end)
   "Sends expression to *Python* and have it evaluated."
 
@@ -69,6 +70,7 @@
 ;;
 ;;; eir-eval-in-python
 ;; http://www.reddit.com/r/emacs/comments/1h4hyw/selecting_regions_pythonel/
+;;;###autoload
 (defun eir-eval-in-python ()
   "Evaluates Python expressions"
 

@@ -65,6 +65,7 @@
 ;; http://www.emacswiki.org/emacs/ESSShiftEnter
 ;;
 ;;; eir-send-to-shell
+;;;###autoload
 (defun eir-send-to-shell (start end)
   "Sends expression to *shell* and have it evaluated."
 
@@ -75,6 +76,7 @@
 		    #'comint-send-input))
 ;;
 ;;; eir-eval-in-shell
+;;;###autoload
 (defun eir-eval-in-shell ()
   "Evaluates shell expressions in shell scripts."
   (interactive)
@@ -110,8 +112,7 @@
       ;; Switch to the shell
       (switch-to-buffer-other-window "*shell*")
       ;; Switch back to the script window
-      (select-window w-script)
-      )))
+      (select-window w-script))))
 ;;
 
 

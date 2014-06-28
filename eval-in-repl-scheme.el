@@ -59,6 +59,7 @@
 ;;; SCHEME RELATED
 ;;; eir-send-to-scheme
 ;; send to scheme
+;;;###autoload
 (defun eir-send-to-scheme (start end)
   "Sends expression to *scheme* and have it evaluated."
 
@@ -73,6 +74,7 @@
 		    #'comint-send-input))
 ;;
 ;;; eir-eval-in-scheme
+;;;###autoload
 (defun eir-eval-in-scheme ()
   "This is a customized version of eir-eval-in-repl-lisp for scheme."
 
