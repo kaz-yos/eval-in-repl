@@ -34,8 +34,8 @@
 ;; Also install the following depending on your needs.
 ;;
 ;; eval-in-repl-ielm.el	   for Emacs Lisp (ielm)
-;; eval-in-repl-cider.el   for Clojure
-;; eval-in-repl-slime.el   for SLIME
+;; eval-in-repl-cider.el   for Clojure (via cider.el)
+;; eval-in-repl-slime.el   for SLIME (via slime.el)
 ;; eval-in-repl-scheme.el  for Scheme (if used via scheme-mode)
 ;; eval-in-repl-python.el  for Python (via python.el)
 ;; eval-in-repl-shell.el   for shell mode (via essh.el)
