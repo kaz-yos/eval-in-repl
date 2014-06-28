@@ -39,7 +39,7 @@
 ;; To assign eir-eval-in-python to C-RET in the clojure mode,
 ;; add the following to your configuration.
 ;;
-;; For clojure mode
+;; For python-mode
 ;; (define-key python-mode-map (kbd "<C-return>") 'eir-eval-in-python)
 
 

@@ -36,10 +36,10 @@
 
 
 ;;; Configuration
-;; To assign eir-eval-in-shell to C-RET in the clojure mode,
+;; To assign eir-eval-in-shell to C-RET in the shell script mode,
 ;; add the following to your configuration.
 ;;
-;; (add-hook 'sh-mode-hook		; For shell script mode
+;; (add-hook 'sh-mode-hook
 ;;           '(lambda()
 ;; 	     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
 
