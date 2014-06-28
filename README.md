@@ -25,18 +25,18 @@ The following files are included in the package. There are respective dependenci
  - Support for Inferior Emacs Lisp Mode (IELM; part of default emacs installation)
 
 - eval-in-repl-cider.el
- - Support for Clojure via cider.el
+ - Support for Clojure via cider.el (depends on cider.el)
 
 - eval-in-repl-slime.el
- - Support for other lisps via slime.el
+ - Support for other lisps via slime.el (depends on slime.el)
 
 - eval-in-repl-scheme.el
- - Support for Scheme via scheme.el (part of default emacs installation)
+ - Support for Scheme via scheme.el (depends on scheme.el; part of default emacs installation)
 
 - eval-in-repl-python.el
- - Support for Python via python.el (part of default emacs installation)
+ - Support for Python via python.el (depends on python.el; part of default emacs installation)
 
-- eval-in-repl-shell.el
+- eval-in-repl-shell.el (depends on essh.el)
  - Support for shell via essh.el
 
 
