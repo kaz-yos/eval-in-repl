@@ -45,13 +45,15 @@
 ;;;
 ;;; COMMON ELEMENTS
 ;;; eir--matching-elements
-(defun eir--matching-elements (regexp list)
+(defun eir--matching-elements (regexp lst)
   "Return a list of elements matching the REGEXP in the LIST."
+
   ;; emacs version of filter
   (delete-if-not
    ;; predicate: non-nil if an element matches the REGEXP
-   (lambda (elt) (string-match regexp elt))
-   list))
+   #'(lambda (elt) (string-match regexp elt))
+   ;;
+   lst))
 ;;
 ;;
 ;;; eir-start-repl
@@ -96,15 +98,14 @@ Also vertically split the current frame when staring a REPL."
 	  (set-window-buffer window2 name-script-buffer)
 
 	  ;; Select the script window on the right (window2)
-	  (select-window window2)
-	  ))))
+	  (select-window window2)))))
 ;;
 ;;
 ;;; eir-send-to-repl
 (defun eir-send-to-repl (start end fun-change-to-repl fun-execute)
   "Sekeleton function to be used with a wrapper.
 
-Sends expression to a repl and have it evaluated."
+Send expression to a REPL and have it evaluated."
 
   (interactive "r")
   (let* (;; Assign the current buffer
@@ -123,8 +124,7 @@ Sends expression to a repl and have it evaluated."
     ;; Come back to the script
     (select-window script-window)
     ;; Return nil
-    nil
-    ))
+    nil))
 
 
 ;;;
@@ -181,15 +181,11 @@ A function definition is detected by a string specified in DEFUN-STRING
 	;; Eval the S-exp before
 	(funcall fun-repl-send (point) (mark))
 	;; Go to the next expression
-	(forward-sexp)
-	))))
+	(forward-sexp)))))
 ;;
 
 
-
 ;;;
-
-
 (provide 'eval-in-repl)
 ;;; eval-in-repl.el ends here
 
