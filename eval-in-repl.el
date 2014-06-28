@@ -6,6 +6,7 @@
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
 ;; Version: 0.1.0
+;; Package-Requires: ((dash))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -51,8 +52,8 @@
 (defun eir--matching-elements (regexp lst)
   "Return a list of elements matching the REGEXP in the LIST."
 
-  ;; emacs version of filter
-  (delete-if-not
+  ;; emacs version of filter (dash.el)
+  (-filter
    ;; predicate: non-nil if an element matches the REGEXP
    #'(lambda (elt) (string-match regexp elt))
    ;;
