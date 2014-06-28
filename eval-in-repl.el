@@ -44,6 +44,10 @@
 
 ;;; Code:
 
+;;;
+;;; Require dependencies
+(require 'dash)
+
 
 ;;;
 ;;; COMMON ELEMENTS
