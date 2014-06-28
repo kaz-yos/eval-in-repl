@@ -26,12 +26,13 @@
 ;; Emacs Speaks Statistics (ESS) package has a nice function called
 ;; ess-eval-region-or-line-and-step, which is assigned to C-RET.
 ;; This function sends a line or a selected region to the corresponding
-;; R, Julia, Stata, etc shell. It also start up a shell if there is none.
+;; shell (R, Julia, Stata, etc) visibly. It also start up a shell if there is none.
 ;;
-;; This package implements similar work flow for cider.
-;; When there is no cider running, it will be created. Then the selected
+;; This package implements similar work flow for Clojure via cider.el.
+;;
+;; When there is no cider REPL running, it will be created. Then the selected
 ;; region or the last expression (or the current expression the cursor is
-;; in) is sent to cider, and get executed. This will keep track of what
+;; in) is sent to the REPL, and gets executed. This will keep track of what
 ;; has been executed, and should be intuitive for ESS users.
 
 
@@ -39,21 +40,22 @@
 ;; To assign eir-eval-in-cider to C-RET in the clojure mode,
 ;; add the following to your configuration.
 ;;
-;; For clojure mode
+;; (require 'eval-in-repl-cider)
 ;; (define-key clojure-mode-map (kbd "<C-return>") 'eir-eval-in-cider)
 
 
 ;;; Code:
 
 ;;;
-;;; Require the common skeleton package
+;;; Require dependencies
 (require 'eval-in-repl)
+(require 'cider)
 
 
 ;;;
 ;;; CIDER FOR CLOJURE RELATED
-;;; eir-cider-jack-in
-(defun eir-cider-jack-in ()
+;;; eir--cider-jack-in
+(defun eir--cider-jack-in ()
   "Invoke cider-jack-in and wait for activation.
 If *nrepl-** buffers are remaining, kill them silently.
 This function should not be invoked directly."
@@ -96,7 +98,7 @@ This function should not be invoked directly."
    ;; repl-buffer-regexp
    "\\*cider-repl.*\\*$"
    ;; fun-repl-start
-   'eir-cider-jack-in
+   'eir--cider-jack-in
    ;; fun-repl-send
    'eir-send-to-cider
    ;; defun-string

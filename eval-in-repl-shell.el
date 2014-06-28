@@ -26,11 +26,12 @@
 ;; Emacs Speaks Statistics (ESS) package has a nice function called
 ;; ess-eval-region-or-line-and-step, which is assigned to C-RET.
 ;; This function sends a line or a selected region to the corresponding
-;; R, Julia, Stata, etc shell. It also start up a shell if there is none.
+;; shell (R, Julia, Stata, etc) visibly. It also start up a shell if there is none.
 ;;
-;; This package implements similar work flow for shell.
+;; This package implements similar work flow for shell scripts via essh.el.
+;;
 ;; When there is no shell running, it will be created. Then the selected
-;; region or the current expression  is sent to shell, and get executed.
+;; region or the current expression is sent to shell, and gets executed.
 ;; This will keep track of what has been executed, and should be intuitive
 ;; for ESS users.
 
@@ -47,11 +48,10 @@
 ;;; Code:
 
 ;;;
-;;; Require the common skeleton package
+;;; Require dependencies
 (require 'eval-in-repl)
-
-;;; Require essh package, whose functions are used here
 (require 'essh)
+
 
 ;;;
 ;;; SHELL RELATED

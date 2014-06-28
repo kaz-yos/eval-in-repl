@@ -27,12 +27,13 @@
 ;; Emacs Speaks Statistics (ESS) package has a nice function called
 ;; ess-eval-region-or-line-and-step, which is assigned to C-RET.
 ;; This function sends a line or a selected region to the corresponding
-;; R, Julia, Stata, etc shell. It also start up a shell if there is none.
+;; shell (R, Julia, Stata, etc) visibly. It also start up a shell if there is none.
 ;;
-;; This package implements similar work flow for Emacs Lisp (ielm).
-;; When there is no ielm running, it will be activated. Then the selected
+;; This package implements similar work flow for Emacs Lisp via ielm.
+;;
+;; When there is no ielm running, it will be created. Then the selected
 ;; region or the last expression (or the current expression the cursor is
-;; in) is sent to ielm, and get executed. This will keep track of what
+;; in) is sent to ielm, and gets executed. This will keep track of what
 ;; has been executed, and should be intuitive for ESS users.
 
 
@@ -53,8 +54,9 @@
 ;;; Code:
 
 ;;;
-;;; Require the common skeleton package
+;;; Require dependencies
 (require 'eval-in-repl)
+
 
 ;;;
 ;;; EMACS LISP RELATED

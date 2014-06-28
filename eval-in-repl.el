@@ -23,7 +23,7 @@
 ;; Emacs Speaks Statistics (ESS) package has a nice function called
 ;; ess-eval-region-or-line-and-step, which is assigned to C-RET.
 ;; This function sends a line or a selected region to the corresponding
-;; shell (R, Julia, Stata, etc). It also start up a shell if there is none.
+;; shell (R, Julia, Stata, etc) visibly. It also start up a shell if there is none.
 ;;
 ;; This package along with a REPL/shell specific package implement similar
 ;; work flow.
@@ -133,9 +133,9 @@ Send expression to a REPL and have it evaluated."
 (defun eir-eval-in-repl-lisp (repl-buffer-regexp fun-repl-start fun-repl-send defun-string)
     "Skeleton function to be used with a wrapper.
 
-Evaluates expression using a REPL specified by REPL-BUFFER-REGEXP.
+Evaluate expression using a REPL specified by REPL-BUFFER-REGEXP.
 If not present, a REPL is started using FUN-REPL-START.
-Sends expression using a function specified in FUN-REPL-SEND.
+Send expression using a function specified in FUN-REPL-SEND.
 A function definition is detected by a string specified in DEFUN-STRING
  and handled accordingly."
 
