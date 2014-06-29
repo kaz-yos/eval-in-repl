@@ -46,7 +46,6 @@
 ;; http://www.emacswiki.org/emacs/ESSShiftEnter
 ;;
 ;;; eir-send-to-shell
-;;;###autoload
 (defun eir-send-to-shell (start end)
   "Sends expression to *shell* and have it evaluated."
 

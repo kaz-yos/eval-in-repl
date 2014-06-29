@@ -41,7 +41,6 @@
 ;;; SCHEME RELATED
 ;;; eir-send-to-scheme
 ;; send to scheme
-;;;###autoload
 (defun eir-send-to-scheme (start end)
   "Sends expression to *scheme* and have it evaluated."
 

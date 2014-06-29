@@ -40,7 +40,6 @@
 ;;; SLIME RELATED
 ;;; eir-send-to-slime
 ;; send to slime
-;;;###autoload
 (defun eir-send-to-slime (start end)
   "Sends expression to *slime-repl* and have it evaluated."
 

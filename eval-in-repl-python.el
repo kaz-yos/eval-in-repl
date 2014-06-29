@@ -39,7 +39,6 @@
 ;;;
 ;;; PYTHON-MODE RELATED
 ;;; eir-send-to-python
-;;;###autoload
 (defun eir-send-to-python (start end)
   "Sends expression to *Python* and have it evaluated."
 
@@ -93,8 +92,7 @@
       ;; Switch to the shell
       (python-shell-switch-to-shell)
       ;; Switch back to the script window
-      (select-window w-script)
-      )))
+      (select-window w-script))))
 ;;
 
 
