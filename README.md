@@ -10,7 +10,7 @@ This package implements similar work flow for various read-eval-print-loops (REP
 **Usage**
 --------------------
 
-After installation and appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL and evaluate a line, selected region or the current expression depending on the context.
+After installation and appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL and evaluate a line, selected region or the current expression depending on the context. The script will be shown on the right, and the REPL on the left.
 
 ![Alt text](screen_shot_ielm.png?raw=true "ielm example")
 
