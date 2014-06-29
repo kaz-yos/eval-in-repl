@@ -23,28 +23,9 @@
 
 ;;; Commentary:
 
-;; This package does what ESS does for R for Inferior Lisp Interaction
-;; Mode (ielm).
-;;
-;; Emacs Speaks Statistics (ESS) package has a nice function called
-;; ess-eval-region-or-line-and-step, which is assigned to C-RET.
-;; This function sends a line or a selected region to the corresponding
-;; shell (R, Julia, Stata, etc) visibly. It also start up a shell if there is none.
-;;
-;; This package implements similar work flow for Emacs Lisp (ielm).
-;; When there is no ielm running, it will be activated. Then the selected
-;; region or the last expression (or the current expression the cursor is
-;; in) is sent to ielm, and gets executed. This will keep track of what
-;; has been executed, and should be intuitive for ESS users.
-
-
-;;; Configuration
-;; To assign eir-eval-in-slime to C-RET in the lisp mode,
-;; add the following to your configuration.
-;;
-;; (add-hook 'lisp-mode-hook
-;; 	  '(lambda ()
-;; 	     (local-set-key (kbd "<C-return>") 'eir-eval-in-slime)))
+;; slime.el-specific file for eval-in-repl
+;; See below for configuration
+;; https://github.com/kaz-yos/eval-in-repl/
 
 
 ;;; Code:

@@ -23,28 +23,9 @@
 
 ;;; Commentary:
 
-;; This package does what ESS does for R for python.
-;;
-;; Emacs Speaks Statistics (ESS) package has a nice function called
-;; ess-eval-region-or-line-and-step, which is assigned to C-RET.
-;; This function sends a line or a selected region to the corresponding
-;; shell (R, Julia, Stata, etc) visibly. It also start up a shell if there is none.
-;;
-;; This package implements similar work flow for python via python.el.
-;;
-;; When there is no python shell running, it will be created. Then the
-;; selected region or the current expression right after the cursor or
-;; the expression the cursor is in is sent to python, and gets executed.
-;; This will keep track of what has been executed, and should be intuitive
-;; for ESS users.
-
-
-;;; Configuration
-;; To assign eir-eval-in-python to C-RET in the python mode,
-;; add the following to your configuration.
-;;
-;; (require 'eval-in-repl-python)
-;; (define-key python-mode-map (kbd "<C-return>") 'eir-eval-in-python)
+;; python.el-specific file for eval-in-repl
+;; See below for configuration
+;; https://github.com/kaz-yos/eval-in-repl/
 
 
 ;;; Code:
