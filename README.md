@@ -1,4 +1,4 @@
-**eval-in-repl.el: Consistent eval interface for various REPLs**
+**eval-in-repl: Consistent eval interface for various REPLs**
 --------------------
 
 This package does what ESS does for R for various REPLs, including ielm.
@@ -6,6 +6,7 @@ This package does what ESS does for R for various REPLs, including ielm.
 Emacs Speaks Statistics (ESS) package has a nice function called ess-eval-region-or-line-and-step, which is assigned to C-RET. This function sends a line or a selected region to the corresponding shell (R, Julia, Stata, etc) visibly. It also start up a shell if there is none.
 
 This package implements similar work flow for various read-eval-print-loops (REPLs) shown below.
+
 
 **Usage**
 --------------------
@@ -53,7 +54,7 @@ M-x list-packages
 **Configuration**
 --------------------
 
-The full configuration is the following. ```eval-in-repl``` is always necessary. Require other files as needed and configure the respective mode-specific key bindings.
+The full configuration is the following. ```eval-in-repl.el``` is always necessary. Require other files as needed and configure the respective mode-specific key bindings.
 
 ```lisp
 ;; require the main file containing common functions
