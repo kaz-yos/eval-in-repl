@@ -67,11 +67,12 @@ This function should not be invoked directly."
   ;; If *nrepl-* buffers exist although *cider-repl* does not, kill them for safety.
   (let* ((nrepl-buffer-names (eir--matching-elements "\\*nrepl-.*\\*$" (mapcar #'buffer-name (buffer-list)))))
     (when nrepl-buffer-names
-      (mapcar (lambda (elt)
-		;; kill-buffer without asking
-		(let (kill-buffer-query-functions)
-		  (kill-buffer elt)))
-	      nrepl-buffer-names)))
+      ;; Looping over nrepl-buffer-names for side effect
+      (mapc (lambda (elt)
+	      ;; kill-buffer without asking
+	      (let (kill-buffer-query-functions)
+		(kill-buffer elt)))
+	    nrepl-buffer-names)))
   ;; Activate cider
   (cider-jack-in)
   ;; Wait for connection
