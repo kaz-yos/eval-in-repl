@@ -20,6 +20,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 ;;; Commentary:
 
 ;; Emacs Speaks Statistics (ESS) package has a nice function called
@@ -31,7 +32,7 @@
 ;; work flow.
 ;;
 ;; This package alone is not functional.
-;; Also install the following depending on your needs.
+;; Also install and require the following depending on your needs.
 ;;
 ;; eval-in-repl-ielm.el	   for Emacs Lisp (ielm)
 ;; eval-in-repl-cider.el   for Clojure (via cider.el)
