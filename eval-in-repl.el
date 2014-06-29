@@ -31,8 +31,8 @@
 ;; This package along with a REPL/shell specific package implement similar
 ;; work flow.
 ;;
-;; This package alone is not functional.
-;; Also install and require the following depending on your needs.
+;; This file alone is not functional.
+;; Also require the following depending on your needs.
 ;;
 ;; eval-in-repl-ielm.el	   for Emacs Lisp (ielm)
 ;; eval-in-repl-cider.el   for Clojure (via cider.el)
@@ -40,6 +40,9 @@
 ;; eval-in-repl-scheme.el  for Scheme (if used via scheme-mode)
 ;; eval-in-repl-python.el  for Python (via python.el)
 ;; eval-in-repl-shell.el   for shell mode (via essh.el)
+;;
+;; See below for installation and an configuration example.
+;; https://github.com/kaz-yos/eval-in-repl/
 
 
 ;;; Code:
