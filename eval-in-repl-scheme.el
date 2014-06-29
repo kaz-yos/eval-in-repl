@@ -23,28 +23,9 @@
 
 ;;; Commentary:
 
-;; This package does what ESS does for R for the scheme mode.
-;;
-;; Emacs Speaks Statistics (ESS) package has a nice function called
-;; ess-eval-region-or-line-and-step, which is assigned to C-RET.
-;; This function sends a line or a selected region to the corresponding
-;; shell (R, Julia, Stata, etc) visibly. It also start up a shell if there is none.
-;;
-;; This package implements similar work flow for the scheme mode.
-;;
-;; When there is no scheme REPL running, it will be created. Then the selected
-;; region or the last expression (or the current expression the cursor is
-;; in) is sent to the REPL, and gets executed. This will keep track of what
-;; has been executed, and should be intuitive for ESS users.
-
-
-;;; Configuration
-;; To assign eir-eval-in-scheme to C-RET in the sheme mode,
-;; add the following to your configuration.
-;;
-;; (add-hook 'scheme-mode-hook
-;; 	  '(lambda ()
-;; 	     (local-set-key (kbd "<C-return>") 'eir-eval-in-scheme)))
+;; scheme.el-specific file for eval-in-repl
+;; See below for configuration
+;; https://github.com/kaz-yos/eval-in-repl/
 
 
 ;;; Code:
@@ -53,12 +34,14 @@
 ;;; Require dependencies
 (require 'eval-in-repl)
 (require 'scheme)
+(require 'cmuscheme)
 
 
 ;;;
 ;;; SCHEME RELATED
 ;;; eir-send-to-scheme
 ;; send to scheme
+;;;###autoload
 (defun eir-send-to-scheme (start end)
   "Sends expression to *scheme* and have it evaluated."
 
@@ -73,6 +56,7 @@
 		    #'comint-send-input))
 ;;
 ;;; eir-eval-in-scheme
+;;;###autoload
 (defun eir-eval-in-scheme ()
   "This is a customized version of eir-eval-in-repl-lisp for scheme."
 

@@ -23,34 +23,9 @@
 
 ;;; Commentary:
 
-;; This package does what ESS does for R for Inferior Lisp Interaction
-;; Mode (ielm).
-;;
-;; Emacs Speaks Statistics (ESS) package has a nice function called
-;; ess-eval-region-or-line-and-step, which is assigned to C-RET.
-;; This function sends a line or a selected region to the corresponding
-;; shell (R, Julia, Stata, etc) visibly. It also start up a shell if there is none.
-;;
-;; This package implements similar work flow for Emacs Lisp via ielm.
-;;
-;; When there is no ielm running, it will be created. Then the selected
-;; region or the last expression (or the current expression the cursor is
-;; in) is sent to ielm, and gets executed. This will keep track of what
-;; has been executed, and should be intuitive for ESS users.
-
-
-;;; Configuration
-;; To assign eir-eval-in-ielm to C-RET in specific emacs-lisp modes,
-;; add the following to your configuration.
-;;
-;; For .el files
-;; (define-key emacs-lisp-mode-map (kbd "<C-return>") 'eir-eval-in-ielm)
-;;
-;; For *scratch*
-;; (define-key lisp-interaction-mode-map (kbd "<C-return>") 'eir-eval-in-ielm)
-;;
-;; For M-x info
-;; (define-key Info-mode-map (kbd "<C-return>") 'eir-eval-in-ielm)
+;; ielm-specific file for eval-in-repl
+;; See below for configuration
+;; https://github.com/kaz-yos/eval-in-repl/
 
 
 ;;; Code:
@@ -63,6 +38,7 @@
 ;;;
 ;;; EMACS LISP RELATED
 ;;; eir-send-to-ielm
+;;;###autoload
 (defun eir-send-to-ielm (start end)
   "Sends expression to *ielm* and have it evaluated."
 
@@ -73,6 +49,7 @@
 		    #'ielm-return))
 ;;
 ;;; eir-eval-in-ielm
+;;;###autoload
 (defun eir-eval-in-ielm ()
   "This is a customized version of eir-eval-in-repl-lisp for ielm."
 

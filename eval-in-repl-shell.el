@@ -23,28 +23,9 @@
 
 ;;; Commentary:
 
-;; This package does what ESS does for R for shell.
-;;
-;; Emacs Speaks Statistics (ESS) package has a nice function called
-;; ess-eval-region-or-line-and-step, which is assigned to C-RET.
-;; This function sends a line or a selected region to the corresponding
-;; shell (R, Julia, Stata, etc) visibly. It also start up a shell if there is none.
-;;
-;; This package implements similar work flow for shell scripts via essh.el.
-;;
-;; When there is no shell running, it will be created. Then the selected
-;; region or the current expression is sent to shell, and gets executed.
-;; This will keep track of what has been executed, and should be intuitive
-;; for ESS users.
-
-
-;;; Configuration
-;; To assign eir-eval-in-shell to C-RET in the shell script mode,
-;; add the following to your configuration.
-;;
-;; (add-hook 'sh-mode-hook
-;;           '(lambda()
-;; 	     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
+;; essh.el-specific file for eval-in-repl
+;; See below for configuration
+;; https://github.com/kaz-yos/eval-in-repl/
 
 
 ;;; Code:
@@ -65,6 +46,7 @@
 ;; http://www.emacswiki.org/emacs/ESSShiftEnter
 ;;
 ;;; eir-send-to-shell
+;;;###autoload
 (defun eir-send-to-shell (start end)
   "Sends expression to *shell* and have it evaluated."
 
@@ -75,6 +57,7 @@
 		    #'comint-send-input))
 ;;
 ;;; eir-eval-in-shell
+;;;###autoload
 (defun eir-eval-in-shell ()
   "Evaluates shell expressions in shell scripts."
   (interactive)
@@ -110,8 +93,7 @@
       ;; Switch to the shell
       (switch-to-buffer-other-window "*shell*")
       ;; Switch back to the script window
-      (select-window w-script)
-      )))
+      (select-window w-script))))
 ;;
 
 

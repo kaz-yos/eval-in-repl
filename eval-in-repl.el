@@ -1,4 +1,4 @@
-;;; eval-in-repl.el --- Send code to REPL for evaluation  -*- lexical-binding: t; -*-
+;;; eval-in-repl.el --- Consistent eval interface for various REPLs with C-RET  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
@@ -20,38 +20,51 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 ;;; Commentary:
 
+;; eval-in-repl: Consistent eval interface for various REPLs
+;;
+;; This package does what ESS does for R for various REPLs, including ielm.
+;;
 ;; Emacs Speaks Statistics (ESS) package has a nice function called
 ;; ess-eval-region-or-line-and-step, which is assigned to C-RET.
 ;; This function sends a line or a selected region to the corresponding
 ;; shell (R, Julia, Stata, etc) visibly. It also start up a shell if there is none.
 ;;
-;; This package along with a REPL/shell specific package implement similar
-;; work flow.
+;; This package along with a REPL/shell specific packages implement similar
+;; work flow for various REPLs.
 ;;
-;; This package alone is not functional.
-;; Also install the following depending on your needs.
+;; This file alone is not functional.
+;; Also require the following depending on your needs.
 ;;
-;; eval-in-repl-ielm.el	   for Emacs Lisp (ielm)
+;; eval-in-repl-ielm.el	   for Emacs Lisp (via ielm)
 ;; eval-in-repl-cider.el   for Clojure (via cider.el)
 ;; eval-in-repl-slime.el   for SLIME (via slime.el)
-;; eval-in-repl-scheme.el  for Scheme (if used via scheme-mode)
+;; eval-in-repl-scheme.el  for Scheme (if used through scheme.el and cmuscheme.el)
 ;; eval-in-repl-python.el  for Python (via python.el)
 ;; eval-in-repl-shell.el   for shell mode (via essh.el)
+;;
+;; See below for installation and an configuration example.
+;; https://github.com/kaz-yos/eval-in-repl/
 
 
 ;;; Code:
+
+;;;
+;;; Require dependencies
+(require 'dash)
 
 
 ;;;
 ;;; COMMON ELEMENTS
 ;;; eir--matching-elements
+;;;###autoload
 (defun eir--matching-elements (regexp lst)
   "Return a list of elements matching the REGEXP in the LIST."
 
-  ;; emacs version of filter
-  (delete-if-not
+  ;; emacs version of filter (dash.el)
+  (-filter
    ;; predicate: non-nil if an element matches the REGEXP
    #'(lambda (elt) (string-match regexp elt))
    ;;
@@ -62,6 +75,7 @@
 ;; A function to start a REPL if not already available
 ;; https://stat.ethz.ch/pipermail/ess-help/2012-December/008426.html
 ;; http://t7331.codeinpro.us/q/51502552e8432c0426273040
+;;;###autoload
 (defun eir-repl-start (repl-buffer-regexp fun-repl-start)
   "Start a REPL if not already available.
 
@@ -94,8 +108,9 @@ Also vertically split the current frame when staring a REPL."
 	  ;; This does not work for python/clojure
 	  (setq name-repl-buffer (buffer-name))
 
-	  ;; ;; REPL on the left (window1)  ; Not really necessary.
-	  ;; (set-window-buffer window1 name-repl-buffer)
+	  ;; REPL on the left (window1)
+	  ;; This line is not really necessary because it is already on the left.
+	  (set-window-buffer window1 name-repl-buffer)
 	  ;; Script on the right (window2)
 	  (set-window-buffer window2 name-script-buffer)
 
@@ -104,6 +119,7 @@ Also vertically split the current frame when staring a REPL."
 ;;
 ;;
 ;;; eir-send-to-repl
+;;;###autoload
 (defun eir-send-to-repl (start end fun-change-to-repl fun-execute)
   "Sekeleton function to be used with a wrapper.
 
@@ -118,20 +134,21 @@ Send expression to a REPL and have it evaluated."
     ;; Change other window to REPL
     (funcall fun-change-to-repl)
     ;; Move to end of buffer
-    (end-of-buffer)
+    (goto-char (point-max))
     ;; Insert the string
     (insert region-string)
     ;; Execute
     (funcall fun-execute)
     ;; Come back to the script
     (select-window script-window)
-    ;; Return nil
+    ;; Return nil (this is a void function)
     nil))
 
 
 ;;;
 ;;; COMMON ELEMENTS FOR LISP LANGUAGES
 ;;; eir-eval-in-repl-lisp (used as a skeleton)
+;;;###autoload
 (defun eir-eval-in-repl-lisp (repl-buffer-regexp fun-repl-start fun-repl-send defun-string)
     "Skeleton function to be used with a wrapper.
 
