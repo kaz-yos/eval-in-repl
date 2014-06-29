@@ -130,14 +130,14 @@ Send expression to a REPL and have it evaluated."
     ;; Change other window to REPL
     (funcall fun-change-to-repl)
     ;; Move to end of buffer
-    (end-of-buffer)
+    (goto-char (point-max))
     ;; Insert the string
     (insert region-string)
     ;; Execute
     (funcall fun-execute)
     ;; Come back to the script
     (select-window script-window)
-    ;; Return nil
+    ;; Return nil (this is a void function)
     nil))
 
 
