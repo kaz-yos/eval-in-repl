@@ -104,8 +104,9 @@ Also vertically split the current frame when staring a REPL."
 	  ;; This does not work for python/clojure
 	  (setq name-repl-buffer (buffer-name))
 
-	  ;; ;; REPL on the left (window1)  ; Not really necessary.
-	  ;; (set-window-buffer window1 name-repl-buffer)
+	  ;; REPL on the left (window1)
+	  ;; This line is not really necessary because it is already on the left.
+	  (set-window-buffer window1 name-repl-buffer)
 	  ;; Script on the right (window2)
 	  (set-window-buffer window2 name-script-buffer)
 
