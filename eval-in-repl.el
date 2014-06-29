@@ -1,4 +1,4 @@
-;;; eval-in-repl.el --- Send code to REPL for evaluation  -*- lexical-binding: t; -*-
+;;; eval-in-repl.el --- Consistent eval interface for various REPLs with C-RET  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
@@ -6,7 +6,6 @@
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
 ;; Version: 0.1.0
-;; Package-Requires: ((dash))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
