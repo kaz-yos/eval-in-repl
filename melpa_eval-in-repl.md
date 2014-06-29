@@ -35,10 +35,10 @@ I am the maintainer.
 **Test that the package builds properly via make recipes/<recipe>.**
 ---------------------------------------------
 
-Using OS X 10.9.3 and emacs 24.3.91.1, it built successfully.
+Using OS X 10.9.3 and emacs 24.3.91.1, make recipes/eval-in-repl built the package successfully.
 
 
 **Test that the package installs properly via package-install-file.**
 ---------------------------------------------
 
-Using M-x package-install-file and the tar file generated in the previous step, it installed without problem. It is functioning as expected after installation through the package system.
+Using M-x package-install-file and the tar file generated in the previous step, it installed without problem, and there were no compilation errors. The package is functioning as expected after installation through the package system.
