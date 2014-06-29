@@ -11,7 +11,7 @@ This package implements similar work flow for various read-eval-print-loops (REP
 **Usage**
 --------------------
 
-After installation and appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL and evaluate a line, selected region or the current expression depending on the context. The script will be shown on the right, and the REPL on the left.
+After installation and appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL and evaluate a line, selected region or the current expression depending on the context. The script will be shown on the right, and the REPL on the left. The REPL shows both the code executed and the value the code returned.
 
 ![Alt text](screen_shot_ielm.png?raw=true "ielm example")
 
@@ -45,11 +45,12 @@ The following files are included in the package. There are respective dependenci
 
 It is planned to be available on the MELPA repository. Once it becomes available you can do the following, then choose and install eval-in-repl.
 
-To configure the MELPA, see this: http://melpa.milkbox.net/#/getting-started
-
 ```
 M-x list-packages
 ```
+
+To configure the MELPA, see this: http://melpa.milkbox.net/#/getting-started
+
 
 **Configuration**
 --------------------
