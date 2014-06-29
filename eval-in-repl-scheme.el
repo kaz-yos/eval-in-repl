@@ -53,6 +53,7 @@
 ;;; Require dependencies
 (require 'eval-in-repl)
 (require 'scheme)
+(require 'cmuscheme)
 
 
 ;;;

@@ -31,7 +31,7 @@ The following files are included in the package. There are respective dependenci
  - Support for other lisps via slime.el (depends on slime.el)
 
 - eval-in-repl-scheme.el
- - Support for Scheme via scheme.el (depends on scheme.el; part of default emacs installation)
+ - Support for Scheme via scheme.el (depends on scheme.el and cmuscheme.el; both part of default emacs installation)
 
 - eval-in-repl-python.el
  - Support for Python via python.el (depends on python.el; part of default emacs installation)
