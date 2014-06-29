@@ -23,27 +23,9 @@
 
 ;;; Commentary:
 
-;; This package does what ESS does for R for cider.
-;;
-;; Emacs Speaks Statistics (ESS) package has a nice function called
-;; ess-eval-region-or-line-and-step, which is assigned to C-RET.
-;; This function sends a line or a selected region to the corresponding
-;; shell (R, Julia, Stata, etc) visibly. It also start up a shell if there is none.
-;;
-;; This package implements similar work flow for Clojure via cider.el.
-;;
-;; When there is no cider REPL running, it will be created. Then the selected
-;; region or the last expression (or the current expression the cursor is
-;; in) is sent to the REPL, and gets executed. This will keep track of what
-;; has been executed, and should be intuitive for ESS users.
-
-
-;;; Configuration
-;; To assign eir-eval-in-cider to C-RET in the clojure mode,
-;; add the following to your configuration.
-;;
-;; (require 'eval-in-repl-cider)
-;; (define-key clojure-mode-map (kbd "<C-return>") 'eir-eval-in-cider)
+;; cider.el-specific file for eval-in-repl
+;; See below for configuration
+;; https://github.com/kaz-yos/eval-in-repl/
 
 
 ;;; Code:
@@ -67,11 +49,12 @@ This function should not be invoked directly."
   ;; If *nrepl-* buffers exist although *cider-repl* does not, kill them for safety.
   (let* ((nrepl-buffer-names (eir--matching-elements "\\*nrepl-.*\\*$" (mapcar #'buffer-name (buffer-list)))))
     (when nrepl-buffer-names
-      (mapcar (lambda (elt)
-		;; kill-buffer without asking
-		(let (kill-buffer-query-functions)
-		  (kill-buffer elt)))
-	      nrepl-buffer-names)))
+      ;; Looping over nrepl-buffer-names for side effect
+      (mapc (lambda (elt)
+	      ;; kill-buffer without asking
+	      (let (kill-buffer-query-functions)
+		(kill-buffer elt)))
+	    nrepl-buffer-names)))
   ;; Activate cider
   (cider-jack-in)
   ;; Wait for connection
