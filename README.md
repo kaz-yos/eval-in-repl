@@ -1,4 +1,4 @@
-**eval-in-repl.el**
+**eval-in-repl.el: Consistent eval interface for various REPLs**
 --------------------
 
 This package does what ESS does for R for various REPLs, including ielm.
@@ -10,7 +10,7 @@ This package implements similar work flow for various read-eval-print-loops (REP
 **Usage**
 --------------------
 
-After appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL and evaluate a line, selected region or the current expression depending on the context.
+After installation and appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL and evaluate a line, selected region or the current expression depending on the context.
 
 
 **Installation**
@@ -58,6 +58,7 @@ The full configuration is the following. ```eval-in-repl``` is always necessary.
 (require 'eval-in-repl)
 
 ;; cider
+(require 'cider) ; if not done elsewhere
 (require 'eval-in-repl-cider)
 (define-key clojure-mode-map (kbd "<C-return>") 'eir-eval-in-cider)
 
@@ -71,6 +72,7 @@ The full configuration is the following. ```eval-in-repl``` is always necessary.
 (define-key Info-mode-map (kbd "<C-return>") 'eir-eval-in-ielm)
 
 ;; SLIME
+(require 'slime) ; if not done elsewhere
 (require 'eval-in-repl-slime)
 (add-hook 'lisp-mode-hook
 		  '(lambda ()
@@ -83,10 +85,12 @@ The full configuration is the following. ```eval-in-repl``` is always necessary.
 		     (local-set-key (kbd "<C-return>") 'eir-eval-in-scheme)))
 
 ;; python
+(require 'python) ; if not done elsewhere
 (require 'eval-in-repl-python)
 (define-key python-mode-map (kbd "<C-return>") 'eir-eval-in-python)
 
-;; shell
+;; shell ; if not done elsewhere
+(require 'essh) ; 
 (require 'eval-in-repl-shell)
 (add-hook 'sh-mode-hook
           '(lambda()
