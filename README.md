@@ -56,13 +56,8 @@ M-x list-packages
 The full configuration is the following. ```eval-in-repl``` is always necessary. Require other files as needed and configure the respective mode-specific key bindings.
 
 ```lisp
-;; require the skeleton package
+;; require the main file containing common functions
 (require 'eval-in-repl)
-
-;; cider
-(require 'cider) ; if not done elsewhere
-(require 'eval-in-repl-cider)
-(define-key clojure-mode-map (kbd "<C-return>") 'eir-eval-in-cider)
 
 ;; ielm
 (require 'eval-in-repl-ielm)
@@ -73,6 +68,11 @@ The full configuration is the following. ```eval-in-repl``` is always necessary.
 ;; For M-x info
 (define-key Info-mode-map (kbd "<C-return>") 'eir-eval-in-ielm)
 
+;; cider
+(require 'cider) ; if not done elsewhere
+(require 'eval-in-repl-cider)
+(define-key clojure-mode-map (kbd "<C-return>") 'eir-eval-in-cider)
+
 ;; SLIME
 (require 'slime) ; if not done elsewhere
 (require 'eval-in-repl-slime)
@@ -80,7 +80,9 @@ The full configuration is the following. ```eval-in-repl``` is always necessary.
 		  '(lambda ()
 		     (local-set-key (kbd "<C-return>") 'eir-eval-in-slime)))
 
-;; scheme-mode
+;; scheme
+(require 'scheme) ; if not done elsewhere
+(require 'cmuscheme) ; if not done elsewhere
 (require 'eval-in-repl-scheme)
 (add-hook 'scheme-mode-hook
 		  '(lambda ()
@@ -91,8 +93,8 @@ The full configuration is the following. ```eval-in-repl``` is always necessary.
 (require 'eval-in-repl-python)
 (define-key python-mode-map (kbd "<C-return>") 'eir-eval-in-python)
 
-;; shell ; if not done elsewhere
-(require 'essh) ; 
+;; shell
+(require 'essh) ; if not done elsewhere
 (require 'eval-in-repl-shell)
 (add-hook 'sh-mode-hook
           '(lambda()
