@@ -50,8 +50,8 @@
 ;; https://github.com/kaz-yos/eval-in-repl/
 ;;
 ;; Version history
-;; 0.1.1 Delete excess autoload macros
-;; 0.1.0 Release
+;; 2014-07-06 0.1.1 Delete excess autoload macros, add paredit.el to dependency
+;; 2014-06-30 0.1.0 First MELPA Release
 
 
 ;;; Code:
