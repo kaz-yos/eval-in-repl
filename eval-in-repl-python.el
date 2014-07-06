@@ -1,11 +1,11 @@
-;;; eval-in-repl-python.el --- Introduce ESS-like eval for python  -*- lexical-binding: t; -*-
+;;; eval-in-repl-python.el --- ESS-like eval for python  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.1.0
+;; Version: 0.1.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -39,7 +39,6 @@
 ;;;
 ;;; PYTHON-MODE RELATED
 ;;; eir-send-to-python
-;;;###autoload
 (defun eir-send-to-python (start end)
   "Sends expression to *Python* and have it evaluated."
 
@@ -93,8 +92,7 @@
       ;; Switch to the shell
       (python-shell-switch-to-shell)
       ;; Switch back to the script window
-      (select-window w-script)
-      )))
+      (select-window w-script))))
 ;;
 
 

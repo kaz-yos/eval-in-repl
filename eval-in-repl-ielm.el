@@ -1,11 +1,11 @@
-;;; eval-in-repl-ielm.el --- Introduce ESS-like eval to .el files and ielm  -*- lexical-binding: t; -*-
+;;; eval-in-repl-ielm.el --- ESS-like eval to .el files and ielm  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.1.0
+;; Version: 0.1.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -33,12 +33,12 @@
 ;;;
 ;;; Require dependencies
 (require 'eval-in-repl)
+(require 'ielm)
 
 
 ;;;
 ;;; EMACS LISP RELATED
 ;;; eir-send-to-ielm
-;;;###autoload
 (defun eir-send-to-ielm (start end)
   "Sends expression to *ielm* and have it evaluated."
 
@@ -54,7 +54,7 @@
   "This is a customized version of eir-eval-in-repl-lisp for ielm."
 
   (interactive)
-  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
+  (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
    "\\*ielm\\*"
    ;; fun-repl-start

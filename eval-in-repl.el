@@ -1,11 +1,11 @@
-;;; eval-in-repl.el --- Consistent eval interface for various REPLs with C-RET  -*- lexical-binding: t; -*-
+;;; eval-in-repl.el --- Consistent ESS-like eval interface for various REPLs  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.1.0
+;; Version: 0.1.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -23,30 +23,42 @@
 
 ;;; Commentary:
 
-;; eval-in-repl: Consistent eval interface for various REPLs
+;; eval-in-repl: Consistent ESS-like eval interface for various REPLs
 ;;
 ;; This package does what ESS does for R for various REPLs, including ielm.
 ;;
 ;; Emacs Speaks Statistics (ESS) package has a nice function called
 ;; ess-eval-region-or-line-and-step, which is assigned to C-RET.
 ;; This function sends a line or a selected region to the corresponding
-;; shell (R, Julia, Stata, etc) visibly. It also start up a shell if there is none.
+;; shell (R, Julia, Stata, etc) visibly. It also start up a shell if
+;; there is none.
 ;;
-;; This package along with a REPL/shell specific packages implement similar
+;; This package along with REPL/shell specific packages implement similar
 ;; work flow for various REPLs.
 ;;
-;; This file alone is not functional.
-;; Also require the following depending on your needs.
+;; This file alone is not functional. Also require the following depending
+;; on your needs.
 ;;
-;; eval-in-repl-ielm.el	   for Emacs Lisp (via ielm)
+;; eval-in-repl-ielm.el    for Emacs Lisp (via ielm)
 ;; eval-in-repl-cider.el   for Clojure (via cider.el)
 ;; eval-in-repl-slime.el   for SLIME (via slime.el)
-;; eval-in-repl-scheme.el  for Scheme (if used through scheme.el and cmuscheme.el)
+;; eval-in-repl-scheme.el  for Scheme (via scheme.el and cmuscheme.el)
 ;; eval-in-repl-python.el  for Python (via python.el)
 ;; eval-in-repl-shell.el   for shell mode (via essh.el)
 ;;
-;; See below for installation and an configuration example.
+;; See the URL below for installation and configuration instructions.
 ;; https://github.com/kaz-yos/eval-in-repl/
+;;
+;; Known issues
+;; - The first invocation of a cider REPL is slow and sometimes fails.
+;; - If there is no *cider-repl*, but *nrepl-...* buffers, the latter are
+;;   killed. This behavior may not be safe.
+;; - The Python version does not work on the very last block in the file
+;;   if there is no newline character at the end.
+;;
+;; Version history
+;; 2014-07-06 0.1.1 Delete excess autoload macros, add paredit.el to dependency
+;; 2014-06-30 0.1.0 First MELPA Release
 
 
 ;;; Code:
@@ -54,12 +66,12 @@
 ;;;
 ;;; Require dependencies
 (require 'dash)
+(require 'paredit)
 
 
 ;;;
 ;;; COMMON ELEMENTS
 ;;; eir--matching-elements
-;;;###autoload
 (defun eir--matching-elements (regexp lst)
   "Return a list of elements matching the REGEXP in the LIST."
 
@@ -75,7 +87,6 @@
 ;; A function to start a REPL if not already available
 ;; https://stat.ethz.ch/pipermail/ess-help/2012-December/008426.html
 ;; http://t7331.codeinpro.us/q/51502552e8432c0426273040
-;;;###autoload
 (defun eir-repl-start (repl-buffer-regexp fun-repl-start)
   "Start a REPL if not already available.
 
@@ -119,7 +130,6 @@ Also vertically split the current frame when staring a REPL."
 ;;
 ;;
 ;;; eir-send-to-repl
-;;;###autoload
 (defun eir-send-to-repl (start end fun-change-to-repl fun-execute)
   "Sekeleton function to be used with a wrapper.
 
@@ -148,7 +158,6 @@ Send expression to a REPL and have it evaluated."
 ;;;
 ;;; COMMON ELEMENTS FOR LISP LANGUAGES
 ;;; eir-eval-in-repl-lisp (used as a skeleton)
-;;;###autoload
 (defun eir-eval-in-repl-lisp (repl-buffer-regexp fun-repl-start fun-repl-send defun-string)
     "Skeleton function to be used with a wrapper.
 

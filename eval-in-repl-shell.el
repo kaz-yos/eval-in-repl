@@ -1,11 +1,11 @@
-;;; eval-in-repl-shell.el --- Introduce ESS-like eval for shell  -*- lexical-binding: t; -*-
+;;; eval-in-repl-shell.el --- ESS-like eval for shell  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.1.0
+;; Version: 0.1.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -46,7 +46,6 @@
 ;; http://www.emacswiki.org/emacs/ESSShiftEnter
 ;;
 ;;; eir-send-to-shell
-;;;###autoload
 (defun eir-send-to-shell (start end)
   "Sends expression to *shell* and have it evaluated."
 

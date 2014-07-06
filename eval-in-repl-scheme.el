@@ -1,11 +1,11 @@
-;;; eval-in-repl-scheme.el --- Introduce ESS-like eval to scheme mode  -*- lexical-binding: t; -*-
+;;; eval-in-repl-scheme.el --- ESS-like eval to scheme mode  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.1.0
+;; Version: 0.1.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -41,7 +41,6 @@
 ;;; SCHEME RELATED
 ;;; eir-send-to-scheme
 ;; send to scheme
-;;;###autoload
 (defun eir-send-to-scheme (start end)
   "Sends expression to *scheme* and have it evaluated."
 

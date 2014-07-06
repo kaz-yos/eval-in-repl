@@ -1,4 +1,4 @@
-**eval-in-repl: Consistent eval interface for various REPLs**
+**eval-in-repl: Consistent ESS-like eval interface for various REPLs**
 --------------------
 
 This package does what ESS does for R for various REPLs, including ielm.
@@ -103,9 +103,25 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 		     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
 ```
 
+**Known issues**
+--------------------
+
+- The first invocation of a cider REPL is slow and sometimes fails.
+- If there is no \*cider-repl\*, but \*nrepl-...\* buffers, the latter are killed. This behavior may not be safe.
+- The Python version does not work on the very last block in the file if there is no newline character at the end.
+
+
+**Version histoy**
+--------------------
+
+- 2014-07-06 0.1.1 Delete excess autoload macros, add paredit.el to dependency
+- 2014-06-30 0.1.0 First MELPA Release
+
+
+
 **Special thanks:**
 --------------------
 
-This package is inspired by the wonderful Emacs Speaks Statistics (ESS) package.
+This package was inspired by the wonderful Emacs Speaks Statistics (ESS) package.
 
 <!-- mikeypostman and purcell for auditing the code for MELPA approval. -->

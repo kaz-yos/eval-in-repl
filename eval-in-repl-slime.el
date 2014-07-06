@@ -1,11 +1,11 @@
-;;; eval-in-repl-slime.el --- Introduce ESS-like eval to SLIME  -*- lexical-binding: t; -*-
+;;; eval-in-repl-slime.el --- ESS-like eval to SLIME  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.1.0
+;; Version: 0.1.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -40,7 +40,6 @@
 ;;; SLIME RELATED
 ;;; eir-send-to-slime
 ;; send to slime
-;;;###autoload
 (defun eir-send-to-slime (start end)
   "Sends expression to *slime-repl* and have it evaluated."
 
