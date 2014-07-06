@@ -23,7 +23,7 @@
 
 ;;; Commentary:
 
-;; eval-in-repl: Consistent eval interface for various REPLs
+;; eval-in-repl: Consistent ESS-like eval interface for various REPLs
 ;;
 ;; This package does what ESS does for R for various REPLs, including ielm.
 ;;
@@ -33,11 +33,11 @@
 ;; shell (R, Julia, Stata, etc) visibly. It also start up a shell if
 ;; there is none.
 ;;
-;; This package along with a REPL/shell specific packages implement similar
+;; This package along with REPL/shell specific packages implement similar
 ;; work flow for various REPLs.
 ;;
-;; This file alone is not functional.
-;; Also require the following depending on your needs.
+;; This file alone is not functional. Also require the following depending
+;; on your needs.
 ;;
 ;; eval-in-repl-ielm.el    for Emacs Lisp (via ielm)
 ;; eval-in-repl-cider.el   for Clojure (via cider.el)
@@ -46,8 +46,15 @@
 ;; eval-in-repl-python.el  for Python (via python.el)
 ;; eval-in-repl-shell.el   for shell mode (via essh.el)
 ;;
-;; See below for installation and an configuration example.
+;; See the URL below for installation and configuration instructions.
 ;; https://github.com/kaz-yos/eval-in-repl/
+;;
+;; Known issues
+;; - The first invocation of a cider REPL is slow and sometimes fails.
+;; - If there is no *cider-repl*, but *nrepl-...* buffers, the latter are
+;;   killed. This behavior may not be safe.
+;; - The Python version does not work on the very last block in the file
+;;   if there is no newline character at the end.
 ;;
 ;; Version history
 ;; 2014-07-06 0.1.1 Delete excess autoload macros, add paredit.el to dependency
