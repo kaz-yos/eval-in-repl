@@ -59,6 +59,7 @@
 ;;;
 ;;; Require dependencies
 (require 'dash)
+(require 'paredit)
 
 
 ;;;
