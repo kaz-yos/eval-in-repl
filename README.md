@@ -1,4 +1,4 @@
-**eval-in-repl: Consistent eval interface for various REPLs**
+**eval-in-repl: Consistent ESS-like eval interface for various REPLs**
 --------------------
 
 This package does what ESS does for R for various REPLs, including ielm.
@@ -106,6 +106,6 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 **Special thanks:**
 --------------------
 
-This package is inspired by the wonderful Emacs Speaks Statistics (ESS) package.
+This package was inspired by the wonderful Emacs Speaks Statistics (ESS) package.
 
 <!-- mikeypostman and purcell for auditing the code for MELPA approval. -->

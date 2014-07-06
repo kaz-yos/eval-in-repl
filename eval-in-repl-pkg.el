@@ -26,10 +26,12 @@
   ;; REQUIREMENTS
   '((dash "0.0.0") (paredit "0.0.0"))
   ;; Shown as Homepage in package.el
-  :url "https://github.com/kaz-yos/elisp"
+  :url "https://github.com/kaz-yos/eval-in-repl/"
   ;; Shown as Keywords in package.el
   ;; :keywords ("utilities" "repl")
   )
+
+
 
 
 
