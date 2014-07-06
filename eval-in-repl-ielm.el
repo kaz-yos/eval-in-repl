@@ -1,4 +1,4 @@
-;;; eval-in-repl-ielm.el --- Introduce ESS-like eval to .el files and ielm  -*- lexical-binding: t; -*-
+;;; eval-in-repl-ielm.el --- ESS-like eval to .el files and ielm  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 

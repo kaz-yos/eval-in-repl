@@ -1,4 +1,4 @@
-;;; eval-in-repl.el --- Consistent eval interface for various REPLs with C-RET  -*- lexical-binding: t; -*-
+;;; eval-in-repl.el --- Consistent ESS-like eval interface for various REPLs  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 

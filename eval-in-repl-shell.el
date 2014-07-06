@@ -1,4 +1,4 @@
-;;; eval-in-repl-shell.el --- Introduce ESS-like eval for shell  -*- lexical-binding: t; -*-
+;;; eval-in-repl-shell.el --- ESS-like eval for shell  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 

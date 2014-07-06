@@ -22,7 +22,7 @@
   ;; VERSION-STRING
   "%VERSION%"
   ;; DOCSTRING (Shown as Summary in package.el)
-  "Consistent eval interface for various REPLs"
+  "Consistent ESS-like eval interface for various REPLs"
   ;; REQUIREMENTS
   '((dash "0.0.0"))
   ;; Shown as Homepage in package.el

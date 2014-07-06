@@ -1,4 +1,4 @@
-;;; eval-in-repl-python.el --- Introduce ESS-like eval for python  -*- lexical-binding: t; -*-
+;;; eval-in-repl-python.el --- ESS-like eval for python  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 

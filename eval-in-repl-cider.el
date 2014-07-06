@@ -1,4 +1,4 @@
-;;; eval-in-repl-cider.el --- Introduce ESS-like eval for cider  -*- lexical-binding: t; -*-
+;;; eval-in-repl-cider.el --- ESS-like eval for cider  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
