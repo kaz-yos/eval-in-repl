@@ -33,6 +33,7 @@
 ;;;
 ;;; Require dependencies
 (require 'eval-in-repl)
+(require 'ielm)
 
 
 ;;;
