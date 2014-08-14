@@ -33,46 +33,24 @@
 ;;;
 ;;; Require dependencies
 (require 'eval-in-repl)
-(require 'racket)
+(require 'racket-mode)
 
 
 ;;;
-;;; RACKET FOR CLOJURE RELATED
-;;; eir--racket-jack-in
-(defun eir--racket-jack-in ()
-  "Invoke racket-jack-in and wait for activation.
-If *nrepl-** buffers are remaining, kill them silently.
-This function should not be invoked directly."
-
-  (interactive)
-  ;; If *nrepl-* buffers exist although *racket-repl* does not, kill them for safety.
-  (let* ((nrepl-buffer-names (eir--matching-elements "\\*nrepl-.*\\*$" (mapcar #'buffer-name (buffer-list)))))
-    (when nrepl-buffer-names
-      ;; Looping over nrepl-buffer-names for side effect
-      (mapc (lambda (elt)
-	      ;; kill-buffer without asking
-	      (let (kill-buffer-query-functions)
-		(kill-buffer elt)))
-	    nrepl-buffer-names)))
-  ;; Activate racket
-  (racket-jack-in)
-  ;; Wait for connection
-  (when (not (racket-connected-p))
-    (message "waiting for racket...")
-    (sit-for 1)))
-;;
+;;; RACKET RELATED
 ;;; eir-send-to-racket
 (defun eir-send-to-racket (start end)
-  "Sends expression to *racket-repl* and have it evaluated."
+  "Sends expression to *Racket REPL* and have it evaluated."
 
   (eir-send-to-repl start end
 		    ;; fun-change-to-repl
-		    #'racket-switch-to-repl-buffer
+		    #'(lambda ()
+			;; Show Racket REPL (focus comes back)
+			(racket--repl-show-and-move-to-end)
+			;; Go to the other window
+			(other-window 1))
 		    ;; fun-execute
-		    ;; #'(lambda () (progn (racket-repl-return t) (racket-repl-return t)))
-		    #'racket-repl-return
-		    ;; #'(lambda () (racket-repl--send-input t))
-		    ))
+		    #'comint-send-input))
 ;;
 ;;; eir-eval-in-racket
 ;;;###autoload
@@ -82,13 +60,13 @@ This function should not be invoked directly."
   (interactive)
   (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
    ;; repl-buffer-regexp
-   "\\*racket-repl.*\\*$"
+   "\\*Racket REPL.*\\*$"
    ;; fun-repl-start
-   'eir--racket-jack-in
+   'racket-repl
    ;; fun-repl-send
    'eir-send-to-racket
    ;; defun-string
-   "(defn "))
+   "(define "))
 ;;
 
 
