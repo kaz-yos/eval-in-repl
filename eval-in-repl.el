@@ -39,12 +39,13 @@
 ;; This file alone is not functional. Also require the following depending
 ;; on your needs.
 ;;
-;; eval-in-repl-ielm.el    for Emacs Lisp (via ielm)
-;; eval-in-repl-cider.el   for Clojure (via cider.el)
-;; eval-in-repl-slime.el   for SLIME (via slime.el)
-;; eval-in-repl-scheme.el  for Scheme (via scheme.el and cmuscheme.el)
-;; eval-in-repl-python.el  for Python (via python.el)
-;; eval-in-repl-shell.el   for shell mode (via essh.el)
+;; eval-in-repl-ielm.el    for Emacs Lisp  (via ielm)
+;; eval-in-repl-cider.el   for Clojure     (via cider.el)
+;; eval-in-repl-racket.el  for Racket      (via racket-mode.el)
+;; eval-in-repl-slime.el   for SLIME       (via slime.el)
+;; eval-in-repl-scheme.el  for Scheme      (via scheme.el and cmuscheme.el)
+;; eval-in-repl-python.el  for Python      (via python.el)
+;; eval-in-repl-shell.el   for shell mode  (via essh.el)
 ;;
 ;; See the URL below for installation and configuration instructions.
 ;; https://github.com/kaz-yos/eval-in-repl/
@@ -57,6 +58,7 @@
 ;;   if there is no newline character at the end.
 ;;
 ;; Version history
+;; 2014-08-14 0.2.0 Add racket-mode support
 ;; 2014-07-06 0.1.1 Delete excess autoload macros, add paredit.el to dependency
 ;; 2014-06-30 0.1.0 First MELPA Release
 
