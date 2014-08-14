@@ -43,7 +43,7 @@ The following files are included in the package. There are respective dependenci
  - Support for shell via essh.el
 
 
-It is planned to be available on the MELPA repository. Once it becomes available you can do the following, then choose and install eval-in-repl.
+It is available on the MELPA repository. You can do the following, then choose and install eval-in-repl.
 
 ```
 M-x list-packages
