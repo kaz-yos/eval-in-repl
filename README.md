@@ -30,6 +30,9 @@ The following files are included in the package. There are respective dependenci
 - eval-in-repl-cider.el
  - Support for Clojure via cider.el (depends on cider.el)
 
+- eval-in-repl-racket.el
+ - Support for Racket via racket-mode.el (depends on racket-mode.el)
+
 - eval-in-repl-slime.el
  - Support for other lisps via slime.el (depends on slime.el)
 
@@ -74,6 +77,11 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 (require 'cider) ; if not done elsewhere
 (require 'eval-in-repl-cider)
 (define-key clojure-mode-map (kbd "<C-return>") 'eir-eval-in-cider)
+
+;; Racket
+(require 'racket-mode) ; if not done elsewhere
+(require 'eval-in-repl-racket)
+(define-key racket-mode-map (kbd "<C-return>") 'eir-eval-in-racket)
 
 ;; SLIME
 (require 'slime) ; if not done elsewhere
