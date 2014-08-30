@@ -63,7 +63,7 @@
   ;; Define local variables
   (let* (w-script)
 
-    ;; defined in 200_eir-misc-functions-and-bindings.el
+    ;;
     (eir-repl-start "\\*shell\\*" #'shell)
 
     ;; Check if selection is present

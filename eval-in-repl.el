@@ -173,7 +173,7 @@ A function definition is detected by a string specified in DEFUN-STRING
   (let* (;; Save current point
 	 (initial-point (point)))
 
-    ;; defined in 200_eir-misc-functions-and-bindings.el
+    ;;
     (eir-repl-start repl-buffer-regexp fun-repl-start)
 
     ;; Check if selection is present

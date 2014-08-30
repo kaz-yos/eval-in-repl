@@ -58,7 +58,7 @@
   ;; Define local variables
   (let* (w-script)
 
-    ;; defined in 200_eir-misc-functions-and-bindings.el
+    ;;
     (eir-repl-start "*Python*" #'run-python)
 
     ;; Check if selection is present

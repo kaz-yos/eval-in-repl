@@ -80,7 +80,7 @@ This function should not be invoked directly."
   "This is a customized version of eir-eval-in-repl-lisp for cider."
 
   (interactive)
-  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
+  (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
    "\\*cider-repl.*\\*$"
    ;; fun-repl-start

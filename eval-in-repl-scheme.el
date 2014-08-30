@@ -60,7 +60,7 @@
   "This is a customized version of eir-eval-in-repl-lisp for scheme."
 
   (interactive)
-  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
+  (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
    "\\*scheme\\*"
    ;; fun-repl-start
