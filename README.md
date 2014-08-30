@@ -30,11 +30,14 @@ The following files are included in the package. There are respective dependenci
 - eval-in-repl-cider.el
  - Support for Clojure via cider.el (depends on cider.el)
 
-- eval-in-repl-racket.el
- - Support for Racket via racket-mode.el (depends on racket-mode.el)
-
 - eval-in-repl-slime.el
  - Support for other lisps via slime.el (depends on slime.el)
+
+- eval-in-repl-geiser.el
+ - Support for Racket and Guile Scheme via geiser.el (depends on geiser.el)
+
+- eval-in-repl-racket.el
+ - Support for Racket via racket-mode.el (depends on racket-mode.el)
 
 - eval-in-repl-scheme.el
  - Support for Scheme via scheme.el (depends on scheme.el and cmuscheme.el; both part of default emacs installation)
@@ -58,57 +61,65 @@ To configure the MELPA, see this: http://melpa.milkbox.net/#/getting-started
 **Configuration**
 --------------------
 
-The full configuration is the following. ```eval-in-repl.el``` is always necessary. Require other files as needed and configure the respective mode-specific key bindings.
+The full configuration is the following. ```eval-in-repl.el``` is always necessary. Require other files as needed and configure the respective mode-specific key bindings. 
 
 ```lisp
 ;; require the main file containing common functions
 (require 'eval-in-repl)
 
-;; ielm
+;; ielm support (for emacs lisp)
 (require 'eval-in-repl-ielm)
-;; For .el files
+;; for .el files
 (define-key emacs-lisp-mode-map (kbd "<C-return>") 'eir-eval-in-ielm)
-;; For *scratch*
+;; for *scratch*
 (define-key lisp-interaction-mode-map (kbd "<C-return>") 'eir-eval-in-ielm)
-;; For M-x info
+;; for M-x info
 (define-key Info-mode-map (kbd "<C-return>") 'eir-eval-in-ielm)
 
-;; cider
-(require 'cider) ; if not done elsewhere
+;; cider support (for Clojure)
+;; (require 'cider) ; if not done elsewhere
 (require 'eval-in-repl-cider)
 (define-key clojure-mode-map (kbd "<C-return>") 'eir-eval-in-cider)
 
-;; Racket
-(require 'racket-mode) ; if not done elsewhere
-(require 'eval-in-repl-racket)
-(define-key racket-mode-map (kbd "<C-return>") 'eir-eval-in-racket)
-
-;; SLIME
-(require 'slime) ; if not done elsewhere
+;; SLIME support (for common lisp)
+;; (require 'slime) ; if not done elsewhere
 (require 'eval-in-repl-slime)
 (add-hook 'lisp-mode-hook
 		  '(lambda ()
 		     (local-set-key (kbd "<C-return>") 'eir-eval-in-slime)))
 
-;; scheme
-(require 'scheme) ; if not done elsewhere
-(require 'cmuscheme) ; if not done elsewhere
-(require 'eval-in-repl-scheme)
-(add-hook 'scheme-mode-hook
+;; geiser support (for Racket and Guile Scheme)
+;; When using this, turn off racket-mode and scheme supports
+;; (require 'geiser) ; if not done elsewhere
+(require 'eval-in-repl-geiser)
+(add-hook 'geiser-mode-hook
 		  '(lambda ()
-		     (local-set-key (kbd "<C-return>") 'eir-eval-in-scheme)))
+		     (local-set-key (kbd "<C-return>") 'eir-eval-in-geiser)))
 
-;; python
-(require 'python) ; if not done elsewhere
+;; racket-mode support (for Racket)
+;; (require 'racket-mode) ; if not done elsewhere
+;; (require 'eval-in-repl-racket)
+;; (define-key racket-mode-map (kbd "<C-return>") 'eir-eval-in-racket)
+
+;; scheme support
+;; (require 'scheme) ; if not done elsewhere
+;; (require 'cmuscheme) ; if not done elsewhere
+;; (require 'eval-in-repl-scheme)
+;; (add-hook 'scheme-mode-hook
+;; 	  '(lambda ()
+;; 	     (local-set-key (kbd "<C-return>") 'eir-eval-in-scheme)))
+
+;; python support 
+;; (require 'python) ; if not done elsewhere
 (require 'eval-in-repl-python)
 (define-key python-mode-map (kbd "<C-return>") 'eir-eval-in-python)
 
 ;; shell
-(require 'essh) ; if not done elsewhere
+;; (require 'essh) ; if not done elsewhere
 (require 'eval-in-repl-shell)
 (add-hook 'sh-mode-hook
           '(lambda()
-		     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
+	     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
 ```
 
 **Known issues**
@@ -116,12 +127,14 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 
 - The first invocation of a cider REPL is slow and sometimes fails.
 - If there is no \*cider-repl\*, but \*nrepl-...\* buffers, the latter are killed. This behavior may not be safe.
-- The Python version does not work on the very last block in the file if there is no newline character at the end.
+- The Python support does not work on the very last block in the file if there is no newline character at the end.
+- The Geiser support is incompatible with the racket-mode support (racket-mode major mode is incompatible with Geiser) and with the scheme-mode support (Geiser will invoke Guile Scheme for .scm files).
 
 
 **Version histoy**
 --------------------
 
+- 2014-08-30 0.2.0 Add Geiser and Racket support
 - 2014-07-06 0.1.1 Delete excess autoload macros, add paredit.el to dependency
 - 2014-06-30 0.1.0 First MELPA Release
 
