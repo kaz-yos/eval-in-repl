@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.1.1
+;; Version: 0.2.0
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@
   ;; Define local variables
   (let* (w-script)
 
-    ;; defined in 200_eir-misc-functions-and-bindings.el
+    ;;
     (eir-repl-start "\\*shell\\*" #'shell)
 
     ;; Check if selection is present

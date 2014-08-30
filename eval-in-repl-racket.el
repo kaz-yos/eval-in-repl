@@ -1,4 +1,4 @@
-;;; eval-in-repl-ielm.el --- ESS-like eval to .el files and ielm  -*- lexical-binding: t; -*-
+;;; eval-in-repl-racket.el --- ESS-like eval for racket  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
@@ -23,7 +23,7 @@
 
 ;;; Commentary:
 
-;; ielm-specific file for eval-in-repl
+;; racket.el-specific file for eval-in-repl
 ;; See below for configuration
 ;; https://github.com/kaz-yos/eval-in-repl/
 
@@ -33,38 +33,44 @@
 ;;;
 ;;; Require dependencies
 (require 'eval-in-repl)
-(require 'ielm)
+(require 'racket-mode)
 
 
 ;;;
-;;; EMACS LISP RELATED
-;;; eir-send-to-ielm
-(defun eir-send-to-ielm (start end)
-  "Sends expression to *ielm* and have it evaluated."
+;;; RACKET RELATED
+;;; eir-send-to-racket
+(defun eir-send-to-racket (start end)
+  "Sends expression to *Racket REPL* and have it evaluated."
 
   (eir-send-to-repl start end
 		    ;; fun-change-to-repl
-		    #'(lambda () (switch-to-buffer-other-window "*ielm*"))
+		    #'(lambda ()
+			;; Show Racket REPL (focus comes back)
+			(racket--repl-show-and-move-to-end)
+			;; Go to the other window
+			(other-window 1))
 		    ;; fun-execute
-		    #'ielm-return))
+		    #'comint-send-input))
 ;;
-;;; eir-eval-in-ielm
+;;; eir-eval-in-racket
 ;;;###autoload
-(defun eir-eval-in-ielm ()
-  "This is a customized version of eir-eval-in-repl-lisp for ielm."
+(defun eir-eval-in-racket ()
+  "This is a customized version of eir-eval-in-repl-lisp for racket."
 
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
-   "\\*ielm\\*"
+   "\\*Racket REPL.*\\*$"
    ;; fun-repl-start
-   #'ielm
+   #'racket-repl
    ;; fun-repl-send
-   #'eir-send-to-ielm
+   #'eir-send-to-racket
    ;; defun-string
-   "(defun "))
+   "(define "))
 ;;
 
-(provide 'eval-in-repl-ielm)
-;;; eval-in-repl-ielm.el ends here
+
+
+(provide 'eval-in-repl-racket)
+;;; eval-in-repl-racket.el ends here
 
