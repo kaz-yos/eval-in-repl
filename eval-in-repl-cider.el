@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.1.1
+;; Version: 0.2.0
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -80,13 +80,13 @@ This function should not be invoked directly."
   "This is a customized version of eir-eval-in-repl-lisp for cider."
 
   (interactive)
-  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
+  (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
    "\\*cider-repl.*\\*$"
    ;; fun-repl-start
-   'eir--cider-jack-in
+   #'eir--cider-jack-in
    ;; fun-repl-send
-   'eir-send-to-cider
+   #'eir-send-to-cider
    ;; defun-string
    "(defn "))
 ;;

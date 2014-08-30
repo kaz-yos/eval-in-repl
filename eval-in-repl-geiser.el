@@ -1,4 +1,4 @@
-;;; eval-in-repl-ielm.el --- ESS-like eval to .el files and ielm  -*- lexical-binding: t; -*-
+;;; eval-in-repl-geiser.el --- ESS-like eval for geiser  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
@@ -23,7 +23,7 @@
 
 ;;; Commentary:
 
-;; ielm-specific file for eval-in-repl
+;; geiser.el-specific file for eval-in-repl
 ;; See below for configuration
 ;; https://github.com/kaz-yos/eval-in-repl/
 
@@ -33,38 +33,39 @@
 ;;;
 ;;; Require dependencies
 (require 'eval-in-repl)
-(require 'ielm)
+(require 'geiser-mode)
 
 
 ;;;
-;;; EMACS LISP RELATED
-;;; eir-send-to-ielm
-(defun eir-send-to-ielm (start end)
-  "Sends expression to *ielm* and have it evaluated."
+;;; GEISER RELATED
+;;; eir-send-to-geiser
+(defun eir-send-to-geiser (start end)
+  "Sends expression to * Racket/Guile REPL * and have it evaluated."
 
   (eir-send-to-repl start end
 		    ;; fun-change-to-repl
-		    #'(lambda () (switch-to-buffer-other-window "*ielm*"))
+		    #'switch-to-geiser
 		    ;; fun-execute
-		    #'ielm-return))
+		    #'geiser-repl--maybe-send))
 ;;
-;;; eir-eval-in-ielm
+;;; eir-eval-in-geiser
 ;;;###autoload
-(defun eir-eval-in-ielm ()
-  "This is a customized version of eir-eval-in-repl-lisp for ielm."
+(defun eir-eval-in-geiser ()
+  "This is a customized version of eir-eval-in-repl-lisp for geiser."
 
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
-   "\\*ielm\\*"
+   "\\* Racket REPL.*\\*$\\|\\* Guile REPL.*\\*$"
    ;; fun-repl-start
-   #'ielm
+   #'run-geiser
    ;; fun-repl-send
-   #'eir-send-to-ielm
+   #'eir-send-to-geiser
    ;; defun-string
-   "(defun "))
+   "(define "))
 ;;
 
-(provide 'eval-in-repl-ielm)
-;;; eval-in-repl-ielm.el ends here
 
+
+(provide 'eval-in-repl-geiser)
+;;; eval-in-repl-geiser.el ends here
