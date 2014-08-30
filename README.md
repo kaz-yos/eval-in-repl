@@ -42,6 +42,9 @@ The following files are included in the package. There are respective dependenci
 - eval-in-repl-scheme.el
  - Support for Scheme via scheme.el (depends on scheme.el and cmuscheme.el; both part of default emacs installation)
 
+- eval-in-repl-ensime.el
+ - Support for Scala via ensime.el (depends on ensime.el)
+
 - eval-in-repl-python.el
  - Support for Python via python.el (depends on python.el; part of default emacs installation)
 

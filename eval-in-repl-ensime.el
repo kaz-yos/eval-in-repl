@@ -37,58 +37,61 @@
 
 
 ;;;
-;;; CIDER FOR CLOJURE RELATED
-;;; eir--ensime-jack-in
-(defun eir--ensime-jack-in ()
-  "Invoke ensime-jack-in and wait for activation.
-If *nrepl-** buffers are remaining, kill them silently.
-This function should not be invoked directly."
-
-  (interactive)
-  ;; If *nrepl-* buffers exist although *ensime-repl* does not, kill them for safety.
-  (let* ((nrepl-buffer-names (eir--matching-elements "\\*nrepl-.*\\*$" (mapcar #'buffer-name (buffer-list)))))
-    (when nrepl-buffer-names
-      ;; Looping over nrepl-buffer-names for side effect
-      (mapc (lambda (elt)
-	      ;; kill-buffer without asking
-	      (let (kill-buffer-query-functions)
-		(kill-buffer elt)))
-	    nrepl-buffer-names)))
-  ;; Activate ensime
-  (ensime-jack-in)
-  ;; Wait for connection
-  (when (not (ensime-connected-p))
-    (message "waiting for ensime...")
-    (sit-for 1)))
-;;
+;;; ENSIME FOR SCALA RELATED
 ;;; eir-send-to-ensime
 (defun eir-send-to-ensime (start end)
-  "Sends expression to *ensime-repl* and have it evaluated."
+  "Sends expression to *ensime* and have it evaluated."
 
   (eir-send-to-repl start end
 		    ;; fun-change-to-repl
 		    #'ensime-switch-to-repl-buffer
 		    ;; fun-execute
-		    ;; #'(lambda () (progn (ensime-repl-return t) (ensime-repl-return t)))
-		    #'ensime-repl-return
-		    ;; #'(lambda () (ensime-repl--send-input t))
-		    ))
+		    #'ensime-repl-return))
 ;;
 ;;; eir-eval-in-ensime
 ;;;###autoload
-(defun eir-eval-in-ensime ()
-  "This is a customized version of eir-eval-in-repl-lisp for ensime."
+(defun eir-eval-in-python ()
+  "Evaluates Scala expressions"
 
   (interactive)
-  (eir-eval-in-repl-lisp	; defined in 200_eir-misc-functions-and-bindings.el
-   ;; repl-buffer-regexp
-   "\\*ensime-repl.*\\*$"
-   ;; fun-repl-start
-   'eir--ensime-jack-in
-   ;; fun-repl-send
-   'eir-send-to-ensime
-   ;; defun-string
-   "(defn "))
+  ;; Define local variables
+  (let* (w-script)
+
+    ;;
+    (eir-repl-start "*Python*" #'run-python)
+
+    ;; Check if selection is present
+    (if (and transient-mark-mode mark-active)
+	;; If selected, send region
+	(eir-send-to-python (point) (mark))
+
+      ;; If not selected, do all the following
+      ;; Move to the beginning of line
+      (beginning-of-line)
+      ;; Set mark at current position
+      (set-mark (point))
+      ;; Go to the end of statment
+      (python-nav-end-of-statement)
+      ;; Go to the end of block
+      (python-nav-end-of-block)
+      ;; Send region if not empty
+      (if (not (equal (point) (mark)))
+	  ;; Add one more character for newline
+	  ;; This does not work if a fuction asks for an input.
+	  ;; In that case, just select the line.
+	  (eir-send-to-python (+ (point) 1) (mark))
+	;; If empty, deselect region
+	(setq mark-active nil))
+      ;; Move to the next statement
+      (python-nav-forward-statement)
+
+      ;; Activate shell window, and switch back
+      ;; Remeber the script window
+      (setq w-script (selected-window))
+      ;; Switch to the shell
+      (python-shell-switch-to-shell)
+      ;; Switch back to the script window
+      (select-window w-script))))
 ;;
 
 
