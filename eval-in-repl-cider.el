@@ -84,9 +84,9 @@ This function should not be invoked directly."
    ;; repl-buffer-regexp
    "\\*cider-repl.*\\*$"
    ;; fun-repl-start
-   'eir--cider-jack-in
+   #'eir--cider-jack-in
    ;; fun-repl-send
-   'eir-send-to-cider
+   #'eir-send-to-cider
    ;; defun-string
    "(defn "))
 ;;

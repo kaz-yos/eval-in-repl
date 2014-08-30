@@ -59,9 +59,9 @@
    ;; repl-buffer-regexp
    "\\*slime-repl.*\\*$"
    ;; fun-repl-start
-   'slime
+   #'slime
    ;; fun-repl-send
-   'eir-send-to-slime
+   #'eir-send-to-slime
    ;; defun-string
    "(defn "))
 ;;

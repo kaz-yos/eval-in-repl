@@ -62,9 +62,9 @@
    ;; repl-buffer-regexp
    "\\*Racket REPL.*\\*$"
    ;; fun-repl-start
-   'racket-repl
+   #'racket-repl
    ;; fun-repl-send
-   'eir-send-to-racket
+   #'eir-send-to-racket
    ;; defun-string
    "(define "))
 ;;
