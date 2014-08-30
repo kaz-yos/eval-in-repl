@@ -39,26 +39,23 @@
 ;; This file alone is not functional. Also require the following depending
 ;; on your needs.
 ;;
-;; eval-in-repl-ielm.el    for Emacs Lisp  (via ielm)
-;; eval-in-repl-cider.el   for Clojure     (via cider.el)
-;; eval-in-repl-racket.el  for Racket      (via racket-mode.el)
-;; eval-in-repl-slime.el   for SLIME       (via slime.el)
-;; eval-in-repl-scheme.el  for Scheme      (via scheme.el and cmuscheme.el)
-;; eval-in-repl-python.el  for Python      (via python.el)
-;; eval-in-repl-shell.el   for shell mode  (via essh.el)
+;; eval-in-repl-ielm.el    for Emacs Lisp   (via ielm)
+;; eval-in-repl-cider.el   for Clojure      (via cider.el)
+;; eval-in-repl-slime.el   for SLIME        (via slime.el)
+;; eval-in-repl-geiser.el  for Racket/Guile (via geiser.el)
+;; eval-in-repl-racket.el  for Racket       (via racket-mode.el)
+;; eval-in-repl-scheme.el  for Scheme       (via scheme.el and cmuscheme.el)
+;; eval-in-repl-python.el  for Python       (via python.el)
+;; eval-in-repl-shell.el   for shell mode   (via essh.el)
 ;;
 ;; See the URL below for installation and configuration instructions.
 ;; https://github.com/kaz-yos/eval-in-repl/
 ;;
 ;; Known issues
-;; - The first invocation of a cider REPL is slow and sometimes fails.
-;; - If there is no *cider-repl*, but *nrepl-...* buffers, the latter are
-;;   killed. This behavior may not be safe.
-;; - The Python version does not work on the very last block in the file
-;;   if there is no newline character at the end.
+;; See the URL above.
 ;;
 ;; Version history
-;; 2014-08-14 0.2.0 Add racket-mode support
+;; 2014-08-30 0.2.0 Add Geiser and Racket support
 ;; 2014-07-06 0.1.1 Delete excess autoload macros, add paredit.el to dependency
 ;; 2014-06-30 0.1.0 First MELPA Release
 
