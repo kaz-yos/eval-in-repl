@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.2.0
+;; Version: 0.2.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -39,13 +39,14 @@
 ;; This file alone is not functional. Also require the following depending
 ;; on your needs.
 ;;
-;; eval-in-repl-ielm.el    for Emacs Lisp  (via ielm)
-;; eval-in-repl-cider.el   for Clojure     (via cider.el)
-;; eval-in-repl-racket.el  for Racket      (via racket-mode.el)
-;; eval-in-repl-slime.el   for SLIME       (via slime.el)
-;; eval-in-repl-scheme.el  for Scheme      (via scheme.el and cmuscheme.el)
-;; eval-in-repl-python.el  for Python      (via python.el)
-;; eval-in-repl-shell.el   for shell mode  (via essh.el)
+;; eval-in-repl-ielm.el    for Emacs Lisp    (via ielm)
+;; eval-in-repl-cider.el   for Clojure       (via cider.el)
+;; eval-in-repl-slime.el   for SLIME         (via slime.el)
+;; eval-in-repl-geiser.el  for Racket/Scheme (via geiser.el)
+;; eval-in-repl-racket.el  for Racket        (via racket-mode.el)
+;; eval-in-repl-scheme.el  for Scheme        (via scheme.el and cmuscheme.el)
+;; eval-in-repl-python.el  for Python        (via python.el)
+;; eval-in-repl-shell.el   for shell mode    (via essh.el)
 ;;
 ;; See the URL below for installation and configuration instructions.
 ;; https://github.com/kaz-yos/eval-in-repl/
