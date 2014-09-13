@@ -127,13 +127,13 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 
 - The first invocation of a cider REPL is slow and sometimes fails.
 - If there is no \*cider-repl\*, but \*nrepl-...\* buffers, the latter are killed. This behavior may not be safe.
-- The Python support does not work on the very last block in the file if there is no newline character at the end.
 - The Geiser support is incompatible with the racket-mode support (racket-mode major mode is incompatible with Geiser) and with the scheme-mode support (Geiser will invoke Guile Scheme for .scm files).
 
 
 **Version histoy**
 --------------------
 
+- 2014-09-13 0.2.1 Add EOF handling for Python
 - 2014-08-30 0.2.0 Add Geiser and Racket support
 - 2014-07-06 0.1.1 Delete excess autoload macros, add paredit.el to dependency
 - 2014-06-30 0.1.0 First MELPA Release
@@ -144,5 +144,3 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 --------------------
 
 This package was inspired by the wonderful Emacs Speaks Statistics (ESS) package.
-
-<!-- mikeypostman and purcell for auditing the code for MELPA approval. -->
