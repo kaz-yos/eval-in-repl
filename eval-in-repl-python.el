@@ -77,10 +77,10 @@
       (python-nav-end-of-block)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  ;; Add one more character for newline
-	  ;; This does not work if a fuction asks for an input.
-	  ;; In that case, just select the line.
-	  (eir-send-to-python (+ (point) 1) (mark))
+	  ;; Add one more character for newline unless at EOF
+	  ;; This does not work if the statement asks for an input.
+	  (eir-send-to-python (min (+ 1 (point)) (point-max))
+			      (mark))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
