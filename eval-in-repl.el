@@ -47,21 +47,12 @@
 ;; eval-in-repl-scheme.el  for Scheme        (via scheme.el and cmuscheme.el)
 ;; eval-in-repl-python.el  for Python        (via python.el)
 ;; eval-in-repl-shell.el   for shell mode    (via essh.el)
+;; eval-in-repl-sml.el     for sml mode      (via sml-mode.el and ess.el)
 ;;
-;; See the URL below for installation and configuration instructions.
+;;
+;; See the URL below for installation and configuration instructions,
+;; known issues, and version history.
 ;; https://github.com/kaz-yos/eval-in-repl/
-;;
-;; Known issues
-;; - The first invocation of a cider REPL is slow and sometimes fails.
-;; - If there is no *cider-repl*, but *nrepl-...* buffers, the latter are
-;;   killed. This behavior may not be safe.
-;; - The Python version does not work on the very last block in the file
-;;   if there is no newline character at the end.
-;;
-;; Version history
-;; 2014-08-14 0.2.0 Add racket-mode support
-;; 2014-07-06 0.1.1 Delete excess autoload macros, add paredit.el to dependency
-;; 2014-06-30 0.1.0 First MELPA Release
 
 
 ;;; Code:
@@ -219,4 +210,3 @@ A function definition is detected by a string specified in DEFUN-STRING
 ;;;
 (provide 'eval-in-repl)
 ;;; eval-in-repl.el ends here
-
