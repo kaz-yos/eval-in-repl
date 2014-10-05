@@ -1,4 +1,4 @@
-;;; eval-in-repl-shell.el --- ESS-like eval for shell  -*- lexical-binding: t; -*-
+;;; eval-in-repl-sml.el --- ESS-like eval for SML  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
@@ -33,43 +33,39 @@
 ;;;
 ;;; Require dependencies
 (require 'eval-in-repl)
-(require 'essh)
+(require 'sml-mode)
+(require 'ess)
 
 
 ;;;
-;;; SHELL RELATED
-;; depends on essh
-;; Changed from ESS
-;; Auto-scrolling of R console to bottom and Shift key extension
-;; http://www.kieranhealy.org/blog/archives/2009/10/12/make-shift-enter-do-a-lot-in-ess/
-;; Adapted with one minor change from Felipe Salazar at
-;; http://www.emacswiki.org/emacs/ESSShiftEnter
+;;; SML RELATED
+;; depends on sml-mode
 ;;
-;;; eir-send-to-shell
-(defun eir-send-to-shell (start end)
-  "Sends expression to *shell* and have it evaluated."
+;;; eir-send-to-sml
+(defun eir-send-to-sml (start end)
+  "Sends expression to *sml* and have it evaluated."
 
     (eir-send-to-repl start end
 		    ;; fun-change-to-repl
-		    #'(lambda () (switch-to-buffer-other-window "*shell*"))
+		    #'(lambda () (switch-to-buffer-other-window "*sml*"))
 		    ;; fun-execute
 		    #'comint-send-input))
 ;;
-;;; eir-eval-in-shell
+;;; eir-eval-in-sml
 ;;;###autoload
-(defun eir-eval-in-shell ()
-  "Evaluates shell expressions in shell scripts."
+(defun eir-eval-in-sml ()
+  "Evaluates SML expressions in SML files."
   (interactive)
   ;; Define local variables
   (let* (w-script)
 
-    ;;
-    (eir-repl-start "\\*shell\\*" #'shell)
+    ;; If buffer named *sml* is not found, invoke sml-run
+    (eir-repl-start "\\*sml\\*" #'sml-run)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(eir-send-to-shell (point) (mark))
+	(eir-send-to-sml (point) (mark))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -80,22 +76,22 @@
       (end-of-line)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  (eir-send-to-shell (point) (mark))
+	  (eir-send-to-sml (point) (mark))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
-      (essh-next-code-line)
+      (ess-next-code-line)
 
-      ;; Activate shell window, and switch back
+      ;; Activate sml window, and switch back
       ;; Remeber the script window
       (setq w-script (selected-window))
-      ;; Switch to the shell
-      (switch-to-buffer-other-window "*shell*")
+      ;; Switch to the sml
+      (switch-to-buffer-other-window "*sml*")
       ;; Switch back to the script window
       (select-window w-script))))
 ;;
 
 
-(provide 'eval-in-repl-shell)
-;;; eval-in-repl-shell.el ends here
+(provide 'eval-in-repl-sml)
+;;; eval-in-repl-sml.el ends here
 
