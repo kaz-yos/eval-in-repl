@@ -23,7 +23,7 @@
 
 ;;; Commentary:
 
-;; essh.el-specific file for eval-in-repl
+;; sml-mode.el-specific file for eval-in-repl
 ;; See below for configuration
 ;; https://github.com/kaz-yos/eval-in-repl/
 
