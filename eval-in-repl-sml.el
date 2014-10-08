@@ -90,6 +90,27 @@
       ;; Switch back to the script window
       (select-window w-script))))
 ;;
+(defun eir-send-to-sml-semicolon ()
+  "Sends a semicolon to *sml* and have it evaluated."
+  (interactive)
+
+  (let* (;; Assign the current buffer
+	 (script-window (selected-window))
+	 ;; Assign the region as a string
+	 (region-string ";"))
+
+    ;; Change other window to REPL
+    (switch-to-buffer-other-window "*sml*")
+    ;; Move to end of buffer
+    (goto-char (point-max))
+    ;; Insert the string
+    (insert region-string)
+    ;; Execute
+    (comint-send-input)
+    ;; Come back to the script
+    (select-window script-window)
+    ;; Return nil (this is a void function)
+    nil))
 
 
 (provide 'eval-in-repl-sml)
