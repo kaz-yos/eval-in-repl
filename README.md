@@ -129,6 +129,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 ;; (require 'sml-mode) ; if not done elsewhere
 (require 'eval-in-repl-sml)
 (define-key sml-mode-map (kbd "<C-return>") 'eir-eval-in-sml)
+(define-key sml-mode-map (kbd "C-;") 'eir-send-to-sml-semicolon)
 ```
 
 **Known issues**
@@ -142,6 +143,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 **Version histoy**
 --------------------
 
+- 2014-10-04 0.3.1 Add a semicolon sending function for SML
 - 2014-10-04 0.3.0 Add SML support
 - 2014-09-13 0.2.1 Add EOF handling for Python
 - 2014-08-30 0.2.0 Add Geiser and Racket support
