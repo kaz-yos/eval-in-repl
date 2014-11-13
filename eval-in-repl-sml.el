@@ -1,4 +1,4 @@
-;;; eval-in-repl-sml.el --- ESS-like eval for SML  -*- lexical-binding: t; -*-
+;;; eval-in-repl-sml.el --- ESS-like eval for Standard ML  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 

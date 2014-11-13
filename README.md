@@ -49,7 +49,7 @@ The following files are included in the package. There are respective dependenci
  - Support for shell via essh.el
 
 - eval-in-repl-sml.el (depends on sml-mode.el and ess.el)
- - Support for SML via sml-mode.el
+ - Support for Standard ML via sml-mode.el
 
 
 
@@ -143,8 +143,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 **Version histoy**
 --------------------
 
-- 2014-10-04 0.3.1 Add a semicolon sending function for SML
-- 2014-10-04 0.3.0 Add SML support
+- 2014-11-12 0.3.0 Add SML support
 - 2014-09-13 0.2.1 Add EOF handling for Python
 - 2014-08-30 0.2.0 Add Geiser and Racket support
 - 2014-07-06 0.1.1 Delete excess autoload macros, add paredit.el to dependency
