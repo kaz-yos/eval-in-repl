@@ -1,4 +1,4 @@
-;;; eval-in-repl-scheme.el --- ESS-like eval to scheme mode  -*- lexical-binding: t; -*-
+;;; eval-in-repl-scheme.el --- ESS-like eval for scheme mode  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 

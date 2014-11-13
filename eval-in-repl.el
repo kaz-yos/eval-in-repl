@@ -46,8 +46,8 @@
 ;; eval-in-repl-racket.el  for Racket        (via racket-mode.el)
 ;; eval-in-repl-scheme.el  for Scheme        (via scheme.el and cmuscheme.el)
 ;; eval-in-repl-python.el  for Python        (via python.el)
-;; eval-in-repl-shell.el   for shell mode    (via essh.el)
-;; eval-in-repl-sml.el     for sml mode      (via sml-mode.el and ess.el)
+;; eval-in-repl-shell.el   for Shell         (via essh.el)
+;; eval-in-repl-sml.el     for Standard ML   (via sml-mode.el and ess.el)
 ;;
 ;;
 ;; See the URL below for installation and configuration instructions,

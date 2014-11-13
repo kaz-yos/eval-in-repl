@@ -118,7 +118,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 (require 'eval-in-repl-python)
 (define-key python-mode-map (kbd "<C-return>") 'eir-eval-in-python)
 
-;; shell
+;; shell support
 ;; (require 'essh) ; if not done elsewhere
 (require 'eval-in-repl-shell)
 (add-hook 'sh-mode-hook
@@ -143,7 +143,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 **Version histoy**
 --------------------
 
-- 2014-11-12 0.3.0 Add SML support
+- 2014-11-12 0.3.0 Add Standard ML support
 - 2014-09-13 0.2.1 Add EOF handling for Python
 - 2014-08-30 0.2.0 Add Geiser and Racket support
 - 2014-07-06 0.1.1 Delete excess autoload macros, add paredit.el to dependency

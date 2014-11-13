@@ -1,4 +1,4 @@
-;;; eval-in-repl-slime.el --- ESS-like eval to SLIME  -*- lexical-binding: t; -*-
+;;; eval-in-repl-slime.el --- ESS-like eval for SLIME  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
