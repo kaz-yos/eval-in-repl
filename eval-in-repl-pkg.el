@@ -1,8 +1,8 @@
 ;;; Package definition file for eval-in-repl
 ;;
-;; This has been created because is is a multi-file package.
-;; Only dash.el is absolutely required.
-;; Other dependencies are use-specific, so configure refering to below.
+;; This has been created because it is a multi-file package.
+;; Only dash.el and paredit.el are required for all installation.
+;; Other dependencies are use-specific, so configure referring to:
 ;; https://github.com/kaz-yos/eval-in-repl/
 ;;
 ;; (define-package NAME-STRING VERSION-STRING &optional DOCSTRING
