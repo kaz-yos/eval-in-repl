@@ -106,7 +106,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 ;; (define-key racket-mode-map (kbd "<C-return>") 'eir-eval-in-racket)
 
 ;; scheme support
-;; (require 'scheme) ; if not done elsewhere
+;; (require 'scheme)    ; if not done elsewhere
 ;; (require 'cmuscheme) ; if not done elsewhere
 ;; (require 'eval-in-repl-scheme)
 ;; (add-hook 'scheme-mode-hook
@@ -130,6 +130,13 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 (require 'eval-in-repl-sml)
 (define-key sml-mode-map (kbd "<C-return>") 'eir-eval-in-sml)
 (define-key sml-mode-map (kbd "C-;") 'eir-send-to-sml-semicolon)
+
+;; ruby support
+;; (require 'ruby-mode) ; if not done elsewhere
+;; (require 'inf-ruby)  ; if not done elsewhere
+;; (require 'ess)       ; if not done elsewhere
+(require 'eval-in-repl-ruby)
+(define-key ruby-mode-map (kbd "<C-return>") 'eir-eval-in-ruby)
 ```
 
 **Known issues**
@@ -143,6 +150,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 **Version histoy**
 --------------------
 
+- 2014-11-17 0.4.0 Add Ruby support
 - 2014-11-12 0.3.0 Add Standard ML support
 - 2014-09-13 0.2.1 Add EOF handling for Python
 - 2014-08-30 0.2.0 Add Geiser and Racket support
