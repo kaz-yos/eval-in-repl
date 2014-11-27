@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.3.0
+;; Version: 0.4.0
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -48,6 +48,7 @@
 ;; eval-in-repl-python.el  for Python        (via python.el)
 ;; eval-in-repl-shell.el   for Shell         (via essh.el)
 ;; eval-in-repl-sml.el     for Standard ML   (via sml-mode.el and ess.el)
+;; eval-in-repl-ruby.el    for Ruby          (via ruby-mode.el, inf-ruby.el, and ess.el)
 ;;
 ;;
 ;; See the URL below for installation and configuration instructions,
