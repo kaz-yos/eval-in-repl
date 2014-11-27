@@ -51,6 +51,9 @@ The following files are included in the package. There are respective dependenci
 - eval-in-repl-sml.el (depends on sml-mode.el and ess.el)
  - Support for Standard ML via sml-mode.el
 
+- eval-in-repl-ruby.el (depends on ruby-mode.el, inf-ruby.el, and ess.el)
+ - Support for Ruby via ruby-mode.el
+
 
 
 It is available on the MELPA repository. You can do the following, then choose and install eval-in-repl.
