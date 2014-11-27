@@ -150,7 +150,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 **Version histoy**
 --------------------
 
-- 2014-11-17 0.4.0 Add Ruby support
+- 2014-11-26 0.4.0 Add Ruby support
 - 2014-11-12 0.3.0 Add Standard ML support
 - 2014-09-13 0.2.1 Add EOF handling for Python
 - 2014-08-30 0.2.0 Add Geiser and Racket support
