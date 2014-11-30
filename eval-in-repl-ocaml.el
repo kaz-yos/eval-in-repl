@@ -60,7 +60,7 @@
   (let* (w-script)
 
     ;; If buffer named *ocaml* is not found, invoke ocaml-run
-    (eir-repl-start "\\*ocaml-.*" #'ocaml-run)
+    (eir-repl-start "\\*ocaml-.*" #'run-ocaml)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
