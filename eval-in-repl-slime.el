@@ -34,6 +34,7 @@
 ;;; Require dependencies
 (require 'eval-in-repl)
 (require 'slime)
+(require 'slime-repl)
 
 
 ;;;
