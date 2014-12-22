@@ -55,7 +55,7 @@ The following files are included in the package. There are respective dependenci
  - Support for Ruby via ruby-mode.el
 
 - eval-in-repl-ocaml.el (depends on tuareg.el and ess.el)
-- Support for OCaml via sml-mode.el
+ - Support for OCaml via tuareg.el
 
 - eval-in-repl-hy.el (depends on hy-mode.el)
  - Support for Hy via hy-mode.el
