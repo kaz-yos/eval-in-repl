@@ -170,7 +170,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 **Version histoy**
 --------------------
 
-- 2014-12-21 0.5.0 Add Hy support
+- 2014-12-21 0.5.0 Add Hy and OCaml support
 - 2014-12-04 0.4.1 Require slime-repl.el (Thanks syohex)
 - 2014-11-26 0.4.0 Add Ruby support
 - 2014-11-12 0.3.0 Add Standard ML support
