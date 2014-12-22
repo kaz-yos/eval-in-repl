@@ -1,4 +1,4 @@
-;;; eval-in-repl-python.el --- ESS-like eval for python  -*- lexical-binding: t; -*-
+;;; eval-in-repl-ocaml.el --- ESS-like eval for OCaml  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
@@ -23,7 +23,7 @@
 
 ;;; Commentary:
 
-;; python.el-specific file for eval-in-repl
+;; OCaml-specific file for eval-in-repl
 ;; See below for configuration
 ;; https://github.com/kaz-yos/eval-in-repl/
 
@@ -33,69 +33,86 @@
 ;;;
 ;;; Require dependencies
 (require 'eval-in-repl)
-(require 'python)
+(require 'tuareg)
+(require 'ess)
 
 
 ;;;
-;;; PYTHON-MODE RELATED
-;;; eir-send-to-python
-(defun eir-send-to-python (start end)
-  "Sends expression to *Python* and have it evaluated."
-
-  (eir-send-to-repl start end
-		    ;; fun-change-to-repl
-		    #'python-shell-switch-to-shell
-		    ;; fun-execute
-		    #'comint-send-input))
+;;; OCaml RELATED
+;; depends on tuareg.el
 ;;
-;;; eir-eval-in-python
-;; http://www.reddit.com/r/emacs/comments/1h4hyw/selecting_regions_pythonel/
-;;;###autoload
-(defun eir-eval-in-python ()
-  "Evaluates Python expressions"
+;;; eir-send-to-ocaml
+(defun eir-send-to-ocaml (start end)
+  "Sends expression to *ocaml* and have it evaluated."
 
+    (eir-send-to-repl start end
+		    ;; fun-change-to-repl
+		    #'(lambda () (switch-to-buffer-other-window "*ocaml-toplevel*"))
+		    ;; fun-execute
+		    #'tuareg-interactive-send-input))
+;;
+;;; eir-eval-in-ocaml
+;;;###autoload
+(defun eir-eval-in-ocaml ()
+  "Evaluates OCaml expressions in OCaml files."
   (interactive)
   ;; Define local variables
   (let* (w-script)
 
-    ;;
-    (eir-repl-start "*Python*" #'run-python)
+    ;; If buffer named *ocaml* is not found, invoke ocaml-run
+    (eir-repl-start "\\*ocaml-.*" #'run-ocaml)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(eir-send-to-python (point) (mark))
+	(eir-send-to-ocaml (point) (mark))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
       (beginning-of-line)
       ;; Set mark at current position
       (set-mark (point))
-      ;; Go to the end of statment
-      (python-nav-end-of-statement)
-      ;; Go to the end of block
-      (python-nav-end-of-block)
+      ;; Go to the end of line
+      (end-of-line)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  ;; Add one more character for newline unless at EOF
-	  ;; This does not work if the statement asks for an input.
-	  (eir-send-to-python (min (+ 1 (point)) (point-max))
-			      (mark))
+	  (eir-send-to-ocaml (point) (mark))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
-      (python-nav-forward-statement)
+      (ess-next-code-line)
 
-      ;; Activate shell window, and switch back
+      ;; Activate ocaml window, and switch back
       ;; Remeber the script window
       (setq w-script (selected-window))
-      ;; Switch to the shell
-      (python-shell-switch-to-shell)
+      ;; Switch to the ocaml
+      (switch-to-buffer-other-window "*ocaml-toplevel*")
       ;; Switch back to the script window
       (select-window w-script))))
 ;;
+(defun eir-send-to-ocaml-semicolon ()
+  "Sends a semicolon to *ocaml-toplevel* and have it evaluated."
+  (interactive)
+
+  (let* (;; Assign the current buffer
+	 (script-window (selected-window))
+	 ;; Assign the region as a string
+	 (region-string ";;"))
+
+    ;; Change other window to REPL
+    (switch-to-buffer-other-window "*ocaml-toplevel*")
+    ;; Move to end of buffer
+    (goto-char (point-max))
+    ;; Insert the string
+    (insert region-string)
+    ;; Execute
+    (comint-send-input)
+    ;; Come back to the script
+    (select-window script-window)
+    ;; Return nil (this is a void function)
+    nil))
 
 
-(provide 'eval-in-repl-python)
-;;; eval-in-repl-python.el ends here
+(provide 'eval-in-repl-ocaml)
+;;; eval-in-repl-ocaml.el ends here
 

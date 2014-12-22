@@ -54,6 +54,11 @@ The following files are included in the package. There are respective dependenci
 - eval-in-repl-ruby.el (depends on ruby-mode.el, inf-ruby.el, and ess.el)
  - Support for Ruby via ruby-mode.el
 
+- eval-in-repl-ocaml.el (depends on tuareg.el and ess.el)
+- Support for OCaml via sml-mode.el
+
+- eval-in-repl-hy.el (depends on hy-mode.el)
+ - Support for Hy via hy-mode.el
 
 
 It is available on the MELPA repository. You can do the following, then choose and install eval-in-repl.
@@ -140,6 +145,18 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 ;; (require 'ess)       ; if not done elsewhere
 (require 'eval-in-repl-ruby)
 (define-key ruby-mode-map (kbd "<C-return>") 'eir-eval-in-ruby)
+
+;; ocaml support
+;; (require 'tuareg) ; if not done elsewhere
+(require 'eval-in-repl-ocaml)
+(define-key tuareg-mode-map (kbd "<C-return>") 'eir-eval-in-ocaml)
+;; function to send a semicolon to OCaml REPL
+(define-key tuareg-mode-map (kbd "C-;") 'eir-send-to-ocaml-semicolon)
+
+;; hy support
+;; (require 'hy-mode) ; if not done elsewhere
+(require 'eval-in-repl-hy)
+(define-key hy-mode-map (kbd "<C-return>") 'eir-eval-in-hy)
 ```
 
 **Known issues**
@@ -153,6 +170,8 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 **Version histoy**
 --------------------
 
+- 2014-12-21 0.5.0 Add Hy and OCaml support
+- 2014-12-04 0.4.1 Require slime-repl.el (Thanks syohex)
 - 2014-11-26 0.4.0 Add Ruby support
 - 2014-11-12 0.3.0 Add Standard ML support
 - 2014-09-13 0.2.1 Add EOF handling for Python

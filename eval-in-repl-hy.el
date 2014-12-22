@@ -1,4 +1,4 @@
-;;; eval-in-repl-racket.el --- ESS-like eval for racket  -*- lexical-binding: t; -*-
+;;; eval-in-repl-hy.el --- ESS-like eval for hy mode  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014  Kazuki YOSHIDA
 
@@ -23,7 +23,7 @@
 
 ;;; Commentary:
 
-;; racket.el-specific file for eval-in-repl
+;; scheme.el-specific file for eval-in-repl
 ;; See below for configuration
 ;; https://github.com/kaz-yos/eval-in-repl/
 
@@ -33,44 +33,43 @@
 ;;;
 ;;; Require dependencies
 (require 'eval-in-repl)
-(require 'racket-mode)
+(require 'hy-mode)
 
 
 ;;;
-;;; RACKET RELATED
-;;; eir-send-to-racket
-(defun eir-send-to-racket (start end)
-  "Sends expression to *Racket REPL* and have it evaluated."
+;;; HY RELATED
+;;; eir-send-to-hy
+;; send to hy
+(defun eir-send-to-hy (start end)
+  "Sends expression to *inferior-lisp* and have it evaluated."
 
   (eir-send-to-repl start end
 		    ;; fun-change-to-repl
 		    #'(lambda ()
-			;; Show Racket REPL (focus comes back)
-			(racket--repl-show-and-move-to-end)
-			;; Go to the other window
-			(other-window 1))
+			;; Move to the other window
+			(other-window 1)
+			;; Change to hy REPL
+			(switch-to-lisp t))
 		    ;; fun-execute
 		    #'comint-send-input))
 ;;
-;;; eir-eval-in-racket
+;;; eir-eval-in-hy
 ;;;###autoload
-(defun eir-eval-in-racket ()
-  "This is a customized version of eir-eval-in-repl-lisp for racket."
+(defun eir-eval-in-hy ()
+  "This is a customized version of eir-eval-in-repl-lisp for Hy."
 
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
-   "\\*Racket REPL.*\\*$"
+   "\\*inferior-lisp\\*"
    ;; fun-repl-start
-   #'racket-repl
+   'inferior-lisp
    ;; fun-repl-send
-   #'eir-send-to-racket
+   'eir-send-to-hy
    ;; defun-string
-   "(define "))
+   "(dfn "))
 ;;
 
-
-
-(provide 'eval-in-repl-racket)
-;;; eval-in-repl-racket.el ends here
+(provide 'eval-in-repl-hy)
+;;; eval-in-repl-hy.el ends here
 
