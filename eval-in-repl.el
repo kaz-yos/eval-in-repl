@@ -131,8 +131,6 @@ Also vertically split the current frame when staring a REPL."
   "Sekeleton function to be used with a wrapper.
 
 Send expression to a REPL and have it evaluated."
-
-  (interactive "r")
   (let* (;; Assign the current buffer
 	 (script-window (selected-window)))
 
@@ -172,7 +170,7 @@ A function definition is detected by a string specified in DEFUN-STRING
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send to ielm
-	(funcall fun-repl-send (buffer-substring-no-properties start end))
+	(funcall fun-repl-send (buffer-substring-no-properties (point) (mark)))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -186,7 +184,7 @@ A function definition is detected by a string specified in DEFUN-STRING
 	    ;; Go to the end
 	    (forward-sexp)
 	    ;; Send to ielm
-	    (funcall fun-repl-send (buffer-substring-no-properties start end))
+	    (funcall fun-repl-send (buffer-substring-no-properties (point) (mark)))
 	    ;; Go to the next expression
 	    (forward-sexp))
 	;; If it is not def, do all the following
@@ -203,7 +201,7 @@ A function definition is detected by a string specified in DEFUN-STRING
 	;; Go to the end of the S-exp starting there
 	(forward-sexp)
 	;; Eval the S-exp before
-	(funcall fun-repl-send (buffer-substring-no-properties start end))
+	(funcall fun-repl-send (buffer-substring-no-properties (point) (mark)))
 	;; Go to the next expression
 	(forward-sexp)))))
 ;;
