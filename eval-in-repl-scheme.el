@@ -41,10 +41,10 @@
 ;;; SCHEME RELATED
 ;;; eir-send-to-scheme
 ;; send to scheme
-(defun eir-send-to-scheme (start end)
+(defun eir-send-to-scheme (region-string)
   "Sends expression to *scheme* and have it evaluated."
 
-  (eir-send-to-repl start end
+  (eir-send-to-repl region-string
 		    ;; fun-change-to-repl
 		    #'(lambda ()
 			;; Move to the other window

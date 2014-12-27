@@ -39,10 +39,10 @@
 ;;;
 ;;; PYTHON-MODE RELATED
 ;;; eir-send-to-python
-(defun eir-send-to-python (start end)
+(defun eir-send-to-python (region-string)
   "Sends expression to *Python* and have it evaluated."
 
-  (eir-send-to-repl start end
+  (eir-send-to-repl region-string
 		    ;; fun-change-to-repl
 		    #'python-shell-switch-to-shell
 		    ;; fun-execute

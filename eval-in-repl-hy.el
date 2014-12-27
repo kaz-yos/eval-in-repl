@@ -40,10 +40,10 @@
 ;;; HY RELATED
 ;;; eir-send-to-hy
 ;; send to hy
-(defun eir-send-to-hy (start end)
+(defun eir-send-to-hy (region-string)
   "Sends expression to *inferior-lisp* and have it evaluated."
 
-  (eir-send-to-repl start end
+  (eir-send-to-repl region-string
 		    ;; fun-change-to-repl
 		    #'(lambda ()
 			;; Move to the other window

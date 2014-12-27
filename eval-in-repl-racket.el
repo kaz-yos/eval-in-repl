@@ -39,10 +39,10 @@
 ;;;
 ;;; RACKET RELATED
 ;;; eir-send-to-racket
-(defun eir-send-to-racket (start end)
+(defun eir-send-to-racket (region-string)
   "Sends expression to *Racket REPL* and have it evaluated."
 
-  (eir-send-to-repl start end
+  (eir-send-to-repl region-string
 		    ;; fun-change-to-repl
 		    #'(lambda ()
 			;; Show Racket REPL (focus comes back)

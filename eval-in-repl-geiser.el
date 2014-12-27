@@ -39,10 +39,10 @@
 ;;;
 ;;; GEISER RELATED
 ;;; eir-send-to-geiser
-(defun eir-send-to-geiser (start end)
+(defun eir-send-to-geiser (region-string)
   "Sends expression to * Racket/Guile REPL * and have it evaluated."
 
-  (eir-send-to-repl start end
+  (eir-send-to-repl region-string
 		    ;; fun-change-to-repl
 		    #'switch-to-geiser
 		    ;; fun-execute

@@ -41,10 +41,10 @@
 ;;; SLIME RELATED
 ;;; eir-send-to-slime
 ;; send to slime
-(defun eir-send-to-slime (start end)
+(defun eir-send-to-slime (region-string)
   "Sends expression to *slime-repl* and have it evaluated."
 
-  (eir-send-to-repl start end
+  (eir-send-to-repl region-string
 		    ;; fun-change-to-repl
 		    #'slime-switch-to-output-buffer
 		    ;; fun-execute

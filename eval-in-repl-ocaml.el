@@ -42,10 +42,10 @@
 ;; depends on tuareg.el
 ;;
 ;;; eir-send-to-ocaml
-(defun eir-send-to-ocaml (start end)
+(defun eir-send-to-ocaml (region-string)
   "Sends expression to *ocaml* and have it evaluated."
 
-    (eir-send-to-repl start end
+    (eir-send-to-repl region-string
 		    ;; fun-change-to-repl
 		    #'(lambda () (switch-to-buffer-other-window "*ocaml-toplevel*"))
 		    ;; fun-execute

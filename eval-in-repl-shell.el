@@ -46,10 +46,10 @@
 ;; http://www.emacswiki.org/emacs/ESSShiftEnter
 ;;
 ;;; eir-send-to-shell
-(defun eir-send-to-shell (start end)
+(defun eir-send-to-shell (region-string)
   "Sends expression to *shell* and have it evaluated."
 
-    (eir-send-to-repl start end
+    (eir-send-to-repl region-string
 		    ;; fun-change-to-repl
 		    #'(lambda () (switch-to-buffer-other-window "*shell*"))
 		    ;; fun-execute

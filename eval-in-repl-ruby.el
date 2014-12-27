@@ -41,10 +41,10 @@
 ;;;
 ;;; RUBY-MODE RELATED
 ;;; eir-send-to-ruby
-(defun eir-send-to-ruby (start end)
+(defun eir-send-to-ruby (region-string)
   "Sends expression to *Ruby* and have it evaluated."
 
-  (eir-send-to-repl start end
+  (eir-send-to-repl region-string
 		    ;; fun-change-to-repl
 		    #'run-ruby
 		    ;; fun-execute

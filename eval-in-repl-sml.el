@@ -42,10 +42,10 @@
 ;; depends on sml-mode
 ;;
 ;;; eir-send-to-sml
-(defun eir-send-to-sml (start end)
+(defun eir-send-to-sml (region-string)
   "Sends expression to *sml* and have it evaluated."
 
-    (eir-send-to-repl start end
+    (eir-send-to-repl region-string
 		    ;; fun-change-to-repl
 		    #'(lambda () (switch-to-buffer-other-window "*sml*"))
 		    ;; fun-execute
