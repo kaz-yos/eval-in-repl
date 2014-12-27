@@ -64,7 +64,7 @@
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(eir-send-to-python (point) (mark))
+	(eir-send-to-python (buffer-substring-no-properties (point) (mark)))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -79,8 +79,9 @@
       (if (not (equal (point) (mark)))
 	  ;; Add one more character for newline unless at EOF
 	  ;; This does not work if the statement asks for an input.
-	  (eir-send-to-python (min (+ 1 (point)) (point-max))
-			      (mark))
+	  (eir-send-to-python (buffer-substring-no-properties
+                               (min (+ 1 (point)) (point-max))
+                               (mark)))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
