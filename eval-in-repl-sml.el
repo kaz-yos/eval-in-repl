@@ -90,9 +90,10 @@
       ;; Switch back to the script window
       (select-window w-script))))
 ;;
-(defalias 'eir-send-to-sml-semicolon
-  (apply-partially 'eir-send-to-sml ";")
-  "Sends a semicolon to *sml* and have it evaluated.")
+(defun eir-send-to-sml-semicolon ()
+  "Sends a semicolon to *sml* and have it evaluated."
+  (interactive)
+  (eir-send-to-sml ";"))
 
 
 (provide 'eval-in-repl-sml)
