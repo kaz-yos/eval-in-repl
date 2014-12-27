@@ -49,7 +49,7 @@
 (defun eir-send-to-shell (region-string)
   "Sends expression to *shell* and have it evaluated."
 
-    (eir-send-to-repl region-string
+  (eir-send-to-repl region-string
 		    ;; fun-change-to-repl
 		    #'(lambda () (switch-to-buffer-other-window "*shell*"))
 		    ;; fun-execute
@@ -69,7 +69,7 @@
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(eir-send-to-shell (point) (mark))
+	(eir-send-to-shell (buffer-substring-no-properties (point) (mark)))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -80,7 +80,7 @@
       (end-of-line)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  (eir-send-to-shell (point) (mark))
+	  (eir-send-to-shell (buffer-substring-no-properties (point) (mark)))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
