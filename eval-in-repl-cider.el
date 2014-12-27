@@ -62,14 +62,13 @@ This function should not be invoked directly."
     (sit-for 1)))
 ;;
 ;;; eir-send-to-cider
-(defun eir-send-to-cider (start end)
+(defun eir-send-to-cider (region-string)
   "Sends expression to *cider-repl* and have it evaluated."
 
-  (eir-send-to-repl start end
+  (eir-send-to-repl region-string
 		    ;; fun-change-to-repl
 		    #'cider-switch-to-repl-buffer
 		    ;; fun-execute
-		    ;; #'(lambda () (progn (cider-repl-return t) (cider-repl-return t)))
 		    #'cider-repl-return
 		    ;; #'(lambda () (cider-repl--send-input t))
 		    ))
