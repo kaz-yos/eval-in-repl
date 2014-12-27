@@ -49,6 +49,8 @@
 ;; eval-in-repl-shell.el   for Shell         (via essh.el)
 ;; eval-in-repl-sml.el     for Standard ML   (via sml-mode.el and ess.el)
 ;; eval-in-repl-ruby.el    for Ruby          (via ruby-mode.el, inf-ruby.el, and ess.el)
+;; eval-in-repl-ocaml.el   for OCaml         (via tuareg.el and ess.el)
+;; eval-in-repl-hy.el      for Hy            (via hy-mode.el)
 ;;
 ;;
 ;; See the URL below for installation and configuration instructions,
