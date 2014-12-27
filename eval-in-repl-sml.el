@@ -65,7 +65,7 @@
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(eir-send-to-sml (point) (mark))
+	(eir-send-to-sml (buffer-substring-no-properties (point) (mark)))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -76,7 +76,7 @@
       (end-of-line)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  (eir-send-to-sml (point) (mark))
+	  (eir-send-to-sml (buffer-substring-no-properties (point) (mark)))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
@@ -90,27 +90,9 @@
       ;; Switch back to the script window
       (select-window w-script))))
 ;;
-(defun eir-send-to-sml-semicolon ()
-  "Sends a semicolon to *sml* and have it evaluated."
-  (interactive)
-
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string ";"))
-
-    ;; Change other window to REPL
-    (switch-to-buffer-other-window "*sml*")
-    ;; Move to end of buffer
-    (goto-char (point-max))
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (comint-send-input)
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil (this is a void function)
-    nil))
+(defalias 'eir-send-to-sml-semicolon
+  (apply-partially 'eir-send-to-sml ";")
+  "Sends a semicolon to *sml* and have it evaluated.")
 
 
 (provide 'eval-in-repl-sml)
