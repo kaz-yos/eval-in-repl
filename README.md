@@ -15,6 +15,8 @@ After installation and appropriate configuration (see below), you can use C-RET 
 
 ![Alt text](screen_shot_ielm.png?raw=true "ielm example")
 
+A more detailed explanation is available at Qiita: http://qiita.com/kaz-yos/items/bb8016ec79cfbbf328df
+
 
 **Installation**
 --------------------
@@ -31,7 +33,7 @@ The following files are included in the package. There are respective dependenci
  - Support for Clojure via cider.el (depends on cider.el)
 
 - eval-in-repl-slime.el
- - Support for other lisps via slime.el (depends on slime.el)
+ - Support for Common Lisp via slime.el (depends on slime.el)
 
 - eval-in-repl-geiser.el
  - Support for Racket and Guile Scheme via geiser.el (depends on geiser.el)
@@ -42,23 +44,25 @@ The following files are included in the package. There are respective dependenci
 - eval-in-repl-scheme.el
  - Support for Scheme via scheme.el (depends on scheme.el and cmuscheme.el; both part of default emacs installation)
 
+- eval-in-repl-hy.el (depends on hy-mode.el)
+ - Support for Hy via hy-mode.el
+
+
 - eval-in-repl-python.el
  - Support for Python via python.el (depends on python.el; part of default emacs installation)
-
-- eval-in-repl-shell.el (depends on essh.el)
- - Support for shell via essh.el
-
-- eval-in-repl-sml.el (depends on sml-mode.el and ess.el)
- - Support for Standard ML via sml-mode.el
 
 - eval-in-repl-ruby.el (depends on ruby-mode.el, inf-ruby.el, and ess.el)
  - Support for Ruby via ruby-mode.el
 
+- eval-in-repl-sml.el (depends on sml-mode.el and ess.el)
+ - Support for Standard ML via sml-mode.el
+
 - eval-in-repl-ocaml.el (depends on tuareg.el and ess.el)
  - Support for OCaml via tuareg.el
 
-- eval-in-repl-hy.el (depends on hy-mode.el)
- - Support for Hy via hy-mode.el
+
+- eval-in-repl-shell.el (depends on essh.el)
+ - Support for shell via essh.el
 
 
 It is available on the MELPA repository. You can do the following, then choose and install eval-in-repl.
@@ -93,14 +97,14 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 (require 'eval-in-repl-cider)
 (define-key clojure-mode-map (kbd "<C-return>") 'eir-eval-in-cider)
 
-;; SLIME support (for common lisp)
+;; SLIME support (for Common Lisp)
 ;; (require 'slime) ; if not done elsewhere
 (require 'eval-in-repl-slime)
 (add-hook 'lisp-mode-hook
 		  '(lambda ()
 		     (local-set-key (kbd "<C-return>") 'eir-eval-in-slime)))
 
-;; geiser support (for Racket and Guile Scheme)
+;; Geiser support (for Racket and Guile Scheme)
 ;; When using this, turn off racket-mode and scheme supports
 ;; (require 'geiser) ; if not done elsewhere
 (require 'eval-in-repl-geiser)
@@ -108,12 +112,12 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 		  '(lambda ()
 		     (local-set-key (kbd "<C-return>") 'eir-eval-in-geiser)))
 
-;; racket-mode support (for Racket)
+;; racket-mode support (for Racket; if not using Geiser)
 ;; (require 'racket-mode) ; if not done elsewhere
 ;; (require 'eval-in-repl-racket)
 ;; (define-key racket-mode-map (kbd "<C-return>") 'eir-eval-in-racket)
 
-;; scheme support
+;; Scheme support (if not using Geiser))
 ;; (require 'scheme)    ; if not done elsewhere
 ;; (require 'cmuscheme) ; if not done elsewhere
 ;; (require 'eval-in-repl-scheme)
@@ -121,42 +125,45 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 ;; 	  '(lambda ()
 ;; 	     (local-set-key (kbd "<C-return>") 'eir-eval-in-scheme)))
 
-;; python support
+;; Hy support
+;; (require 'hy-mode) ; if not done elsewhere
+(require 'eval-in-repl-hy)
+(define-key hy-mode-map (kbd "<C-return>") 'eir-eval-in-hy)
+
+
+;; Python support
 ;; (require 'python) ; if not done elsewhere
 (require 'eval-in-repl-python)
 (define-key python-mode-map (kbd "<C-return>") 'eir-eval-in-python)
 
-;; shell support
-;; (require 'essh) ; if not done elsewhere
-(require 'eval-in-repl-shell)
-(add-hook 'sh-mode-hook
-          '(lambda()
-	     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
-
-;; sml support
-;; (require 'sml-mode) ; if not done elsewhere
-(require 'eval-in-repl-sml)
-(define-key sml-mode-map (kbd "<C-return>") 'eir-eval-in-sml)
-(define-key sml-mode-map (kbd "C-;") 'eir-send-to-sml-semicolon)
-
-;; ruby support
+;; Ruby support
 ;; (require 'ruby-mode) ; if not done elsewhere
 ;; (require 'inf-ruby)  ; if not done elsewhere
 ;; (require 'ess)       ; if not done elsewhere
 (require 'eval-in-repl-ruby)
 (define-key ruby-mode-map (kbd "<C-return>") 'eir-eval-in-ruby)
 
-;; ocaml support
+;; SML support
+;; (require 'sml-mode) ; if not done elsewhere
+(require 'eval-in-repl-sml)
+(define-key sml-mode-map (kbd "<C-return>") 'eir-eval-in-sml)
+(define-key sml-mode-map (kbd "C-;") 'eir-send-to-sml-semicolon)
+
+;; OCaml support
 ;; (require 'tuareg) ; if not done elsewhere
 (require 'eval-in-repl-ocaml)
 (define-key tuareg-mode-map (kbd "<C-return>") 'eir-eval-in-ocaml)
 ;; function to send a semicolon to OCaml REPL
 (define-key tuareg-mode-map (kbd "C-;") 'eir-send-to-ocaml-semicolon)
 
-;; hy support
-;; (require 'hy-mode) ; if not done elsewhere
-(require 'eval-in-repl-hy)
-(define-key hy-mode-map (kbd "<C-return>") 'eir-eval-in-hy)
+
+;; Shell support
+;; (require 'essh) ; if not done elsewhere
+(require 'eval-in-repl-shell)
+(add-hook 'sh-mode-hook
+          '(lambda()
+	     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
+
 ```
 
 **Known issues**
@@ -170,6 +177,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 **Version histoy**
 --------------------
 
+- 2014-12-28 0.5.1 Refactoring, comment and documentation changes.
 - 2014-12-21 0.5.0 Add Hy and OCaml support
 - 2014-12-04 0.4.1 Require slime-repl.el (Thanks syohex)
 - 2014-11-26 0.4.0 Add Ruby support
@@ -178,7 +186,6 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 - 2014-08-30 0.2.0 Add Geiser and Racket support
 - 2014-07-06 0.1.1 Delete excess autoload macros, add paredit.el to dependency
 - 2014-06-30 0.1.0 First MELPA Release
-
 
 
 **Special thanks:**
