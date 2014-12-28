@@ -39,20 +39,19 @@
 ;;;
 ;;; EMACS LISP RELATED
 ;;; eir-send-to-ielm
-(defun eir-send-to-ielm (start end)
-  "Sends expression to *ielm* and have it evaluated."
+(defalias 'eir-send-to-ielm
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'(lambda () (switch-to-buffer-other-window "*ielm*"))
+                   ;; fun-execute
+                   #'ielm-return)
+  "Send expression to *ielm* and have it evaluated.")
 
-  (eir-send-to-repl start end
-		    ;; fun-change-to-repl
-		    #'(lambda () (switch-to-buffer-other-window "*ielm*"))
-		    ;; fun-execute
-		    #'ielm-return))
-;;
+
 ;;; eir-eval-in-ielm
 ;;;###autoload
 (defun eir-eval-in-ielm ()
-  "This is a customized version of eir-eval-in-repl-lisp for ielm."
-
+  "eval-in-repl for IELM."
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp

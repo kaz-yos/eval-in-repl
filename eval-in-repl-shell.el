@@ -46,30 +46,29 @@
 ;; http://www.emacswiki.org/emacs/ESSShiftEnter
 ;;
 ;;; eir-send-to-shell
-(defun eir-send-to-shell (start end)
-  "Sends expression to *shell* and have it evaluated."
+(defalias 'eir-send-to-shell
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'(lambda () (switch-to-buffer-other-window "*shell*"))
+                   ;; fun-execute
+                   #'comint-send-input)
+  "Send expression to *shell* and have it evaluated.")
 
-    (eir-send-to-repl start end
-		    ;; fun-change-to-repl
-		    #'(lambda () (switch-to-buffer-other-window "*shell*"))
-		    ;; fun-execute
-		    #'comint-send-input))
-;;
+
 ;;; eir-eval-in-shell
 ;;;###autoload
 (defun eir-eval-in-shell ()
-  "Evaluates shell expressions in shell scripts."
+  "eval-in-repl for shell."
   (interactive)
   ;; Define local variables
-  (let* (w-script)
-
+  (let* ((script-window (selected-window)))
     ;;
     (eir-repl-start "\\*shell\\*" #'shell)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(eir-send-to-shell (point) (mark))
+	(eir-send-to-shell (buffer-substring-no-properties (point) (mark)))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -80,20 +79,16 @@
       (end-of-line)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  (eir-send-to-shell (point) (mark))
+	  (eir-send-to-shell (buffer-substring-no-properties (point) (mark)))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
       (essh-next-code-line)
 
-      ;; Activate shell window, and switch back
-      ;; Remeber the script window
-      (setq w-script (selected-window))
       ;; Switch to the shell
       (switch-to-buffer-other-window "*shell*")
       ;; Switch back to the script window
-      (select-window w-script))))
-;;
+      (select-window script-window))))
 
 
 (provide 'eval-in-repl-shell)

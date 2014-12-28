@@ -39,20 +39,19 @@
 ;;;
 ;;; GEISER RELATED
 ;;; eir-send-to-geiser
-(defun eir-send-to-geiser (start end)
-  "Sends expression to * Racket/Guile REPL * and have it evaluated."
+(defalias 'eir-send-to-geiser
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'switch-to-geiser
+                   ;; fun-execute
+                   #'geiser-repl--maybe-send)
+  "Send expression to * Racket/Guile REPL * and have it evaluated.")
 
-  (eir-send-to-repl start end
-		    ;; fun-change-to-repl
-		    #'switch-to-geiser
-		    ;; fun-execute
-		    #'geiser-repl--maybe-send))
-;;
+
 ;;; eir-eval-in-geiser
 ;;;###autoload
 (defun eir-eval-in-geiser ()
-  "This is a customized version of eir-eval-in-repl-lisp for geiser."
-
+  "eval-in-repl for Geiser."
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
@@ -63,8 +62,6 @@
    #'eir-send-to-geiser
    ;; defun-string
    "(define "))
-;;
-
 
 
 (provide 'eval-in-repl-geiser)

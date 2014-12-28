@@ -41,33 +41,30 @@
 ;;;
 ;;; RUBY-MODE RELATED
 ;;; eir-send-to-ruby
-(defun eir-send-to-ruby (start end)
-  "Sends expression to *Ruby* and have it evaluated."
+(defalias 'eir-send-to-ruby
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'run-ruby
+                   ;; fun-execute
+                   #'comint-send-input)
+  "Send expression to *ruby* and have it evaluated.")
 
-  (eir-send-to-repl start end
-		    ;; fun-change-to-repl
-		    #'run-ruby
-		    ;; fun-execute
-		    #'comint-send-input))
-;;
+
 ;;; eir-eval-in-ruby
 ;; http://www.reddit.com/r/emacs/comments/1h4hyw/selecting_regions_rubyel/
 ;;;###autoload
 (defun eir-eval-in-ruby ()
-  "Evaluates Ruby expressions"
-
+  "eval-in-repl for Ruby."
   (interactive)
   ;; Define local variables
-  (let* (w-script)
-
+  (let* ((script-window (selected-window)))
     ;;
     (eir-repl-start "\\*ruby\\*" #'run-ruby)
-
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(eir-send-to-ruby (point) (mark))
+	(eir-send-to-ruby (buffer-substring-no-properties (point) (mark)))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -78,20 +75,16 @@
       (end-of-line)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  (eir-send-to-ruby (point) (mark))
+	  (eir-send-to-ruby (buffer-substring-no-properties (point) (mark)))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
       (ess-next-code-line)
 
-      ;; Activate ruby window, and switch back
-      ;; Remeber the script window
-      (setq w-script (selected-window))
-      ;; Switch to the inferior ruby 
+      ;; Switch to the inferior ruby
       (run-ruby)
       ;; Switch back to the script window
-      (select-window w-script))))
-;;
+      (select-window script-window))))
 
 
 (provide 'eval-in-repl-ruby)
