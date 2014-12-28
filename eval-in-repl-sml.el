@@ -42,15 +42,15 @@
 ;; depends on sml-mode
 ;;
 ;;; eir-send-to-sml
-(defun eir-send-to-sml (region-string)
-  "Sends expression to *sml* and have it evaluated."
+(defalias 'eir-send-to-sml
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'(lambda () (switch-to-buffer-other-window "*sml*"))
+                   ;; fun-execute
+                   #'comint-send-input)
+  "Sends expression to *sml* and have it evaluated.")
 
-    (eir-send-to-repl region-string
-		    ;; fun-change-to-repl
-		    #'(lambda () (switch-to-buffer-other-window "*sml*"))
-		    ;; fun-execute
-		    #'comint-send-input))
-;;
+
 ;;; eir-eval-in-sml
 ;;;###autoload
 (defun eir-eval-in-sml ()
@@ -89,7 +89,9 @@
       (switch-to-buffer-other-window "*sml*")
       ;; Switch back to the script window
       (select-window w-script))))
-;;
+
+
+;;; eir-send-to-sml-semicolon
 (defun eir-send-to-sml-semicolon ()
   "Sends a semicolon to *sml* and have it evaluated."
   (interactive)

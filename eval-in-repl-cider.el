@@ -60,19 +60,18 @@ This function should not be invoked directly."
   (when (not (cider-connected-p))
     (message "waiting for cider...")
     (sit-for 1)))
-;;
-;;; eir-send-to-cider
-(defun eir-send-to-cider (region-string)
-  "Sends expression to *cider-repl* and have it evaluated."
 
-  (eir-send-to-repl region-string
-		    ;; fun-change-to-repl
-		    #'cider-switch-to-repl-buffer
-		    ;; fun-execute
-		    #'cider-repl-return
-		    ;; #'(lambda () (cider-repl--send-input t))
-		    ))
-;;
+
+;;; eir-send-to-cider
+(defalias 'eir-send-to-cider
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'cider-switch-to-repl-buffer
+                   ;; fun-execute
+                   #'cider-repl-return)
+  "Sends expression to *cider-repl* and have it evaluated.")
+
+
 ;;; eir-eval-in-cider
 ;;;###autoload
 (defun eir-eval-in-cider ()
@@ -88,8 +87,6 @@ This function should not be invoked directly."
    #'eir-send-to-cider
    ;; defun-string
    "(defn "))
-;;
-
 
 
 (provide 'eval-in-repl-cider)

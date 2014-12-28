@@ -39,24 +39,23 @@
 ;;;
 ;;; RACKET RELATED
 ;;; eir-send-to-racket
-(defun eir-send-to-racket (region-string)
-  "Sends expression to *Racket REPL* and have it evaluated."
+(defalias 'eir-send-to-racket
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'(lambda ()
+                       ;; Show Racket REPL (focus comes back)
+                       (racket--repl-show-and-move-to-end)
+                       ;; Go to the other window
+                       (other-window 1))
+                   ;; fun-execute
+                   #'comint-send-input)
+  "Sends expression to *Racket REPL* and have it evaluated.")
 
-  (eir-send-to-repl region-string
-		    ;; fun-change-to-repl
-		    #'(lambda ()
-			;; Show Racket REPL (focus comes back)
-			(racket--repl-show-and-move-to-end)
-			;; Go to the other window
-			(other-window 1))
-		    ;; fun-execute
-		    #'comint-send-input))
-;;
+
 ;;; eir-eval-in-racket
 ;;;###autoload
 (defun eir-eval-in-racket ()
   "This is a customized version of eir-eval-in-repl-lisp for racket."
-
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
@@ -67,8 +66,6 @@
    #'eir-send-to-racket
    ;; defun-string
    "(define "))
-;;
-
 
 
 (provide 'eval-in-repl-racket)

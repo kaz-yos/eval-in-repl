@@ -39,15 +39,15 @@
 ;;;
 ;;; PYTHON-MODE RELATED
 ;;; eir-send-to-python
-(defun eir-send-to-python (region-string)
-  "Sends expression to *Python* and have it evaluated."
+(defalias 'eir-send-to-python
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'python-shell-switch-to-shell
+                   ;; fun-execute
+                   #'comint-send-input)
+  "Sends expression to *Python* and have it evaluated.")
 
-  (eir-send-to-repl region-string
-		    ;; fun-change-to-repl
-		    #'python-shell-switch-to-shell
-		    ;; fun-execute
-		    #'comint-send-input))
-;;
+
 ;;; eir-eval-in-python
 ;; http://www.reddit.com/r/emacs/comments/1h4hyw/selecting_regions_pythonel/
 ;;;###autoload
@@ -94,7 +94,6 @@
       (python-shell-switch-to-shell)
       ;; Switch back to the script window
       (select-window w-script))))
-;;
 
 
 (provide 'eval-in-repl-python)

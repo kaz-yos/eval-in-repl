@@ -41,19 +41,19 @@
 ;;; SCHEME RELATED
 ;;; eir-send-to-scheme
 ;; send to scheme
-(defun eir-send-to-scheme (region-string)
-  "Sends expression to *scheme* and have it evaluated."
+(defalias 'eir-send-to-scheme
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'(lambda ()
+                       ;; Move to the other window
+                       (other-window 1)
+                       ;; Change to scheme REPL
+                       (switch-to-scheme t))
+                   ;; fun-execute
+                   #'comint-send-input)
+  "Sends expression to *scheme* and have it evaluated.")
 
-  (eir-send-to-repl region-string
-		    ;; fun-change-to-repl
-		    #'(lambda ()
-			;; Move to the other window
-			(other-window 1)
-			;; Change to scheme REPL
-			(switch-to-scheme t))
-		    ;; fun-execute
-		    #'comint-send-input))
-;;
+
 ;;; eir-eval-in-scheme
 ;;;###autoload
 (defun eir-eval-in-scheme ()
@@ -69,7 +69,7 @@
    'eir-send-to-scheme
    ;; defun-string
    "(define "))
-;;
+
 
 (provide 'eval-in-repl-scheme)
 ;;; eval-in-repl-scheme.el ends here

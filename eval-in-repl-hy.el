@@ -39,20 +39,19 @@
 ;;;
 ;;; HY RELATED
 ;;; eir-send-to-hy
-;; send to hy
-(defun eir-send-to-hy (region-string)
-  "Sends expression to *inferior-lisp* and have it evaluated."
+(defalias 'eir-send-to-hy
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'(lambda ()
+                       ;; Move to the other window
+                       (other-window 1)
+                       ;; Change to hy REPL
+                       (switch-to-lisp t))
+                   ;; fun-execute
+                   #'comint-send-input)
+  "Sends expression to *inferior-lisp* and have it evaluated.")
 
-  (eir-send-to-repl region-string
-		    ;; fun-change-to-repl
-		    #'(lambda ()
-			;; Move to the other window
-			(other-window 1)
-			;; Change to hy REPL
-			(switch-to-lisp t))
-		    ;; fun-execute
-		    #'comint-send-input))
-;;
+
 ;;; eir-eval-in-hy
 ;;;###autoload
 (defun eir-eval-in-hy ()

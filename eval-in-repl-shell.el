@@ -46,15 +46,15 @@
 ;; http://www.emacswiki.org/emacs/ESSShiftEnter
 ;;
 ;;; eir-send-to-shell
-(defun eir-send-to-shell (region-string)
-  "Sends expression to *shell* and have it evaluated."
+(defalias 'eir-send-to-shell
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'(lambda () (switch-to-buffer-other-window "*shell*"))
+                   ;; fun-execute
+                   #'comint-send-input)
+  "Sends expression to *shell* and have it evaluated.")
 
-  (eir-send-to-repl region-string
-		    ;; fun-change-to-repl
-		    #'(lambda () (switch-to-buffer-other-window "*shell*"))
-		    ;; fun-execute
-		    #'comint-send-input))
-;;
+
 ;;; eir-eval-in-shell
 ;;;###autoload
 (defun eir-eval-in-shell ()
@@ -93,7 +93,6 @@
       (switch-to-buffer-other-window "*shell*")
       ;; Switch back to the script window
       (select-window w-script))))
-;;
 
 
 (provide 'eval-in-repl-shell)

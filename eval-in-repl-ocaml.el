@@ -42,15 +42,15 @@
 ;; depends on tuareg.el
 ;;
 ;;; eir-send-to-ocaml
-(defun eir-send-to-ocaml (region-string)
-  "Sends expression to *ocaml* and have it evaluated."
+(defalias 'eir-send-to-ocaml
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'(lambda () (switch-to-buffer-other-window "*ocaml-toplevel*"))
+                   ;; fun-execute
+                   #'tuareg-interactive-send-input)
+  "Sends expression to *ocaml* and have it evaluated.")
 
-    (eir-send-to-repl region-string
-		    ;; fun-change-to-repl
-		    #'(lambda () (switch-to-buffer-other-window "*ocaml-toplevel*"))
-		    ;; fun-execute
-		    #'tuareg-interactive-send-input))
-;;
+
 ;;; eir-eval-in-ocaml
 ;;;###autoload
 (defun eir-eval-in-ocaml ()
@@ -89,7 +89,8 @@
       (switch-to-buffer-other-window "*ocaml-toplevel*")
       ;; Switch back to the script window
       (select-window w-script))))
-;;
+
+;;; eir-send-to-ocaml-semicolon
 (defun eir-send-to-ocaml-semicolon ()
   "Sends a semicolon to *ocaml-toplevel* and have it evaluated."
   (interactive)

@@ -39,15 +39,15 @@
 ;;;
 ;;; EMACS LISP RELATED
 ;;; eir-send-to-ielm
-(defun eir-send-to-ielm (region-string)
-  "Sends expression to *ielm* and have it evaluated."
+(defalias 'eir-send-to-ielm
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'(lambda () (switch-to-buffer-other-window "*ielm*"))
+                   ;; fun-execute
+                   #'ielm-return)
+  "Sends expression to *ielm* and have it evaluated.")
 
-  (eir-send-to-repl region-string
-		    ;; fun-change-to-repl
-		    #'(lambda () (switch-to-buffer-other-window "*ielm*"))
-		    ;; fun-execute
-		    #'ielm-return))
-;;
+
 ;;; eir-eval-in-ielm
 ;;;###autoload
 (defun eir-eval-in-ielm ()

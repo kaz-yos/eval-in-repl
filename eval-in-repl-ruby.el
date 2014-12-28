@@ -41,15 +41,15 @@
 ;;;
 ;;; RUBY-MODE RELATED
 ;;; eir-send-to-ruby
-(defun eir-send-to-ruby (region-string)
-  "Sends expression to *Ruby* and have it evaluated."
+(defalias 'eir-send-to-ruby
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'run-ruby
+                   ;; fun-execute
+                   #'comint-send-input)
+  "Sends expression to *Ruby* and have it evaluated.")
 
-  (eir-send-to-repl region-string
-		    ;; fun-change-to-repl
-		    #'run-ruby
-		    ;; fun-execute
-		    #'comint-send-input))
-;;
+
 ;;; eir-eval-in-ruby
 ;; http://www.reddit.com/r/emacs/comments/1h4hyw/selecting_regions_rubyel/
 ;;;###autoload
@@ -87,11 +87,10 @@
       ;; Activate ruby window, and switch back
       ;; Remeber the script window
       (setq w-script (selected-window))
-      ;; Switch to the inferior ruby 
+      ;; Switch to the inferior ruby
       (run-ruby)
       ;; Switch back to the script window
       (select-window w-script))))
-;;
 
 
 (provide 'eval-in-repl-ruby)
