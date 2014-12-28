@@ -13,18 +13,36 @@ The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common Lis
 **Usage**
 --------------------
 
-After installation and appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL and evaluate a line, selected region or the current expression depending on the context. The script will be shown on the right, and the REPL on the left. The REPL shows both the code executed and the value the code returned.
+After installation and appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL and evaluate a line, selected region or the current expression depending on the context. The script will be shown on the right, and the REPL on the left. The REPL shows both the code executed and the value the code returned. A more detailed explanation is available at Qiita (http://qiita.com/kaz-yos/items/bb8016ec79cfbbf328df ).
+
+**Emacs Lisp via IELM**
 
 ![ielm](screen_shot_ielm.png?raw=true "ielm example")
-![cider](screen_shot_cider.png?raw=true "cider example")
-![python](screen_shot_python.png?raw=true "python example")
-![shell](screen_shot_shell.png?raw=true "shell example")
 
-A more detailed explanation is available at Qiita: http://qiita.com/kaz-yos/items/bb8016ec79cfbbf328df
+**Clojure via cider.el**
+
+![cider](screen_shot_cider.png?raw=true "cider example")
+
+**Python via python.el**
+
+![python](screen_shot_python.png?raw=true "python example")
+
+**Shell script via essh.el**
+
+![shell](screen_shot_shell.png?raw=true "shell example")
 
 
 **Installation**
 --------------------
+
+eval-in-repl.el is available on the MELPA repository. You can do the following, then choose and install eval-in-repl.
+
+```
+M-x list-packages
+```
+
+To configure the MELPA, see this: http://melpa.milkbox.net/#/getting-started
+
 
 The following files are included in the package. There are respective dependencies.
 
@@ -68,15 +86,6 @@ The following files are included in the package. There are respective dependenci
 
 - eval-in-repl-shell.el (depends on essh.el)
  - Support for shell via essh.el
-
-
-It is available on the MELPA repository. You can do the following, then choose and install eval-in-repl.
-
-```
-M-x list-packages
-```
-
-To configure the MELPA, see this: http://melpa.milkbox.net/#/getting-started
 
 
 **Configuration**
