@@ -56,7 +56,7 @@
 
   (interactive)
   ;; Define local variables
-  (let* (w-script)
+  (let* ((script-window (selected-window)))
 
     ;;
     (eir-repl-start "*Python*" #'run-python)
@@ -87,13 +87,10 @@
       ;; Move to the next statement
       (python-nav-forward-statement)
 
-      ;; Activate shell window, and switch back
-      ;; Remeber the script window
-      (setq w-script (selected-window))
       ;; Switch to the shell
       (python-shell-switch-to-shell)
       ;; Switch back to the script window
-      (select-window w-script))))
+      (select-window script-window))))
 
 
 (provide 'eval-in-repl-python)

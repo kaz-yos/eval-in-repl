@@ -61,7 +61,7 @@
   "Evaluates shell expressions in shell scripts."
   (interactive)
   ;; Define local variables
-  (let* (w-script)
+  (let* ((script-window (selected-window)))
 
     ;;
     (eir-repl-start "\\*shell\\*" #'shell)
@@ -86,13 +86,10 @@
       ;; Move to the next statement
       (essh-next-code-line)
 
-      ;; Activate shell window, and switch back
-      ;; Remeber the script window
-      (setq w-script (selected-window))
       ;; Switch to the shell
       (switch-to-buffer-other-window "*shell*")
       ;; Switch back to the script window
-      (select-window w-script))))
+      (select-window script-window))))
 
 
 (provide 'eval-in-repl-shell)

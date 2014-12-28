@@ -57,7 +57,7 @@
   "Evaluates SML expressions in SML files."
   (interactive)
   ;; Define local variables
-  (let* (w-script)
+  (let* ((script-window (selected-window)))
 
     ;; If buffer named *sml* is not found, invoke sml-run
     (eir-repl-start "\\*sml\\*" #'sml-run)
@@ -82,13 +82,10 @@
       ;; Move to the next statement
       (ess-next-code-line)
 
-      ;; Activate sml window, and switch back
-      ;; Remeber the script window
-      (setq w-script (selected-window))
       ;; Switch to the sml
       (switch-to-buffer-other-window "*sml*")
       ;; Switch back to the script window
-      (select-window w-script))))
+      (select-window script-window))))
 
 
 ;;; eir-send-to-sml-semicolon

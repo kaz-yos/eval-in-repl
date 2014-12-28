@@ -57,7 +57,7 @@
   "Evaluates OCaml expressions in OCaml files."
   (interactive)
   ;; Define local variables
-  (let* (w-script)
+  (let* ((script-window (selected-window)))
 
     ;; If buffer named *ocaml* is not found, invoke ocaml-run
     (eir-repl-start "\\*ocaml-.*" #'run-ocaml)
@@ -82,13 +82,10 @@
       ;; Move to the next statement
       (ess-next-code-line)
 
-      ;; Activate ocaml window, and switch back
-      ;; Remeber the script window
-      (setq w-script (selected-window))
       ;; Switch to the ocaml
       (switch-to-buffer-other-window "*ocaml-toplevel*")
       ;; Switch back to the script window
-      (select-window w-script))))
+      (select-window script-window))))
 
 
 ;;; eir-send-to-ocaml-semicolon
@@ -100,17 +97,4 @@
 
 (provide 'eval-in-repl-ocaml)
 ;;; eval-in-repl-ocaml.el ends here
-
-
-
-
-
-
-
-
-
-
-
-
-
 

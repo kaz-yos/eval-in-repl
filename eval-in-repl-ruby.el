@@ -58,7 +58,7 @@
 
   (interactive)
   ;; Define local variables
-  (let* (w-script)
+  (let* ((script-window (selected-window)))
 
     ;;
     (eir-repl-start "\\*ruby\\*" #'run-ruby)
@@ -84,13 +84,10 @@
       ;; Move to the next statement
       (ess-next-code-line)
 
-      ;; Activate ruby window, and switch back
-      ;; Remeber the script window
-      (setq w-script (selected-window))
       ;; Switch to the inferior ruby
       (run-ruby)
       ;; Switch back to the script window
-      (select-window w-script))))
+      (select-window script-window))))
 
 
 (provide 'eval-in-repl-ruby)
