@@ -76,7 +76,6 @@ This function should not be invoked directly."
 ;;;###autoload
 (defun eir-eval-in-cider ()
   "This is a customized version of eir-eval-in-repl-lisp for cider."
-
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp

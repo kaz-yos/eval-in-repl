@@ -58,7 +58,6 @@
 ;;;###autoload
 (defun eir-eval-in-scheme ()
   "This is a customized version of eir-eval-in-repl-lisp for scheme."
-
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp

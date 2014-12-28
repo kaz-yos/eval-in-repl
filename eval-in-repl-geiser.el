@@ -52,7 +52,6 @@
 ;;;###autoload
 (defun eir-eval-in-geiser ()
   "This is a customized version of eir-eval-in-repl-lisp for geiser."
-
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
@@ -63,8 +62,6 @@
    #'eir-send-to-geiser
    ;; defun-string
    "(define "))
-;;
-
 
 
 (provide 'eval-in-repl-geiser)

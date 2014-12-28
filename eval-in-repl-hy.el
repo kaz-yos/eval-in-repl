@@ -56,7 +56,6 @@
 ;;;###autoload
 (defun eir-eval-in-hy ()
   "This is a customized version of eir-eval-in-repl-lisp for Hy."
-
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
@@ -67,7 +66,7 @@
    'eir-send-to-hy
    ;; defun-string
    "(dfn "))
-;;
+
 
 (provide 'eval-in-repl-hy)
 ;;; eval-in-repl-hy.el ends here

@@ -52,7 +52,7 @@
 ;;; eir-eval-in-slime
 ;;;###autoload
 (defun eir-eval-in-slime ()
-  "This is a customized version of eir-eval-in-repl-lisp for slime."
+  "This is a customized version of eir-eval-in-repl-lisp for SLIME."
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp

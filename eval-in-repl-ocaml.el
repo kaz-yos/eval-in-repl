@@ -90,13 +90,27 @@
       ;; Switch back to the script window
       (select-window w-script))))
 
+
 ;;; eir-send-to-ocaml-semicolon
 (defun eir-send-to-ocaml-semicolon ()
-  "Sends a semicolon to *ocaml-toplevel* and have it evaluated."
+  "Sends two semicolons to *ocaml-toplevel* and have them evaluated."
   (interactive)
   (eir-send-to-ocaml ";;"))
 
 
 (provide 'eval-in-repl-ocaml)
 ;;; eval-in-repl-ocaml.el ends here
+
+
+
+
+
+
+
+
+
+
+
+
+
 

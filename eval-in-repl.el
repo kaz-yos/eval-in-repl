@@ -76,10 +76,9 @@
   (-filter
    ;; predicate: non-nil if an element matches the REGEXP
    #'(lambda (elt) (string-match regexp elt))
-   ;;
    lst))
-;;
-;;
+
+
 ;;; eir-start-repl
 ;; A function to start a REPL if not already available
 ;; https://stat.ethz.ch/pipermail/ess-help/2012-December/008426.html
@@ -124,8 +123,8 @@ Also vertically split the current frame when staring a REPL."
 
 	  ;; Select the script window on the right (window2)
 	  (select-window window2)))))
-;;
-;;
+
+
 ;;; eir-send-to-repl
 (defun eir-send-to-repl (fun-change-to-repl fun-execute region-string)
   "Sekeleton function to be used with a wrapper.
@@ -149,10 +148,10 @@ Send expression to a REPL and have it evaluated."
 
 
 ;;;
-;;; COMMON ELEMENTS FOR LISP LANGUAGES
+;;; COMMON ELEMENT FOR LISP LANGUAGES
 ;;; eir-eval-in-repl-lisp (used as a skeleton)
 (defun eir-eval-in-repl-lisp (repl-buffer-regexp fun-repl-start fun-repl-send defun-string)
-    "Skeleton function to be used with a wrapper.
+  "Skeleton function to be used with a wrapper.
 
 Evaluate expression using a REPL specified by REPL-BUFFER-REGEXP.
 If not present, a REPL is started using FUN-REPL-START.
@@ -204,7 +203,6 @@ A function definition is detected by a string specified in DEFUN-STRING
 	(funcall fun-repl-send (buffer-substring-no-properties (point) (mark)))
 	;; Go to the next expression
 	(forward-sexp)))))
-;;
 
 
 ;;;
