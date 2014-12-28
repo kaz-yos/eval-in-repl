@@ -1,11 +1,13 @@
 **eval-in-repl: Consistent ESS-like eval interface for various REPLs**
 --------------------
 
-This package does what ESS does for R for various REPLs, including ielm.
+This package does what ESS does for R for various REPLs.
 
 Emacs Speaks Statistics (ESS) package has a nice function called ess-eval-region-or-line-and-step, which is assigned to C-RET. This function sends a line or a selected region to the corresponding shell (R, Julia, Stata, etc) visibly. It also start up a shell if there is none.
 
 This package implements similar work flow for various read-eval-print-loops (REPLs) shown below.
+
+The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common Lisp**, **Racket**, **Scheme**, **Hy**, **Python**, **Ruby**, **Standard ML**, **OCaml**, and **shell script**.
 
 
 **Usage**
@@ -13,7 +15,10 @@ This package implements similar work flow for various read-eval-print-loops (REP
 
 After installation and appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL and evaluate a line, selected region or the current expression depending on the context. The script will be shown on the right, and the REPL on the left. The REPL shows both the code executed and the value the code returned.
 
-![Alt text](screen_shot_ielm.png?raw=true "ielm example")
+![ielm](screen_shot_ielm.png?raw=true "ielm example")
+![cider](screen_shot_cider.png?raw=true "cider example")
+![python](screen_shot_python.png?raw=true "python example")
+![shell](screen_shot_shell.png?raw=true "shell example")
 
 A more detailed explanation is available at Qiita: http://qiita.com/kaz-yos/items/bb8016ec79cfbbf328df
 
