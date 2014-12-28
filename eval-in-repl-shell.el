@@ -52,17 +52,16 @@
                    #'(lambda () (switch-to-buffer-other-window "*shell*"))
                    ;; fun-execute
                    #'comint-send-input)
-  "Sends expression to *shell* and have it evaluated.")
+  "Send expression to *shell* and have it evaluated.")
 
 
 ;;; eir-eval-in-shell
 ;;;###autoload
 (defun eir-eval-in-shell ()
-  "Evaluates shell expressions in shell scripts."
+  "eval-in-repl for shell."
   (interactive)
   ;; Define local variables
   (let* ((script-window (selected-window)))
-
     ;;
     (eir-repl-start "\\*shell\\*" #'shell)
 

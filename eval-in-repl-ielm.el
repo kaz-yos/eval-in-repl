@@ -45,13 +45,13 @@
                    #'(lambda () (switch-to-buffer-other-window "*ielm*"))
                    ;; fun-execute
                    #'ielm-return)
-  "Sends expression to *ielm* and have it evaluated.")
+  "Send expression to *ielm* and have it evaluated.")
 
 
 ;;; eir-eval-in-ielm
 ;;;###autoload
 (defun eir-eval-in-ielm ()
-  "This is a customized version of eir-eval-in-repl-lisp for ielm."
+  "eval-in-repl for IELM."
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp

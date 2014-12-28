@@ -48,13 +48,13 @@
                    #'(lambda () (switch-to-buffer-other-window "*ocaml-toplevel*"))
                    ;; fun-execute
                    #'tuareg-interactive-send-input)
-  "Sends expression to *ocaml* and have it evaluated.")
+  "Send expression to *ocaml* and have it evaluated.")
 
 
 ;;; eir-eval-in-ocaml
 ;;;###autoload
 (defun eir-eval-in-ocaml ()
-  "Evaluates OCaml expressions in OCaml files."
+  "eval-in-repl for OCaml."
   (interactive)
   ;; Define local variables
   (let* ((script-window (selected-window)))
@@ -90,7 +90,7 @@
 
 ;;; eir-send-to-ocaml-semicolon
 (defun eir-send-to-ocaml-semicolon ()
-  "Sends two semicolons to *ocaml-toplevel* and have them evaluated."
+  "Send two semicolons to *ocaml-toplevel* and have them evaluated."
   (interactive)
   (eir-send-to-ocaml ";;"))
 

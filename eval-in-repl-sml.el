@@ -48,13 +48,13 @@
                    #'(lambda () (switch-to-buffer-other-window "*sml*"))
                    ;; fun-execute
                    #'comint-send-input)
-  "Sends expression to *sml* and have it evaluated.")
+  "Send expression to *sml* and have it evaluated.")
 
 
 ;;; eir-eval-in-sml
 ;;;###autoload
 (defun eir-eval-in-sml ()
-  "Evaluates SML expressions in SML files."
+  "eval-in-repl for Standard ML."
   (interactive)
   ;; Define local variables
   (let* ((script-window (selected-window)))
@@ -90,7 +90,7 @@
 
 ;;; eir-send-to-sml-semicolon
 (defun eir-send-to-sml-semicolon ()
-  "Sends a semicolon to *sml* and have it evaluated."
+  "Send a semicolon to *sml* and have it evaluated."
   (interactive)
   (eir-send-to-sml ";"))
 

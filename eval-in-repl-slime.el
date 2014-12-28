@@ -46,13 +46,13 @@
                    #'slime-switch-to-output-buffer
                    ;; fun-execute
                    #'slime-repl-return)
-  "Sends expression to *slime-repl* and have it evaluated.")
+  "Send expression to *slime-repl* and have it evaluated.")
 
 
 ;;; eir-eval-in-slime
 ;;;###autoload
 (defun eir-eval-in-slime ()
-  "This is a customized version of eir-eval-in-repl-lisp for SLIME."
+  "eval-in-repl for SLIME."
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp

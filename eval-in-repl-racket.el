@@ -49,13 +49,13 @@
                        (other-window 1))
                    ;; fun-execute
                    #'comint-send-input)
-  "Sends expression to *Racket REPL* and have it evaluated.")
+  "Send expression to *Racket REPL* and have it evaluated.")
 
 
 ;;; eir-eval-in-racket
 ;;;###autoload
 (defun eir-eval-in-racket ()
-  "This is a customized version of eir-eval-in-repl-lisp for racket."
+  "eval-in-repl for Racket."
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp

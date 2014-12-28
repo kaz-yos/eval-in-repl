@@ -45,19 +45,17 @@
                    #'python-shell-switch-to-shell
                    ;; fun-execute
                    #'comint-send-input)
-  "Sends expression to *Python* and have it evaluated.")
+  "Send expression to *Python* and have it evaluated.")
 
 
 ;;; eir-eval-in-python
 ;; http://www.reddit.com/r/emacs/comments/1h4hyw/selecting_regions_pythonel/
 ;;;###autoload
 (defun eir-eval-in-python ()
-  "Evaluates Python expressions"
-
+  "eval-in-repl for Python."
   (interactive)
   ;; Define local variables
   (let* ((script-window (selected-window)))
-
     ;;
     (eir-repl-start "*Python*" #'run-python)
 

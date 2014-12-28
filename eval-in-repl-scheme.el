@@ -51,13 +51,13 @@
                        (switch-to-scheme t))
                    ;; fun-execute
                    #'comint-send-input)
-  "Sends expression to *scheme* and have it evaluated.")
+  "Send expression to *scheme* and have it evaluated.")
 
 
 ;;; eir-eval-in-scheme
 ;;;###autoload
 (defun eir-eval-in-scheme ()
-  "This is a customized version of eir-eval-in-repl-lisp for scheme."
+  "eval-in-repl for Scheme."
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp

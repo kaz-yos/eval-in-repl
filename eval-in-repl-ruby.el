@@ -47,22 +47,19 @@
                    #'run-ruby
                    ;; fun-execute
                    #'comint-send-input)
-  "Sends expression to *Ruby* and have it evaluated.")
+  "Send expression to *ruby* and have it evaluated.")
 
 
 ;;; eir-eval-in-ruby
 ;; http://www.reddit.com/r/emacs/comments/1h4hyw/selecting_regions_rubyel/
 ;;;###autoload
 (defun eir-eval-in-ruby ()
-  "Evaluates Ruby expressions"
-
+  "eval-in-repl for Ruby."
   (interactive)
   ;; Define local variables
   (let* ((script-window (selected-window)))
-
     ;;
     (eir-repl-start "\\*ruby\\*" #'run-ruby)
-
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)

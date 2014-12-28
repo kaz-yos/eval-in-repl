@@ -41,12 +41,14 @@
 ;;; eir--cider-jack-in
 (defun eir--cider-jack-in ()
   "Invoke cider-jack-in and wait for activation.
+
 If *nrepl-** buffers are remaining, kill them silently.
 This function should not be invoked directly."
-
   (interactive)
   ;; If *nrepl-* buffers exist although *cider-repl* does not, kill them for safety.
-  (let* ((nrepl-buffer-names (eir--matching-elements "\\*nrepl-.*\\*$" (mapcar #'buffer-name (buffer-list)))))
+  (let* ((nrepl-buffer-names (eir--matching-elements
+                              "\\*nrepl-.*\\*$"
+                              (mapcar #'buffer-name (buffer-list)))))
     (when nrepl-buffer-names
       ;; Looping over nrepl-buffer-names for side effect
       (mapc (lambda (elt)
@@ -58,7 +60,7 @@ This function should not be invoked directly."
   (cider-jack-in)
   ;; Wait for connection
   (when (not (cider-connected-p))
-    (message "waiting for cider...")
+    (message "Waiting for cider...")
     (sit-for 1)))
 
 
@@ -69,13 +71,13 @@ This function should not be invoked directly."
                    #'cider-switch-to-repl-buffer
                    ;; fun-execute
                    #'cider-repl-return)
-  "Sends expression to *cider-repl* and have it evaluated.")
+  "Send expression to *cider-repl* and have it evaluated.")
 
 
 ;;; eir-eval-in-cider
 ;;;###autoload
 (defun eir-eval-in-cider ()
-  "This is a customized version of eir-eval-in-repl-lisp for cider."
+  "eval-in-repl for cider."
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp

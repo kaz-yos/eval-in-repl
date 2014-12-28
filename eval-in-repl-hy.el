@@ -49,13 +49,13 @@
                        (switch-to-lisp t))
                    ;; fun-execute
                    #'comint-send-input)
-  "Sends expression to *inferior-lisp* and have it evaluated.")
+  "Send expression to *inferior-lisp* and have it evaluated.")
 
 
 ;;; eir-eval-in-hy
 ;;;###autoload
 (defun eir-eval-in-hy ()
-  "This is a customized version of eir-eval-in-repl-lisp for Hy."
+  "eval-in-repl for Hy."
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp

@@ -45,13 +45,13 @@
                    #'switch-to-geiser
                    ;; fun-execute
                    #'geiser-repl--maybe-send)
-  "Sends expression to * Racket/Guile REPL * and have it evaluated.")
+  "Send expression to * Racket/Guile REPL * and have it evaluated.")
 
 
 ;;; eir-eval-in-geiser
 ;;;###autoload
 (defun eir-eval-in-geiser ()
-  "This is a customized version of eir-eval-in-repl-lisp for geiser."
+  "eval-in-repl for Geiser."
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
