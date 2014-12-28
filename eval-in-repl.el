@@ -80,22 +80,6 @@
    #'(lambda (elt) (string-match regexp elt))
    lst))
 
-(ert-deftest eir--matching-elements-test ()
-  "Testing regexp matching filter"
-  (should (equal (eir--matching-elements "mystr" '()) nil))
-  (should (equal (eir--matching-elements "mystr" '("a" "b" "c")) nil))
-  (should (equal (eir--matching-elements "mystr" '("a" "mystr_b" "c"))
-                 '("mystr_b")))
-  (should (equal (eir--matching-elements "mystr" '("a" "mystr_b" "c_mystr"))
-                 '("mystr_b" "c_mystr")))
-  (should (equal (eir--matching-elements "*ielm*" '("*ielm*" "ielm" " ielm "))
-                 '("*ielm*")))
-  (should (equal (eir--matching-elements "\\*nrepl-.*\\*$"
-                                         '("nrepl-test" "*nrepl-test"
-                                           "nrepl-test*" "*nrepl-test*"
-                                           "*nrepl-test2*" "*nrepl-test3*"))
-                 '("*nrepl-test*" "*nrepl-test2*" "*nrepl-test3*"))))
-
 
 ;;; eir-start-repl
 ;; A function to start a REPL if not already running
