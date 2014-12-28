@@ -10,12 +10,14 @@ This package implements similar work flow for various read-eval-print-loops (REP
 The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common Lisp**, **Racket**, **Scheme**, **Hy**, **Python**, **Ruby**, **Standard ML**, **OCaml**, and **shell script**.
 
 
-**Usage**
+**Usage: C-RET rules all**
 --------------------
 
-After installation and appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL and evaluate a line, selected region or the current expression depending on the context. The script will be shown on the right, and the REPL on the left. The REPL shows both the code executed and the value the code returned. A more detailed explanation is available at Qiita (http://qiita.com/kaz-yos/items/bb8016ec79cfbbf328df ).
+After installation and appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL and evaluate a line, selected region or the current expression depending on the context. The script will be shown on the right, and the REPL on the left. The REPL shows both the code executed and the value the code evaluated to. The cursor steps to the next expression in the source file (only when invoked without a selected region). A more detailed explanation is available at Qiita (http://qiita.com/kaz-yos/items/bb8016ec79cfbbf328df ).
 
 **Emacs Lisp via IELM (screencast)**
+
+You can see C-RET in action.
 
 ![ielm](screencast_ielm.gif?raw=true "ielm example")
 
