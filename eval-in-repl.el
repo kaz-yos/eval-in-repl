@@ -72,18 +72,34 @@
 ;;;
 ;;; COMMON ELEMENTS
 ;;; eir--matching-elements
+;; Pure function
 (defun eir--matching-elements (regexp lst)
   "Return a list of elements matching the REGEXP in the LIST."
-
   ;; emacs version of filter (dash.el)
   (-filter
    ;; predicate: non-nil if an element matches the REGEXP
    #'(lambda (elt) (string-match regexp elt))
    lst))
 
+(ert-deftest eir--matching-elements-test ()
+  "Testing regexp matching filter"
+  (should (equal (eir--matching-elements "mystr" '()) nil))
+  (should (equal (eir--matching-elements "mystr" '("a" "b" "c")) nil))
+  (should (equal (eir--matching-elements "mystr" '("a" "mystr_b" "c"))
+                 '("mystr_b")))
+  (should (equal (eir--matching-elements "mystr" '("a" "mystr_b" "c_mystr"))
+                 '("mystr_b" "c_mystr")))
+  (should (equal (eir--matching-elements "*ielm*" '("*ielm*" "ielm" " ielm "))
+                 '("*ielm*")))
+  (should (equal (eir--matching-elements "\\*nrepl-.*\\*$"
+                                         '("nrepl-test" "*nrepl-test"
+                                           "nrepl-test*" "*nrepl-test*"
+                                           "*nrepl-test2*" "*nrepl-test3*"))
+                 '("*nrepl-test*" "*nrepl-test2*" "*nrepl-test3*"))))
+
 
 ;;; eir-start-repl
-;; A function to start a REPL if not already available
+;; A function to start a REPL if not already running
 ;; https://stat.ethz.ch/pipermail/ess-help/2012-December/008426.html
 ;; http://t7331.codeinpro.us/q/51502552e8432c0426273040
 (defun eir-repl-start (repl-buffer-regexp fun-repl-start)
