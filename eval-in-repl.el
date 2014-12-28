@@ -112,7 +112,9 @@ Also vertically split the current frame when staring a REPL."
   (interactive)
   ;; Create local variables
   (let* (window1 window2 name-script-buffer name-repl-buffer)
-    (if (not (eir--matching-elements repl-buffer-regexp (mapcar #'buffer-name (buffer-list))))
+    (if (not (eir--matching-elements
+              repl-buffer-regexp
+              (mapcar #'buffer-name (buffer-list))))
 	(progn
 	  ;; C-x 1 Keep only the window from which this function was called.
 	  (delete-other-windows)
@@ -146,12 +148,12 @@ Also vertically split the current frame when staring a REPL."
 
 ;;; eir-send-to-repl
 (defun eir-send-to-repl (fun-change-to-repl fun-execute region-string)
-  "Sekeleton function to be used with a wrapper.
+  "Send a string to a REPL buffer for execution.
 
-Send expression to a REPL and have it evaluated."
+Given a REGION-STRING, switch to the REPL buffer by FUN-CHANGE-TO-REPL,
+and execute by FUN-EXECUTE."
   (let* (;; Assign the current buffer
 	 (script-window (selected-window)))
-
     ;; Change other window to REPL
     (funcall fun-change-to-repl)
     ;; Move to end of buffer
@@ -170,7 +172,7 @@ Send expression to a REPL and have it evaluated."
 ;;; COMMON ELEMENT FOR LISP LANGUAGES
 ;;; eir-eval-in-repl-lisp (used as a skeleton)
 (defun eir-eval-in-repl-lisp (repl-buffer-regexp fun-repl-start fun-repl-send defun-string)
-  "Skeleton function to be used with a wrapper.
+  "eval-in-repl function for lisp languages.
 
 Evaluate expression using a REPL specified by REPL-BUFFER-REGEXP.
 If not present, a REPL is started using FUN-REPL-START.
@@ -181,13 +183,12 @@ A function definition is detected by a string specified in DEFUN-STRING
   (interactive)
   (let* (;; Save current point
 	 (initial-point (point)))
-
-    ;;
+    ;; Check for the presence of a REPL buffer
     (eir-repl-start repl-buffer-regexp fun-repl-start)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
-	;; If selected, send to ielm
+	;; If there is a selected region, send it to the REPL
 	(funcall fun-repl-send (buffer-substring-no-properties (point) (mark)))
 
       ;; If not selected, do all the following
@@ -201,16 +202,17 @@ A function definition is detected by a string specified in DEFUN-STRING
 	    (set-mark (line-beginning-position))
 	    ;; Go to the end
 	    (forward-sexp)
-	    ;; Send to ielm
+	    ;; Send to REPL
 	    (funcall fun-repl-send (buffer-substring-no-properties (point) (mark)))
 	    ;; Go to the next expression
 	    (forward-sexp))
+
 	;; If it is not def, do all the following
 	;; Go to the previous position
 	(goto-char initial-point)
 	;; Go back one S-exp. (paredit dependency)
 	(paredit-backward)
-	;; Loop
+	;; Loop until at a top-level "(" at column 0
 	(while (not (equal (current-column) 0))
 	  ;; Go back one S-exp. (paredit dependency)
 	  (paredit-backward))
@@ -218,12 +220,11 @@ A function definition is detected by a string specified in DEFUN-STRING
 	(set-mark (line-beginning-position))
 	;; Go to the end of the S-exp starting there
 	(forward-sexp)
-	;; Eval the S-exp before
+	;; Send to REPL
 	(funcall fun-repl-send (buffer-substring-no-properties (point) (mark)))
 	;; Go to the next expression
 	(forward-sexp)))))
 
 
-;;;
 (provide 'eval-in-repl)
 ;;; eval-in-repl.el ends here
