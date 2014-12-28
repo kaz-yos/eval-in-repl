@@ -46,7 +46,7 @@ M-x list-packages
 To configure the MELPA, see this: http://melpa.milkbox.net/#/getting-started
 
 
-The following files are included in the package. There are respective dependencies.
+The following files are included in the package. There are respective dependencies for each language-specific file that are NOT automatically installed.
 
 - eval-in-repl.el
  - Skeleton package required for all specialized packages below.
