@@ -127,7 +127,7 @@ Also vertically split the current frame when staring a REPL."
 ;;
 ;;
 ;;; eir-send-to-repl
-(defun eir-send-to-repl (region-string fun-change-to-repl fun-execute)
+(defun eir-send-to-repl (fun-change-to-repl fun-execute region-string)
   "Sekeleton function to be used with a wrapper.
 
 Send expression to a REPL and have it evaluated."
