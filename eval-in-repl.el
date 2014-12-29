@@ -45,7 +45,7 @@
 ;; eval-in-repl-geiser.el  for Racket/Scheme (via geiser.el)
 ;; eval-in-repl-racket.el  for Racket        (via racket-mode.el)
 ;; eval-in-repl-scheme.el  for Scheme        (via scheme.el and cmuscheme.el)
-;; eval-in-repl-hy.el      for Hy            (via hy-mode.el)
+;; eval-in-repl-hy.el      for Hy            (via hy-mode.el and inf-lisp.el)
 ;;
 ;; eval-in-repl-python.el  for Python        (via python.el)
 ;; eval-in-repl-ruby.el    for Ruby          (via ruby-mode.el, inf-ruby.el, and ess.el)

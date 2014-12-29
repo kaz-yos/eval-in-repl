@@ -34,6 +34,7 @@
 ;;; Require dependencies
 (require 'eval-in-repl)
 (require 'hy-mode)
+(require 'inf-lisp)
 
 
 ;;;
