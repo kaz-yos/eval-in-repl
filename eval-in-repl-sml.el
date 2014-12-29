@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.5.0
+;; Version: 0.5.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -42,22 +42,22 @@
 ;; depends on sml-mode
 ;;
 ;;; eir-send-to-sml
-(defun eir-send-to-sml (start end)
-  "Sends expression to *sml* and have it evaluated."
+(defalias 'eir-send-to-sml
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'(lambda () (switch-to-buffer-other-window "*sml*"))
+                   ;; fun-execute
+                   #'comint-send-input)
+  "Send expression to *sml* and have it evaluated.")
 
-    (eir-send-to-repl start end
-		    ;; fun-change-to-repl
-		    #'(lambda () (switch-to-buffer-other-window "*sml*"))
-		    ;; fun-execute
-		    #'comint-send-input))
-;;
+
 ;;; eir-eval-in-sml
 ;;;###autoload
 (defun eir-eval-in-sml ()
-  "Evaluates SML expressions in SML files."
+  "eval-in-repl for Standard ML."
   (interactive)
   ;; Define local variables
-  (let* (w-script)
+  (let* ((script-window (selected-window)))
 
     ;; If buffer named *sml* is not found, invoke sml-run
     (eir-repl-start "\\*sml\\*" #'sml-run)
@@ -65,7 +65,7 @@
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(eir-send-to-sml (point) (mark))
+	(eir-send-to-sml (buffer-substring-no-properties (point) (mark)))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -76,41 +76,23 @@
       (end-of-line)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  (eir-send-to-sml (point) (mark))
+	  (eir-send-to-sml (buffer-substring-no-properties (point) (mark)))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
       (ess-next-code-line)
 
-      ;; Activate sml window, and switch back
-      ;; Remeber the script window
-      (setq w-script (selected-window))
       ;; Switch to the sml
       (switch-to-buffer-other-window "*sml*")
       ;; Switch back to the script window
-      (select-window w-script))))
-;;
+      (select-window script-window))))
+
+
+;;; eir-send-to-sml-semicolon
 (defun eir-send-to-sml-semicolon ()
-  "Sends a semicolon to *sml* and have it evaluated."
+  "Send a semicolon to *sml* and have it evaluated."
   (interactive)
-
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string ";"))
-
-    ;; Change other window to REPL
-    (switch-to-buffer-other-window "*sml*")
-    ;; Move to end of buffer
-    (goto-char (point-max))
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (comint-send-input)
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil (this is a void function)
-    nil))
+  (eir-send-to-sml ";"))
 
 
 (provide 'eval-in-repl-sml)

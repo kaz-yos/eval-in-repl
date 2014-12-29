@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.5.0
+;; Version: 0.5.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -34,30 +34,29 @@
 ;;; Require dependencies
 (require 'eval-in-repl)
 (require 'hy-mode)
+(require 'inf-lisp)
 
 
 ;;;
 ;;; HY RELATED
 ;;; eir-send-to-hy
-;; send to hy
-(defun eir-send-to-hy (start end)
-  "Sends expression to *inferior-lisp* and have it evaluated."
+(defalias 'eir-send-to-hy
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'(lambda ()
+                       ;; Move to the other window
+                       (other-window 1)
+                       ;; Change to hy REPL
+                       (switch-to-lisp t))
+                   ;; fun-execute
+                   #'comint-send-input)
+  "Send expression to *inferior-lisp* and have it evaluated.")
 
-  (eir-send-to-repl start end
-		    ;; fun-change-to-repl
-		    #'(lambda ()
-			;; Move to the other window
-			(other-window 1)
-			;; Change to hy REPL
-			(switch-to-lisp t))
-		    ;; fun-execute
-		    #'comint-send-input))
-;;
+
 ;;; eir-eval-in-hy
 ;;;###autoload
 (defun eir-eval-in-hy ()
-  "This is a customized version of eir-eval-in-repl-lisp for Hy."
-
+  "eval-in-repl for Hy."
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
@@ -68,7 +67,7 @@
    'eir-send-to-hy
    ;; defun-string
    "(dfn "))
-;;
+
 
 (provide 'eval-in-repl-hy)
 ;;; eval-in-repl-hy.el ends here

@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.5.0
+;; Version: 0.5.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -39,32 +39,30 @@
 ;;;
 ;;; PYTHON-MODE RELATED
 ;;; eir-send-to-python
-(defun eir-send-to-python (start end)
-  "Sends expression to *Python* and have it evaluated."
+(defalias 'eir-send-to-python
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'python-shell-switch-to-shell
+                   ;; fun-execute
+                   #'comint-send-input)
+  "Send expression to *Python* and have it evaluated.")
 
-  (eir-send-to-repl start end
-		    ;; fun-change-to-repl
-		    #'python-shell-switch-to-shell
-		    ;; fun-execute
-		    #'comint-send-input))
-;;
+
 ;;; eir-eval-in-python
 ;; http://www.reddit.com/r/emacs/comments/1h4hyw/selecting_regions_pythonel/
 ;;;###autoload
 (defun eir-eval-in-python ()
-  "Evaluates Python expressions"
-
+  "eval-in-repl for Python."
   (interactive)
   ;; Define local variables
-  (let* (w-script)
-
+  (let* ((script-window (selected-window)))
     ;;
     (eir-repl-start "*Python*" #'run-python)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(eir-send-to-python (point) (mark))
+	(eir-send-to-python (buffer-substring-no-properties (point) (mark)))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -79,21 +77,18 @@
       (if (not (equal (point) (mark)))
 	  ;; Add one more character for newline unless at EOF
 	  ;; This does not work if the statement asks for an input.
-	  (eir-send-to-python (min (+ 1 (point)) (point-max))
-			      (mark))
+	  (eir-send-to-python (buffer-substring-no-properties
+                               (min (+ 1 (point)) (point-max))
+                               (mark)))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
       (python-nav-forward-statement)
 
-      ;; Activate shell window, and switch back
-      ;; Remeber the script window
-      (setq w-script (selected-window))
       ;; Switch to the shell
       (python-shell-switch-to-shell)
       ;; Switch back to the script window
-      (select-window w-script))))
-;;
+      (select-window script-window))))
 
 
 (provide 'eval-in-repl-python)

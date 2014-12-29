@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.5.0
+;; Version: 0.5.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -41,24 +41,23 @@
 ;;; SCHEME RELATED
 ;;; eir-send-to-scheme
 ;; send to scheme
-(defun eir-send-to-scheme (start end)
-  "Sends expression to *scheme* and have it evaluated."
+(defalias 'eir-send-to-scheme
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'(lambda ()
+                       ;; Move to the other window
+                       (other-window 1)
+                       ;; Change to scheme REPL
+                       (switch-to-scheme t))
+                   ;; fun-execute
+                   #'comint-send-input)
+  "Send expression to *scheme* and have it evaluated.")
 
-  (eir-send-to-repl start end
-		    ;; fun-change-to-repl
-		    #'(lambda ()
-			;; Move to the other window
-			(other-window 1)
-			;; Change to scheme REPL
-			(switch-to-scheme t))
-		    ;; fun-execute
-		    #'comint-send-input))
-;;
+
 ;;; eir-eval-in-scheme
 ;;;###autoload
 (defun eir-eval-in-scheme ()
-  "This is a customized version of eir-eval-in-repl-lisp for scheme."
-
+  "eval-in-repl for Scheme."
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
@@ -69,7 +68,7 @@
    'eir-send-to-scheme
    ;; defun-string
    "(define "))
-;;
+
 
 (provide 'eval-in-repl-scheme)
 ;;; eval-in-repl-scheme.el ends here

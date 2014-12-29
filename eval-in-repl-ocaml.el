@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.5.0
+;; Version: 0.5.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -42,22 +42,22 @@
 ;; depends on tuareg.el
 ;;
 ;;; eir-send-to-ocaml
-(defun eir-send-to-ocaml (start end)
-  "Sends expression to *ocaml* and have it evaluated."
+(defalias 'eir-send-to-ocaml
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'(lambda () (switch-to-buffer-other-window "*ocaml-toplevel*"))
+                   ;; fun-execute
+                   #'tuareg-interactive-send-input)
+  "Send expression to *ocaml* and have it evaluated.")
 
-    (eir-send-to-repl start end
-		    ;; fun-change-to-repl
-		    #'(lambda () (switch-to-buffer-other-window "*ocaml-toplevel*"))
-		    ;; fun-execute
-		    #'tuareg-interactive-send-input))
-;;
+
 ;;; eir-eval-in-ocaml
 ;;;###autoload
 (defun eir-eval-in-ocaml ()
-  "Evaluates OCaml expressions in OCaml files."
+  "eval-in-repl for OCaml."
   (interactive)
   ;; Define local variables
-  (let* (w-script)
+  (let* ((script-window (selected-window)))
 
     ;; If buffer named *ocaml* is not found, invoke ocaml-run
     (eir-repl-start "\\*ocaml-.*" #'run-ocaml)
@@ -65,7 +65,7 @@
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(eir-send-to-ocaml (point) (mark))
+	(eir-send-to-ocaml (buffer-substring-no-properties (point) (mark)))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -76,41 +76,23 @@
       (end-of-line)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  (eir-send-to-ocaml (point) (mark))
+	  (eir-send-to-ocaml (buffer-substring-no-properties (point) (mark)))
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
       (ess-next-code-line)
 
-      ;; Activate ocaml window, and switch back
-      ;; Remeber the script window
-      (setq w-script (selected-window))
       ;; Switch to the ocaml
       (switch-to-buffer-other-window "*ocaml-toplevel*")
       ;; Switch back to the script window
-      (select-window w-script))))
-;;
+      (select-window script-window))))
+
+
+;;; eir-send-to-ocaml-semicolon
 (defun eir-send-to-ocaml-semicolon ()
-  "Sends a semicolon to *ocaml-toplevel* and have it evaluated."
+  "Send two semicolons to *ocaml-toplevel* and have them evaluated."
   (interactive)
-
-  (let* (;; Assign the current buffer
-	 (script-window (selected-window))
-	 ;; Assign the region as a string
-	 (region-string ";;"))
-
-    ;; Change other window to REPL
-    (switch-to-buffer-other-window "*ocaml-toplevel*")
-    ;; Move to end of buffer
-    (goto-char (point-max))
-    ;; Insert the string
-    (insert region-string)
-    ;; Execute
-    (comint-send-input)
-    ;; Come back to the script
-    (select-window script-window)
-    ;; Return nil (this is a void function)
-    nil))
+  (eir-send-to-ocaml ";;"))
 
 
 (provide 'eval-in-repl-ocaml)

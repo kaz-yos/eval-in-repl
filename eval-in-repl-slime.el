@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.5.0
+;; Version: 0.5.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -40,21 +40,19 @@
 ;;;
 ;;; SLIME RELATED
 ;;; eir-send-to-slime
-;; send to slime
-(defun eir-send-to-slime (start end)
-  "Sends expression to *slime-repl* and have it evaluated."
+(defalias 'eir-send-to-slime
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'slime-switch-to-output-buffer
+                   ;; fun-execute
+                   #'slime-repl-return)
+  "Send expression to *slime-repl* and have it evaluated.")
 
-  (eir-send-to-repl start end
-		    ;; fun-change-to-repl
-		    #'slime-switch-to-output-buffer
-		    ;; fun-execute
-		    #'slime-repl-return))
-;;
+
 ;;; eir-eval-in-slime
 ;;;###autoload
 (defun eir-eval-in-slime ()
-  "This is a customized version of eir-eval-in-repl-lisp for slime."
-
+  "eval-in-repl for SLIME."
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
@@ -65,9 +63,7 @@
    #'eir-send-to-slime
    ;; defun-string
    "(defn "))
-;;
-;;; define keys
-;;
+
 
 (provide 'eval-in-repl-slime)
 ;;; eval-in-repl-slime.el ends here
