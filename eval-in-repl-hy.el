@@ -66,9 +66,24 @@
    ;; fun-repl-send
    'eir-send-to-hy
    ;; defun-string
-   "(dfn "))
+   "(defn "))
 
 
 (provide 'eval-in-repl-hy)
 ;;; eval-in-repl-hy.el ends here
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
