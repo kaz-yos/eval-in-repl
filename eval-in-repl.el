@@ -150,6 +150,13 @@ and execute by FUN-EXECUTE."
     ;; Return nil (this is a void function)
     nil))
 
+(defcustom eval-in-repl-jump-forward-after-eval t
+  "When t enables jumping to next sexp after repl evaluation.
+
+Jumps to the next expression after REPL evaluation if this option
+is not-nil (default), stays where it is otherwise."
+  :group 'eval-in-repl
+  :type 'boolean)
 
 ;;;
 ;;; COMMON ELEMENT FOR LISP LANGUAGES
@@ -206,7 +213,9 @@ A function definition is detected by a string specified in DEFUN-STRING
 	;; Send to REPL
 	(funcall fun-repl-send (buffer-substring-no-properties (point) (mark)))
 	;; Go to the next expression
-	(forward-sexp)))))
+	(if eir-jump-forward-after-eval
+        (forward-sexp)
+        (goto-char initial-point))))))
 
 
 (provide 'eval-in-repl)
