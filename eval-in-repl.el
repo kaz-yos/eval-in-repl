@@ -68,6 +68,21 @@
 (require 'paredit)
 
 
+
+;;;
+;;; CUSTOMIZATION VARIABLES
+;;
+;;; If true, jump after evaluation
+(defcustom eir-jump-after-eval t
+  "When t enables jumping to next expression after REPL evaluation.
+
+Jumps to the next expression after REPL evaluation if this option
+is not-nil (default), stays where it is otherwise. Contributed by
+Andrea Richiardi (https://github.com/arichiardi)"
+  :group 'eval-in-repl
+  :type 'boolean)
+
+
 ;;;
 ;;; COMMON ELEMENTS
 ;;; eir--matching-elements
