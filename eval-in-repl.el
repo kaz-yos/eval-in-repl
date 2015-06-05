@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.5.1
+;; Version: 0.6.0
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -66,6 +66,21 @@
 ;;; Require dependencies
 (require 'dash)
 (require 'paredit)
+
+
+
+;;;
+;;; CUSTOMIZATION VARIABLES
+;;
+;;; If true, jump after evaluation
+;; Contributed by Andrea Richiardi (https://github.com/arichiardi)
+(defcustom eir-jump-after-eval t
+  "When t enables jumping to next expression after REPL evaluation.
+
+Jumps to the next expression after REPL evaluation if this option
+is not-nil (default), stays where it is otherwise."
+  :group 'eval-in-repl
+  :type 'boolean)
 
 
 ;;;
@@ -179,34 +194,39 @@ A function definition is detected by a string specified in DEFUN-STRING
       (beginning-of-line)
       ;; Check if the first word is def (function def)
       (if (looking-at defun-string)
-	  ;; Use eval-defun if on defun
-	  (progn
-	    ;; Set a mark there
-	    (set-mark (line-beginning-position))
-	    ;; Go to the end
-	    (forward-sexp)
-	    ;; Send to REPL
-	    (funcall fun-repl-send (buffer-substring-no-properties (point) (mark)))
-	    ;; Go to the next expression
-	    (forward-sexp))
+          ;; Use eval-defun if on defun
+          (progn
+            ;; Set a mark there
+            (set-mark (line-beginning-position))
+            ;; Go to the end
+            (forward-sexp)
+            ;; Send to REPL
+            (funcall fun-repl-send (buffer-substring-no-properties (point) (mark)))
+            ;; Go to the next expression
+            (forward-sexp))
 
-	;; If it is not def, do all the following
-	;; Go to the previous position
-	(goto-char initial-point)
-	;; Go back one S-exp. (paredit dependency)
-	(paredit-backward)
-	;; Loop until at a top-level "(" at column 0
-	(while (not (equal (current-column) 0))
-	  ;; Go back one S-exp. (paredit dependency)
-	  (paredit-backward))
-	;; Set a mark there
-	(set-mark (line-beginning-position))
-	;; Go to the end of the S-exp starting there
-	(forward-sexp)
-	;; Send to REPL
-	(funcall fun-repl-send (buffer-substring-no-properties (point) (mark)))
-	;; Go to the next expression
-	(forward-sexp)))))
+        ;; If it is not def, do all the following
+        ;; Go to the previous position
+        (goto-char initial-point)
+        ;; Go back one S-exp. (paredit dependency)
+        (paredit-backward)
+        ;; Loop until at a top-level "(" at column 0
+        (while (not (equal (current-column) 0))
+          ;; Go back one S-exp. (paredit dependency)
+          (paredit-backward))
+        ;; Set a mark there
+        (set-mark (line-beginning-position))
+        ;; Go to the end of the S-exp starting there
+        (forward-sexp)
+        ;; Send to REPL
+        (funcall fun-repl-send (buffer-substring-no-properties (point) (mark))))
+
+      ;; Go to the next expression if configured so
+      ;; Contributed by Andrea Richiardi (https://github.com/arichiardi)
+      (if eir-jump-after-eval
+          (forward-sexp)
+        ;; Go back to the initial position otherwise
+        (goto-char initial-point)))))
 
 
 (provide 'eval-in-repl)

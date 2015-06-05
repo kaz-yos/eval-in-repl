@@ -21,6 +21,8 @@ You can see C-RET in action.
 
 ![ielm](screencast_ielm.gif?raw=true "ielm example")
 
+YouTube vide: https://www.youtube.com/watch?v=gNBlF67e-0w&feature=youtu.be
+
 **Clojure via cider.el**
 
 ![cider](screen_shot_cider.png?raw=true "cider example")
@@ -98,6 +100,10 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 ```lisp
 ;; require the main file containing common functions
 (require 'eval-in-repl)
+
+;; Uncomment if no need to jump after evaluation
+;; Currently only implement for lisp languages
+;; (setq eir-jump-after-eval nil)
 
 ;; ielm support (for emacs lisp)
 (require 'eval-in-repl-ielm)
@@ -193,6 +199,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 **Version histoy**
 --------------------
 
+- 2015-06-05 0.6.0 Add defcustom configuration to configure whether to jump after eval
 - 2014-12-28 0.5.1 Refactoring, comment and documentation changes.
 - 2014-12-21 0.5.0 Add Hy and OCaml support
 - 2014-12-04 0.4.1 Require slime-repl.el (Thanks syohex)
@@ -207,4 +214,5 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 **Special thanks:**
 --------------------
 
-This package was inspired by the wonderful Emacs Speaks Statistics (ESS) package.
+- This package was inspired by the wonderful Emacs Speaks Statistics (ESS) package.
+- Andrea Richiardi https://github.com/arichiardi contributed the no jump customization.
