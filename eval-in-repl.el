@@ -220,8 +220,9 @@ A function definition is detected by a string specified in DEFUN-STRING
 	(forward-sexp)
 	;; Send to REPL
 	(funcall fun-repl-send (buffer-substring-no-properties (point) (mark)))
-	;; Go to the next expression
-	(forward-sexp)))))
+	(if eir-jump-after-eval
+            ;; Go to the next expression if configured so
+            (forward-sexp))))))
 
 
 (provide 'eval-in-repl)
