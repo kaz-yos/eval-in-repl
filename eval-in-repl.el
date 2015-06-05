@@ -73,12 +73,12 @@
 ;;; CUSTOMIZATION VARIABLES
 ;;
 ;;; If true, jump after evaluation
+;; Contributed by Andrea Richiardi (https://github.com/arichiardi)
 (defcustom eir-jump-after-eval t
   "When t enables jumping to next expression after REPL evaluation.
 
 Jumps to the next expression after REPL evaluation if this option
-is not-nil (default), stays where it is otherwise. Contributed by
-Andrea Richiardi (https://github.com/arichiardi)"
+is not-nil (default), stays where it is otherwise."
   :group 'eval-in-repl
   :type 'boolean)
 
