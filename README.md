@@ -7,7 +7,7 @@ Emacs Speaks Statistics (ESS) package has a nice function called ess-eval-region
 
 This package implements similar work flow for various read-eval-print-loops (REPLs) shown below.
 
-The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common Lisp**, **Racket**, **Scheme**, **Hy**, **Python**, **Ruby**, **Standard ML**, **OCaml**, and **shell script**.
+The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common Lisp**, **Racket**, **Scheme**, **Hy**, **Python**, **Ruby**, **Standard ML**, **OCaml**, and **shell script**, **Prolog**.
 
 
 **Usage: C-RET rules all**
@@ -186,6 +186,20 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
           '(lambda()
 	     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
 
+;; prolog support
+(autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
+(autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
+(autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
+(setq prolog-system 'swi)
+(setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
+                                ("\\.m$" . mercury-mode))
+                               auto-mode-alist))
+
+(require 'eval-in-repl-prolog)
+
+(add-hook 'prolog-mode-hook
+	  '(lambda ()
+	     (local-set-key (kbd "<C-return>") 'eir-eval-in-prolog)))
 ```
 
 **Known issues**
