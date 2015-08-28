@@ -57,11 +57,12 @@
 
 ;;; eir-eval-in-shell
 ;;;###autoload
-(defun eir-eval-in-shell ()
+(defun eir-eval-in-shell (&optional no-jump-after-eval-p)
   "eval-in-repl for shell."
   (interactive)
   ;; Define local variables
-  (let* ((script-window (selected-window)))
+  (let* ((script-window (selected-window))
+         (initial-point (point)))
     ;;
     (eir-repl-start "\\*shell\\*" #'shell)
 
@@ -82,8 +83,12 @@
 	  (eir-send-to-shell (buffer-substring-no-properties (point) (mark)))
 	;; If empty, deselect region
 	(setq mark-active nil))
-      ;; Move to the next statement
-      (essh-next-code-line)
+
+      ;; Move to the next statement unless told not to
+      (if (not no-jump-after-eval-p)
+          (essh-next-code-line)
+        ;; Go back to the initial position otherwise
+        (goto-char initial-point))
 
       ;; Switch to the shell
       (switch-to-buffer-other-window "*shell*")
