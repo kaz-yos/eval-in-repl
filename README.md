@@ -7,7 +7,7 @@ Emacs Speaks Statistics (ESS) package has a nice function called ess-eval-region
 
 This package implements similar work flow for various read-eval-print-loops (REPLs) shown below.
 
-The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common Lisp**, **Racket**, **Scheme**, **Hy**, **Python**, **Ruby**, **Standard ML**, **OCaml**, and **shell script**, **Prolog**.
+The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common Lisp**, **Racket**, **Scheme**, **Hy**, **Python**, **Ruby**, **Standard ML**, **OCaml**, **Prolog**, and **shell script**.
 
 
 **Usage: C-RET rules all**
@@ -51,22 +51,22 @@ To configure the MELPA, see this: http://melpa.milkbox.net/#/getting-started
 The following files are included in the package. There are respective dependencies for each language-specific file that are NOT automatically installed.
 
 - eval-in-repl.el
- - Skeleton package required for all specialized packages below.
+ - Skeleton package required by all specialized packages below.
 
-- eval-in-repl-ielm.el
- - Support for Inferior Emacs Lisp Mode (IELM; part of default emacs installation)
+- eval-in-repl-ielm.el (depends on IELM; part of default emacs installation)
+ - Support for Inferior Emacs Lisp Mode
 
-- eval-in-repl-cider.el
- - Support for Clojure via cider.el (depends on cider.el)
+- eval-in-repl-cider.el (depends on cider.el)
+ - Support for Clojure via cider.el
 
-- eval-in-repl-slime.el
- - Support for Common Lisp via slime.el (depends on slime.el)
+- eval-in-repl-slime.el (depends on slime.el)
+ - Support for Common Lisp via slime.el
 
-- eval-in-repl-geiser.el
- - Support for Racket and Guile Scheme via geiser.el (depends on geiser.el)
+- eval-in-repl-geiser.el (depends on geiser.el)
+ - Support for Racket and Guile Scheme via geiser.el
 
-- eval-in-repl-racket.el
- - Support for Racket via racket-mode.el (depends on racket-mode.el)
+- eval-in-repl-racket.el (depends on racket-mode.el)
+ - Support for Racket via racket-mode.el
 
 - eval-in-repl-scheme.el
  - Support for Scheme via scheme.el (depends on scheme.el and cmuscheme.el; both part of default emacs installation)
@@ -87,6 +87,8 @@ The following files are included in the package. There are respective dependenci
 - eval-in-repl-ocaml.el (depends on tuareg.el and ess.el)
  - Support for OCaml via tuareg.el
 
+- eval-in-repl-prolog.el (depends on prolog.el; part of default emacs installation)
+ - Support for Prolog via prolog.el
 
 - eval-in-repl-shell.el (depends on essh.el)
  - Support for shell via essh.el
@@ -101,9 +103,9 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 ;; require the main file containing common functions
 (require 'eval-in-repl)
 
-;; Uncomment if no need to jump after evaluation
-;; Currently only implement for lisp languages
+;; Uncomment if no need to jump after evaluating current line
 ;; (setq eir-jump-after-eval nil)
+
 
 ;; ielm support (for emacs lisp)
 (require 'eval-in-repl-ielm)
@@ -178,15 +180,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 ;; function to send a semicolon to OCaml REPL
 (define-key tuareg-mode-map (kbd "C-;") 'eir-send-to-ocaml-semicolon)
 
-
-;; Shell support
-;; (require 'essh) ; if not done elsewhere
-(require 'eval-in-repl-shell)
-(add-hook 'sh-mode-hook
-          '(lambda()
-	     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
-
-;; prolog support
+;; Prolog support (Contributed by m00nlight)
 ;; if not done elsewhere
 ;; (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 ;; (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
@@ -199,6 +193,27 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 (add-hook 'prolog-mode-hook
 	  '(lambda ()
 	     (local-set-key (kbd "<C-return>") 'eir-eval-in-prolog)))
+
+
+;; Shell support
+;; (require 'essh) ; if not done elsewhere
+(require 'eval-in-repl-shell)
+(add-hook 'sh-mode-hook
+          '(lambda()
+	     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
+;; Version with opposite behavior to eir-jump-after-eval configuration
+(defun eir-eval-in-shell2 ()
+  "eval-in-repl for shell script (opposite behavior)
+
+This version has the opposite behavior to the eir-jump-after-eval
+configuration when invoked to evaluate a line."
+  (interactive)
+  (let ((eir-jump-after-eval (not eir-jump-after-eval)))
+       (eir-eval-in-shell)))
+(add-hook 'sh-mode-hook
+          '(lambda()
+	     (local-set-key (kbd "C-M-<return>") 'eir-eval-in-shell2)))
+
 ```
 
 **Known issues**
@@ -213,7 +228,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 --------------------
 
 - 2015-09-05 0.7.0 Add Prolog support (Thanks m00nlight); no jump option for other langs
-- 2015-06-05 0.6.0 Add defcustom configuration to configure whether to jump after eval
+- 2015-06-05 0.6.0 Add defcustom configuration to configure whether to jump after eval (Thanks arichiardi)
 - 2014-12-28 0.5.1 Refactoring, comment and documentation changes.
 - 2014-12-21 0.5.0 Add Hy and OCaml support
 - 2014-12-04 0.4.1 Require slime-repl.el (Thanks syohex)

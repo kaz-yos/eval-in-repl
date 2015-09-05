@@ -1,11 +1,11 @@
 ;;; eval-in-repl-sml.el --- ESS-like eval for Standard ML  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2014  Kazuki YOSHIDA
+;; Copyright (C) 2014-  Kazuki YOSHIDA
 
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.6.0
+;; Version: 0.7.0
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -57,7 +57,8 @@
   "eval-in-repl for Standard ML."
   (interactive)
   ;; Define local variables
-  (let* ((script-window (selected-window)))
+  (let* (;; Save current point
+	 (initial-point (point)))
 
     ;; If buffer named *sml* is not found, invoke sml-run
     (eir-repl-start "\\*sml\\*" #'sml-run)
@@ -79,13 +80,12 @@
 	  (eir-send-to-sml (buffer-substring-no-properties (point) (mark)))
 	;; If empty, deselect region
 	(setq mark-active nil))
-      ;; Move to the next statement
-      (ess-next-code-line)
 
-      ;; Switch to the sml
-      (switch-to-buffer-other-window "*sml*")
-      ;; Switch back to the script window
-      (select-window script-window))))
+      ;; Move to the next statement code if jumping
+      (if eir-jump-after-eval
+          (essh-next-code-line)
+        ;; Go back to the initial position otherwise
+        (goto-char initial-point)))))
 
 
 ;;; eir-send-to-sml-semicolon

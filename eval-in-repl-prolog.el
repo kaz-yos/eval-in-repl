@@ -39,8 +39,8 @@
 ;;
 ;;; eir-send-to-prolog
 (defun eir-send-to-prolog (beg end)
-  (prolog-consult-region beg end)
-  "Send expression to *prolog* and have it evaluated.")
+  "Send expression to *prolog* and have it evaluated."
+  (prolog-consult-region beg end))
 
 
 ;;; eir-eval-in-prolog
@@ -49,7 +49,8 @@
   "eval-in-repl for SWI Prolog."
   (interactive)
   ;; Define local variables
-  (let* ((script-window (selected-window)))
+  (let* (;; Save current point
+	 (initial-point (point)))
 
     ;; If buffer named *prolog* is not found, invoke run-prolog
     (eir-repl-start "\\*prolog\\*" #'run-prolog)
@@ -72,13 +73,12 @@
 	  (eir-send-to-prolog (point) (mark))
 	;; If empty, deselect region
 	(setq mark-active nil))
-      ;; Move to the next statement
-      (ess-next-code-line)
 
-      ;; Switch to the prolog repl buffer
-      (switch-to-buffer-other-window "*prolog*")
-      ;; Switch back to the script window
-      (select-window script-window))))
+      ;; Move to the next statement code if jumping
+      (if eir-jump-after-eval
+          (essh-next-code-line)
+        ;; Go back to the initial position otherwise
+        (goto-char initial-point)))))
 
 
 (provide 'eval-in-repl-prolog)

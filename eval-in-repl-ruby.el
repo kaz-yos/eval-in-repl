@@ -1,11 +1,11 @@
 ;;; eval-in-repl-ruby.el --- ESS-like eval for ruby  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2014  Kazuki YOSHIDA
+;; Copyright (C) 2014-  Kazuki YOSHIDA
 
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.6.0
+;; Version: 0.7.0
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -57,7 +57,8 @@
   "eval-in-repl for Ruby."
   (interactive)
   ;; Define local variables
-  (let* ((script-window (selected-window)))
+  (let* (;; Save current point
+	 (initial-point (point)))
     ;;
     (eir-repl-start "\\*ruby\\*" #'run-ruby)
 
@@ -78,13 +79,12 @@
 	  (eir-send-to-ruby (buffer-substring-no-properties (point) (mark)))
 	;; If empty, deselect region
 	(setq mark-active nil))
-      ;; Move to the next statement
-      (ess-next-code-line)
 
-      ;; Switch to the inferior ruby
-      (run-ruby)
-      ;; Switch back to the script window
-      (select-window script-window))))
+      ;; Move to the next statement code if jumping
+      (if eir-jump-after-eval
+          (essh-next-code-line)
+        ;; Go back to the initial position otherwise
+        (goto-char initial-point)))))
 
 
 (provide 'eval-in-repl-ruby)
