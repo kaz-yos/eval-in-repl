@@ -55,7 +55,8 @@
   "eval-in-repl for Python."
   (interactive)
   ;; Define local variables
-  (let* ((script-window (selected-window)))
+  (let* (;; Save current point
+	 (initial-point (point)))
     ;;
     (eir-repl-start "*Python*" #'run-python)
 
@@ -82,8 +83,12 @@
                                (mark)))
 	;; If empty, deselect region
 	(setq mark-active nil))
-      ;; Move to the next statement
-      (python-nav-forward-statement))))
+
+      ;; Move to the next statement code if jumping
+      (if eir-jump-after-eval
+          (python-nav-forward-statement)
+        ;; Go back to the initial position otherwise
+        (goto-char initial-point)))))
 
 
 (provide 'eval-in-repl-python)
