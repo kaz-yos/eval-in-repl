@@ -1,11 +1,11 @@
 ;;; eval-in-repl-ocaml.el --- ESS-like eval for OCaml  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2014  Kazuki YOSHIDA
+;; Copyright (C) 2014-  Kazuki YOSHIDA
 
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.6.0
+;; Version: 0.7.0
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -57,7 +57,8 @@
   "eval-in-repl for OCaml."
   (interactive)
   ;; Define local variables
-  (let* ((script-window (selected-window)))
+  (let* (;; Save current point
+	 (initial-point (point)))
 
     ;; If buffer named *ocaml* is not found, invoke ocaml-run
     (eir-repl-start "\\*ocaml-.*" #'run-ocaml)
@@ -79,13 +80,12 @@
 	  (eir-send-to-ocaml (buffer-substring-no-properties (point) (mark)))
 	;; If empty, deselect region
 	(setq mark-active nil))
-      ;; Move to the next statement
-      (ess-next-code-line)
 
-      ;; Switch to the ocaml
-      (switch-to-buffer-other-window "*ocaml-toplevel*")
-      ;; Switch back to the script window
-      (select-window script-window))))
+      ;; Move to the next statement code if jumping
+      (if eir-jump-after-eval
+          (essh-next-code-line)
+        ;; Go back to the initial position otherwise
+        (goto-char initial-point)))))
 
 
 ;;; eir-send-to-ocaml-semicolon
