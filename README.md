@@ -227,7 +227,7 @@ configuration when invoked to evaluate a line."
 **Version histoy**
 --------------------
 
-- 2015-09-05 0.7.0 Add Prolog support (Thanks m00nlight); no jump option for other langs
+- 2015-09-05 0.7.0 Add Prolog support (Thanks m00nlight); no jump option for other languages
 - 2015-06-05 0.6.0 Add defcustom configuration to configure whether to jump after eval (Thanks arichiardi)
 - 2014-12-28 0.5.1 Refactoring, comment and documentation changes.
 - 2014-12-21 0.5.0 Add Hy and OCaml support
