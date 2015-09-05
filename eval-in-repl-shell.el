@@ -62,9 +62,7 @@
   (interactive)
   ;; Define local variables
   (let* (;; Save current point
-	 (initial-point (point))
-         ;; Save current script window
-         (script-window (selected-window)))
+	 (initial-point (point)))
     ;;
     (eir-repl-start "\\*shell\\*" #'shell)
 
