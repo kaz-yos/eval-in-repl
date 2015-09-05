@@ -187,16 +187,15 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 	     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
 
 ;; prolog support
-(autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
-(autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
-(autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
-(setq prolog-system 'swi)
-(setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
-                                ("\\.m$" . mercury-mode))
-                               auto-mode-alist))
-
+;; if not done elsewhere
+;; (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
+;; (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
+;; (autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
+;; (setq prolog-system 'swi)
+;; (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
+;;                                 ("\\.m$" . mercury-mode))
+;;                                auto-mode-alist))
 (require 'eval-in-repl-prolog)
-
 (add-hook 'prolog-mode-hook
 	  '(lambda ()
 	     (local-set-key (kbd "<C-return>") 'eir-eval-in-prolog)))
@@ -213,6 +212,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 **Version histoy**
 --------------------
 
+- 2015-09-05 0.7.0 Add Prolog support (Thanks m00nlight); no jump option for other langs
 - 2015-06-05 0.6.0 Add defcustom configuration to configure whether to jump after eval
 - 2014-12-28 0.5.1 Refactoring, comment and documentation changes.
 - 2014-12-21 0.5.0 Add Hy and OCaml support
