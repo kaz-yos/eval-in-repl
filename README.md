@@ -244,4 +244,7 @@ configuration when invoked to evaluate a line."
 --------------------
 
 - This package was inspired by the wonderful Emacs Speaks Statistics (ESS) package.
+- David Högberg https://github.com/dfh contributed temporary reversal of no jump configuration.
+- Yushi Wang https://github.com/m00nlight contributed the Prolog support.
 - Andrea Richiardi https://github.com/arichiardi contributed the no jump customization.
+- Syohei YOSHIDA https://github.com/syohex contributed fixing a missing dependency.
