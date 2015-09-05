@@ -80,12 +80,7 @@
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
-      (ess-next-code-line)
-
-      ;; Switch to the sml
-      (switch-to-buffer-other-window "*sml*")
-      ;; Switch back to the script window
-      (select-window script-window))))
+      (ess-next-code-line))))
 
 
 ;;; eir-send-to-sml-semicolon

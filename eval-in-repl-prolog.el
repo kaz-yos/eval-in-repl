@@ -73,12 +73,7 @@
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
-      (ess-next-code-line)
-
-      ;; Switch to the prolog repl buffer
-      (switch-to-buffer-other-window "*prolog*")
-      ;; Switch back to the script window
-      (select-window script-window))))
+      (ess-next-code-line))))
 
 
 (provide 'eval-in-repl-prolog)

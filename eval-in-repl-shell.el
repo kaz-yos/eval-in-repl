@@ -90,12 +90,7 @@
       (if eir-jump-after-eval
           (essh-next-code-line)
         ;; Go back to the initial position otherwise
-        (goto-char initial-point))
-
-      ;; Switch to the shell
-      (switch-to-buffer-other-window "*shell*")
-      ;; Switch back to the script window
-      (select-window script-window))))
+        (goto-char initial-point)))))
 
 
 (provide 'eval-in-repl-shell)

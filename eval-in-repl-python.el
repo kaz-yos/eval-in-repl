@@ -83,12 +83,7 @@
 	;; If empty, deselect region
 	(setq mark-active nil))
       ;; Move to the next statement
-      (python-nav-forward-statement)
-
-      ;; Switch to the shell
-      (python-shell-switch-to-shell)
-      ;; Switch back to the script window
-      (select-window script-window))))
+      (python-nav-forward-statement))))
 
 
 (provide 'eval-in-repl-python)
