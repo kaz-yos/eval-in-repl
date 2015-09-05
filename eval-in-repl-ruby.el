@@ -57,7 +57,8 @@
   "eval-in-repl for Ruby."
   (interactive)
   ;; Define local variables
-  (let* ((script-window (selected-window)))
+  (let* (;; Save current point
+	 (initial-point (point)))
     ;;
     (eir-repl-start "\\*ruby\\*" #'run-ruby)
 
@@ -78,8 +79,12 @@
 	  (eir-send-to-ruby (buffer-substring-no-properties (point) (mark)))
 	;; If empty, deselect region
 	(setq mark-active nil))
-      ;; Move to the next statement
-      (ess-next-code-line))))
+
+      ;; Move to the next statement code if jumping
+      (if eir-jump-after-eval
+          (essh-next-code-line)
+        ;; Go back to the initial position otherwise
+        (goto-char initial-point)))))
 
 
 (provide 'eval-in-repl-ruby)
