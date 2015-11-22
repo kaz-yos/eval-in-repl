@@ -58,8 +58,8 @@
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(eir-send-to-prolog  (point) (mark))
-	;; (eir-send-to-prolog (buffer-substring-no-properties (point) (mark)))
+	(eir-send-to-prolog (point) (mark))
+      ;; (eir-send-to-prolog (buffer-substring-no-properties (point) (mark)))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
