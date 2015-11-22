@@ -214,19 +214,6 @@ configuration when invoked to evaluate a line."
           '(lambda()
 	     (local-set-key (kbd "C-M-<return>") 'eir-eval-in-shell2)))
 
-;; prolog support
-;; if not done elsewhere
-;; (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
-;; (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
-;; (autoload 'mercury-mode "prolog" "Major mode for editing Mercury programs." t)
-;; (setq prolog-system 'swi)
-;; (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
-;;                                 ("\\.m$" . mercury-mode))
-;;                                auto-mode-alist))
-(require 'eval-in-repl-prolog)
-(add-hook 'prolog-mode-hook
-	  '(lambda ()
-	     (local-set-key (kbd "<C-return>") 'eir-eval-in-prolog)))
 ```
 
 **Known issues**
