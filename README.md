@@ -7,7 +7,7 @@ Emacs Speaks Statistics (ESS) package has a nice function called ess-eval-region
 
 This package implements similar work flow for various read-eval-print-loops (REPLs) shown below.
 
-The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common Lisp**, **Racket**, **Scheme**, **Hy**, **Python**, **Ruby**, **Standard ML**, **OCaml**, **Prolog**, and **shell script**.
+The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common Lisp**, **Racket**, **Scheme**, **Hy**, **Python**, **Ruby**, **Standard ML**, **OCaml**, **Prolog**, **Javascript**, and **shell script**.
 
 
 **Usage: C-RET rules all**
@@ -90,6 +90,9 @@ The following files are included in the package. There are respective dependenci
 - eval-in-repl-prolog.el (depends on prolog.el; part of default emacs installation)
  - Support for Prolog via prolog.el
 
+- eval-in-repl-javascript.el (depends on js3-mode.el, js2-mode.el, and js-comint.el)
+ - Support for Javascript via js-comint.el
+
 - eval-in-repl-shell.el (depends on essh.el)
  - Support for shell via essh.el
 
@@ -107,7 +110,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 ;; (setq eir-jump-after-eval nil)
 
 
-;; ielm support (for emacs lisp)
+;;; ielm support (for emacs lisp)
 (require 'eval-in-repl-ielm)
 ;; for .el files
 (define-key emacs-lisp-mode-map (kbd "<C-return>") 'eir-eval-in-ielm)
@@ -116,19 +119,19 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 ;; for M-x info
 (define-key Info-mode-map (kbd "<C-return>") 'eir-eval-in-ielm)
 
-;; cider support (for Clojure)
+;;; cider support (for Clojure)
 ;; (require 'cider) ; if not done elsewhere
 (require 'eval-in-repl-cider)
 (define-key clojure-mode-map (kbd "<C-return>") 'eir-eval-in-cider)
 
-;; SLIME support (for Common Lisp)
+;;; SLIME support (for Common Lisp)
 ;; (require 'slime) ; if not done elsewhere
 (require 'eval-in-repl-slime)
 (add-hook 'lisp-mode-hook
 		  '(lambda ()
 		     (local-set-key (kbd "<C-return>") 'eir-eval-in-slime)))
 
-;; Geiser support (for Racket and Guile Scheme)
+;;; Geiser support (for Racket and Guile Scheme)
 ;; When using this, turn off racket-mode and scheme supports
 ;; (require 'geiser) ; if not done elsewhere
 (require 'eval-in-repl-geiser)
@@ -136,12 +139,12 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 		  '(lambda ()
 		     (local-set-key (kbd "<C-return>") 'eir-eval-in-geiser)))
 
-;; racket-mode support (for Racket; if not using Geiser)
+;;; racket-mode support (for Racket; if not using Geiser)
 ;; (require 'racket-mode) ; if not done elsewhere
 ;; (require 'eval-in-repl-racket)
 ;; (define-key racket-mode-map (kbd "<C-return>") 'eir-eval-in-racket)
 
-;; Scheme support (if not using Geiser))
+;;; Scheme support (if not using Geiser))
 ;; (require 'scheme)    ; if not done elsewhere
 ;; (require 'cmuscheme) ; if not done elsewhere
 ;; (require 'eval-in-repl-scheme)
@@ -149,38 +152,38 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 ;; 	  '(lambda ()
 ;; 	     (local-set-key (kbd "<C-return>") 'eir-eval-in-scheme)))
 
-;; Hy support
+;;; Hy support
 ;; (require 'hy-mode) ; if not done elsewhere
 (require 'eval-in-repl-hy)
 (define-key hy-mode-map (kbd "<C-return>") 'eir-eval-in-hy)
 
 
-;; Python support
+;;; Python support
 ;; (require 'python) ; if not done elsewhere
 (require 'eval-in-repl-python)
 (define-key python-mode-map (kbd "<C-return>") 'eir-eval-in-python)
 
-;; Ruby support
+;;; Ruby support
 ;; (require 'ruby-mode) ; if not done elsewhere
 ;; (require 'inf-ruby)  ; if not done elsewhere
 ;; (require 'ess)       ; if not done elsewhere
 (require 'eval-in-repl-ruby)
 (define-key ruby-mode-map (kbd "<C-return>") 'eir-eval-in-ruby)
 
-;; SML support
+;;; SML support
 ;; (require 'sml-mode) ; if not done elsewhere
 (require 'eval-in-repl-sml)
 (define-key sml-mode-map (kbd "<C-return>") 'eir-eval-in-sml)
 (define-key sml-mode-map (kbd "C-;") 'eir-send-to-sml-semicolon)
 
-;; OCaml support
+;;; OCaml support
 ;; (require 'tuareg) ; if not done elsewhere
 (require 'eval-in-repl-ocaml)
 (define-key tuareg-mode-map (kbd "<C-return>") 'eir-eval-in-ocaml)
 ;; function to send a semicolon to OCaml REPL
 (define-key tuareg-mode-map (kbd "C-;") 'eir-send-to-ocaml-semicolon)
 
-;; Prolog support (Contributed by m00nlight)
+;;; Prolog support (Contributed by m00nlight)
 ;; if not done elsewhere
 ;; (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 ;; (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
@@ -191,8 +194,19 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 ;;                                auto-mode-alist))
 (require 'eval-in-repl-prolog)
 (add-hook 'prolog-mode-hook
-	  '(lambda ()
-	     (local-set-key (kbd "<C-return>") 'eir-eval-in-prolog)))
+          '(lambda ()
+             (local-set-key (kbd "<C-return>") 'eir-eval-in-prolog)))
+
+;;; Javascript support
+;; (require 'js3-mode)  ; if not done elsewhere
+;; (require 'js2-mode)  ; if not done elsewhere
+;; (require 'js-comint) ; if not done elsewhere
+(with-eval-after-load 'js3-mode
+  (require 'eval-in-repl-javascript)
+  (define-key js3-mode-map (kbd "<C-return>") 'eir-eval-in-javascript))
+(with-eval-after-load 'js2-mode
+  (require 'eval-in-repl-javascript)
+  (define-key js2-mode-map (kbd "<C-return>") 'eir-eval-in-javascript))
 
 
 ;; Shell support
@@ -200,7 +214,7 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 (require 'eval-in-repl-shell)
 (add-hook 'sh-mode-hook
           '(lambda()
-	     (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
+             (local-set-key (kbd "C-<return>") 'eir-eval-in-shell)))
 ;; Version with opposite behavior to eir-jump-after-eval configuration
 (defun eir-eval-in-shell2 ()
   "eval-in-repl for shell script (opposite behavior)
@@ -212,7 +226,7 @@ configuration when invoked to evaluate a line."
        (eir-eval-in-shell)))
 (add-hook 'sh-mode-hook
           '(lambda()
-	     (local-set-key (kbd "C-M-<return>") 'eir-eval-in-shell2)))
+             (local-set-key (kbd "C-M-<return>") 'eir-eval-in-shell2)))
 
 ```
 
@@ -227,6 +241,7 @@ configuration when invoked to evaluate a line."
 **Version histoy**
 --------------------
 
+- 2015-11-22 0.8.0 Add Javascript support (Thanks stardiviner)
 - 2015-09-05 0.7.0 Add Prolog support (Thanks m00nlight); no jump option for other languages
 - 2015-06-05 0.6.0 Add defcustom configuration to configure whether to jump after eval (Thanks arichiardi)
 - 2014-12-28 0.5.1 Refactoring, comment and documentation changes.
@@ -244,7 +259,8 @@ configuration when invoked to evaluate a line."
 --------------------
 
 - This package was inspired by the wonderful Emacs Speaks Statistics (ESS) package.
-- David Högberg https://github.com/dfh contributed temporary reversal of no jump configuration.
+- stardiviner https://github.com/stardiviner contributed the Javascript support.
 - Yushi Wang https://github.com/m00nlight contributed the Prolog support.
+- David Högberg https://github.com/dfh contributed temporary reversal of no jump configuration.
 - Andrea Richiardi https://github.com/arichiardi contributed the no jump customization.
-- Syohei YOSHIDA https://github.com/syohex contributed fixing a missing dependency.
+- Syohei YOSHIDA https://github.com/syohex contributed a fix for a missing dependency.
