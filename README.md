@@ -7,7 +7,7 @@ Emacs Speaks Statistics (ESS) package has a nice function called ess-eval-region
 
 This package implements similar work flow for various read-eval-print-loops (REPLs) shown below.
 
-The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common Lisp**, **Racket**, **Scheme**, **Hy**, **Python**, **Ruby**, **Standard ML**, **OCaml**, **Prolog**, and **shell script**.
+The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common Lisp**, **Racket**, **Scheme**, **Hy**, **Python**, **Ruby**, **Standard ML**, **OCaml**, **Prolog**, **Javascript**, and **shell script**.
 
 
 **Usage: C-RET rules all**
@@ -89,6 +89,9 @@ The following files are included in the package. There are respective dependenci
 
 - eval-in-repl-prolog.el (depends on prolog.el; part of default emacs installation)
  - Support for Prolog via prolog.el
+
+- eval-in-repl-javascript.el (depends on js3-mode.el, js2-mode.el, and js-comint.el)
+ - Support for Javascript via js-comint.el
 
 - eval-in-repl-shell.el (depends on essh.el)
  - Support for shell via essh.el
@@ -195,6 +198,9 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
              (local-set-key (kbd "<C-return>") 'eir-eval-in-prolog)))
 
 ;;; Javascript support
+;; (require 'js3-mode)  ; if not done elsewhere
+;; (require 'js2-mode)  ; if not done elsewhere
+;; (require 'js-comint) ; if not done elsewhere
 (with-eval-after-load 'js3-mode
   (require 'eval-in-repl-javascript)
   (define-key js3-mode-map (kbd "<C-return>") 'eir-eval-in-javascript))
