@@ -167,7 +167,7 @@ and execute by FUN-EXECUTE."
 
 
 ;;;
-;;; COMMON ELEMENT FOR LISP LANGUAGES
+;;; COMMON ELEMENTS FOR LISP LANGUAGES
 ;;; eir-eval-in-repl-lisp (used as a skeleton)
 (defun eir-eval-in-repl-lisp (repl-buffer-regexp fun-repl-start fun-repl-send defun-string)
   "eval-in-repl function for lisp languages.
@@ -227,6 +227,28 @@ A function definition is detected by a string specified in DEFUN-STRING
           (forward-sexp)
         ;; Go back to the initial position otherwise
         (goto-char initial-point)))))
+
+
+;;; COMMON ELEMENT FOR NON-LISP LANGUAGES
+;;; eir-next-code-line (taken from essh.el)
+(defun eir-next-code-line (&optional arg)
+  "Move ARG lines of code forward (backward if ARG is negative).
+Skips past all empty and comment lines.	 Default for ARG is 1.
+
+On success, return 0.  Otherwise, go as far as possible and return -1."
+  (interactive "p")
+  (or arg (setq arg 1))
+  (beginning-of-line)
+  (let ((n 0)
+	(inc (if (> arg 0) 1 -1)))
+    (while (and (/= arg 0) (= n 0))
+      (setq n (forward-line inc)); n=0 is success
+      (while (and (= n 0)
+		  (looking-at "\\s-*\\($\\|\\s<\\)"))
+	(setq n (forward-line inc)))
+      (setq arg (- arg inc)))
+    n))
+
 
 
 (provide 'eval-in-repl)
