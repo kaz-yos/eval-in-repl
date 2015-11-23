@@ -31,7 +31,7 @@ YouTube vide: https://www.youtube.com/watch?v=gNBlF67e-0w&feature=youtu.be
 
 ![python](screen_shot_python.png?raw=true "python example")
 
-**Shell script via essh.el**
+**Shell script**
 
 ![shell](screen_shot_shell.png?raw=true "shell example")
 
@@ -78,13 +78,13 @@ The following files are included in the package. There are respective dependenci
 - eval-in-repl-python.el
  - Support for Python via python.el (depends on python.el; part of default emacs installation)
 
-- eval-in-repl-ruby.el (depends on ruby-mode.el, inf-ruby.el, and ess.el)
+- eval-in-repl-ruby.el (depends on ruby-mode.el, and inf-ruby.el)
  - Support for Ruby via ruby-mode.el
 
-- eval-in-repl-sml.el (depends on sml-mode.el and ess.el)
+- eval-in-repl-sml.el (depends on sml-mode.el)
  - Support for Standard ML via sml-mode.el
 
-- eval-in-repl-ocaml.el (depends on tuareg.el and ess.el)
+- eval-in-repl-ocaml.el (depends on tuareg.el)
  - Support for OCaml via tuareg.el
 
 - eval-in-repl-prolog.el (depends on prolog.el; part of default emacs installation)
@@ -93,8 +93,8 @@ The following files are included in the package. There are respective dependenci
 - eval-in-repl-javascript.el (depends on js3-mode.el, js2-mode.el, and js-comint.el)
  - Support for Javascript via js-comint.el
 
-- eval-in-repl-shell.el (depends on essh.el)
- - Support for shell via essh.el
+- eval-in-repl-shell.el
+ - Support for shell
 
 
 **Configuration**
@@ -166,7 +166,6 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 ;;; Ruby support
 ;; (require 'ruby-mode) ; if not done elsewhere
 ;; (require 'inf-ruby)  ; if not done elsewhere
-;; (require 'ess)       ; if not done elsewhere
 (require 'eval-in-repl-ruby)
 (define-key ruby-mode-map (kbd "<C-return>") 'eir-eval-in-ruby)
 
@@ -210,7 +209,6 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 
 
 ;; Shell support
-;; (require 'essh) ; if not done elsewhere
 (require 'eval-in-repl-shell)
 (add-hook 'sh-mode-hook
           '(lambda()
@@ -241,7 +239,7 @@ configuration when invoked to evaluate a line."
 **Version histoy**
 --------------------
 
-- 2015-11-22 0.8.0 Add Javascript support (Thanks stardiviner)
+- 2015-11-22 0.8.0 Add Javascript support (Thanks stardiviner); Drop essh.el dependency
 - 2015-09-05 0.7.0 Add Prolog support (Thanks m00nlight); no jump option for other languages
 - 2015-06-05 0.6.0 Add defcustom configuration to configure whether to jump after eval (Thanks arichiardi)
 - 2014-12-28 0.5.1 Refactoring, comment and documentation changes.
