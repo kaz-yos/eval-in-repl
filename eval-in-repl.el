@@ -48,11 +48,13 @@
 ;; eval-in-repl-hy.el      for Hy            (via hy-mode.el and inf-lisp.el)
 ;;
 ;; eval-in-repl-python.el  for Python        (via python.el)
-;; eval-in-repl-ruby.el    for Ruby          (via ruby-mode.el, inf-ruby.el, and ess.el)
-;; eval-in-repl-sml.el     for Standard ML   (via sml-mode.el and ess.el)
-;; eval-in-repl-ocaml.el   for OCaml         (via tuareg.el and ess.el)
+;; eval-in-repl-ruby.el    for Ruby          (via ruby-mode.el, and inf-ruby.el)
+;; eval-in-repl-sml.el     for Standard ML   (via sml-mode.el)
+;; eval-in-repl-ocaml.el   for OCaml         (via tuareg.el)
+;; eval-in-repl-prolog.el  for Prolog        (via tuareg.el)
+;; eval-in-repl-javascript.el for Javascript (via tuareg.el)
 ;;
-;; eval-in-repl-shell.el   for Shell         (via essh.el)
+;; eval-in-repl-shell.el   for Shell         (via native shell support)
 ;;
 ;;
 ;; See the URL below for installation and configuration instructions,

@@ -33,17 +33,10 @@
 ;;;
 ;;; Require dependencies
 (require 'eval-in-repl)
-(require 'essh)
 
 
 ;;;
 ;;; SHELL RELATED
-;; depends on essh
-;; Changed from ESS
-;; Auto-scrolling of R console to bottom and Shift key extension
-;; http://www.kieranhealy.org/blog/archives/2009/10/12/make-shift-enter-do-a-lot-in-ess/
-;; Adapted with one minor change from Felipe Salazar at
-;; http://www.emacswiki.org/emacs/ESSShiftEnter
 ;;
 ;;; eir-send-to-shell
 (defalias 'eir-send-to-shell
@@ -86,7 +79,7 @@
 
       ;; Move to the next statement code if jumping
       (if eir-jump-after-eval
-          (essh-next-code-line)
+          (eir-next-code-line)
         ;; Go back to the initial position otherwise
         (goto-char initial-point)))))
 
