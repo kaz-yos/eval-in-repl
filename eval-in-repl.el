@@ -51,8 +51,8 @@
 ;; eval-in-repl-ruby.el    for Ruby          (via ruby-mode.el, and inf-ruby.el)
 ;; eval-in-repl-sml.el     for Standard ML   (via sml-mode.el)
 ;; eval-in-repl-ocaml.el   for OCaml         (via tuareg.el)
-;; eval-in-repl-prolog.el  for Prolog        (via tuareg.el)
-;; eval-in-repl-javascript.el for Javascript (via tuareg.el)
+;; eval-in-repl-prolog.el  for Prolog        (via prolog.el)
+;; eval-in-repl-javascript.el for Javascript (via js3-mode.el, js2-mode.el, and js-comint.el)
 ;;
 ;; eval-in-repl-shell.el   for Shell         (via native shell support)
 ;;
