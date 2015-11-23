@@ -235,6 +235,7 @@ configuration when invoked to evaluate a line."
 **Version histoy**
 --------------------
 
+- 2015-11-22 0.8.0 Add Javascript support (Thanks stardiviner)
 - 2015-09-05 0.7.0 Add Prolog support (Thanks m00nlight); no jump option for other languages
 - 2015-06-05 0.6.0 Add defcustom configuration to configure whether to jump after eval (Thanks arichiardi)
 - 2014-12-28 0.5.1 Refactoring, comment and documentation changes.
@@ -252,7 +253,8 @@ configuration when invoked to evaluate a line."
 --------------------
 
 - This package was inspired by the wonderful Emacs Speaks Statistics (ESS) package.
-- David Högberg https://github.com/dfh contributed temporary reversal of no jump configuration.
+- stardiviner https://github.com/stardiviner contributed the Javascript support.
 - Yushi Wang https://github.com/m00nlight contributed the Prolog support.
+- David Högberg https://github.com/dfh contributed temporary reversal of no jump configuration.
 - Andrea Richiardi https://github.com/arichiardi contributed the no jump customization.
-- Syohei YOSHIDA https://github.com/syohex contributed fixing a missing dependency.
+- Syohei YOSHIDA https://github.com/syohex contributed a fix for a missing dependency.
