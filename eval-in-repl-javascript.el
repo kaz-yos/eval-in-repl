@@ -1,8 +1,8 @@
-;;; eval-in-repl-javascript.el --- ESS-like eval for ruby  -*- lexical-binding: t; -*-
+;;; eval-in-repl-javascript.el --- ESS-like eval for javascript  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2014-  Kazuki YOSHIDA
+;; Copyright (C) 2015- stardiviner, Kazuki YOSHIDA
 
-;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
+;; Author: stardiviner, Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
 ;; Version: 0.7.0
@@ -23,19 +23,10 @@
 
 ;;; Commentary:
 
-;; ruby.el-specific file for eval-in-repl
+;; Javascript-specific file for eval-in-repl
 ;; See below for configuration
 ;; https://github.com/kaz-yos/eval-in-repl/
 
-;; Add bellowing lines to your config.
-;;
-;; (with-eval-after-load 'js3-mode
-;;   (require 'eval-in-repl-javascript)
-;;   (define-key js3-mode-map (kbd "<C-return>") 'eir-eval-in-javascript))
-;;
-;; (with-eval-after-load 'js2-mode
-;;   (require 'eval-in-repl-javascript)
-;;   (define-key js2-mode-map (kbd "<C-return>") 'eir-eval-in-javascript))
 
 ;;; Code:
 
@@ -69,7 +60,7 @@
   (let* (;; Save current point
          (initial-point (point)))
     ;;
-    (eir-repl-start "\\*javascript\\*" #'run-js)
+    (eir-repl-start "\\*js\\*" #'run-js)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
