@@ -32,7 +32,6 @@
 ;;;
 ;;; Require dependencies
 (require 'eval-in-repl)
-(require 'ess)
 
 ;;;
 ;;; PROLOG RELATED
@@ -76,7 +75,7 @@
 
       ;; Move to the next statement code if jumping
       (if eir-jump-after-eval
-          (essh-next-code-line)
+          (eir-next-code-line)
         ;; Go back to the initial position otherwise
         (goto-char initial-point)))))
 
