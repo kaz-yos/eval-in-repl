@@ -45,7 +45,7 @@
 (defalias 'eir-send-to-javascript
   (apply-partially 'eir-send-to-repl
                    ;; fun-change-to-repl
-                   #'run-js
+                   #'(lambda () (switch-to-js t))
                    ;; fun-execute
                    #'comint-send-input)
   "Send expression to *javascript* and have it evaluated.")
