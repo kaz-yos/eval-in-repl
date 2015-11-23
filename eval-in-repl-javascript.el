@@ -1,8 +1,8 @@
-;;; eval-in-repl-shell.el --- ESS-like eval for shell  -*- lexical-binding: t; -*-
+;;; eval-in-repl-javascript.el --- ESS-like eval for javascript  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2014-  Kazuki YOSHIDA
+;; Copyright (C) 2015- stardiviner, Kazuki YOSHIDA
 
-;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
+;; Author: stardiviner, Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
 ;; Version: 0.8.0
@@ -23,7 +23,7 @@
 
 ;;; Commentary:
 
-;; essh.el-specific file for eval-in-repl
+;; Javascript-specific file for eval-in-repl
 ;; See below for configuration
 ;; https://github.com/kaz-yos/eval-in-repl/
 
@@ -34,35 +34,38 @@
 ;;; Require dependencies
 (require 'eval-in-repl)
 
+(require 'js3-mode)
+(require 'js2-mode)
+(require 'js-comint)
+
 
 ;;;
-;;; SHELL RELATED
-;;
-;;; eir-send-to-shell
-(defalias 'eir-send-to-shell
+;;; JAVASCRIPT-MODE RELATED
+;;; eir-send-to-javascript
+(defalias 'eir-send-to-javascript
   (apply-partially 'eir-send-to-repl
                    ;; fun-change-to-repl
-                   #'(lambda () (switch-to-buffer-other-window "*shell*"))
+                   #'(lambda () (switch-to-js t))
                    ;; fun-execute
                    #'comint-send-input)
-  "Send expression to *shell* and have it evaluated.")
+  "Send expression to *javascript* and have it evaluated.")
 
 
-;;; eir-eval-in-shell
+;;; eir-eval-in-javascript
 ;;;###autoload
-(defun eir-eval-in-shell ()
-  "eval-in-repl for shell."
+(defun eir-eval-in-javascript ()
+  "eval-in-repl for Javascript."
   (interactive)
   ;; Define local variables
   (let* (;; Save current point
-	 (initial-point (point)))
+         (initial-point (point)))
     ;;
-    (eir-repl-start "\\*shell\\*" #'shell)
+    (eir-repl-start "\\*js\\*" #'run-js)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
-	;; If selected, send region
-	(eir-send-to-shell (buffer-substring-no-properties (point) (mark)))
+        ;; If selected, send region
+        (eir-send-to-javascript (buffer-substring-no-properties (point) (mark)))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -73,9 +76,9 @@
       (end-of-line)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  (eir-send-to-shell (buffer-substring-no-properties (point) (mark)))
-	;; If empty, deselect region
-	(setq mark-active nil))
+          (eir-send-to-javascript (buffer-substring-no-properties (point) (mark)))
+        ;; If empty, deselect region
+        (setq mark-active nil))
 
       ;; Move to the next statement code if jumping
       (if eir-jump-after-eval
@@ -84,6 +87,6 @@
         (goto-char initial-point)))))
 
 
-(provide 'eval-in-repl-shell)
-;;; eval-in-repl-shell.el ends here
+(provide 'eval-in-repl-javascript)
+;;; eval-in-repl-javascript.el ends here
 

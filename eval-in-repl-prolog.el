@@ -32,7 +32,6 @@
 ;;;
 ;;; Require dependencies
 (require 'eval-in-repl)
-(require 'ess)
 
 ;;;
 ;;; PROLOG RELATED
@@ -59,7 +58,7 @@
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(eir-send-to-prolog  (point) (mark))
+	(eir-send-to-prolog (point) (mark))
       ;; (eir-send-to-prolog (buffer-substring-no-properties (point) (mark)))
 
       ;; If not selected, do all the following
@@ -77,7 +76,7 @@
 
       ;; Move to the next statement code if jumping
       (if eir-jump-after-eval
-          (essh-next-code-line)
+          (eir-next-code-line)
         ;; Go back to the initial position otherwise
         (goto-char initial-point)))))
 
