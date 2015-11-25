@@ -83,6 +83,16 @@ Jumps to the next expression after REPL evaluation if this option
 is not-nil (default), stays where it is otherwise."
   :group 'eval-in-repl
   :type 'boolean)
+;;
+;;; If true, delete other windows
+;; Contributed by stardiviner (https://github.com/stardiviner)
+(defcustom eir-delete-other-windows t
+  "When t deletes non-script windows at REPL startup.
+
+If t, at REPL startup all windows other than the current script
+window are delted and two-window REPL/script configuration is used."
+  :group 'eval-in-repl
+  :type 'boolean)
 
 
 ;;;
@@ -116,18 +126,21 @@ Also vertically split the current frame when staring a REPL."
               repl-buffer-regexp
               (mapcar #'buffer-name (buffer-list))))
 	(progn
-	  ;; C-x 1 Keep only the window from which this function was called.
-	  (delete-other-windows)
+          (when eir-delete-other-windows
+            ;; C-x 1 Keep only the window from which this function was called.
+            (delete-other-windows))
 
-	  ;; Make window1 keep the selected (only) window
-	  (setq window1 (selected-window))
-	  ;; Make name-script-buffer keep the selected (only) buffer
-	  (setq name-script-buffer (buffer-name))
-	  ;; (split-window &optional WINDOW SIZE SIDE)
-	  ;; Split window1 (only one) without size, and create a new window on the right.
-	  ;; Use the return value (new window) for window2.
-	  ;; window1: left (still selected), window2: right
-	  (setq window2 (split-window window1 nil "right"))
+          ;; Make window1 keep the selected (only) window
+          (setq window1 (selected-window))
+          ;; Make name-script-buffer keep the selected (only) buffer
+          (setq name-script-buffer (buffer-name))
+
+          (when eir-delete-other-windows
+            ;; (split-window &optional WINDOW SIZE SIDE)
+            ;; Split window1 (only one) without size, and create a new window on the right.
+            ;; Use the return value (new window) for window2.
+            ;; window1: left (still selected), window2: right
+            (setq window2 (split-window window1 nil "right")))
 
 	  ;; Activate the REPL (Interactive functions are used)
 	  (call-interactively fun-repl-start)
