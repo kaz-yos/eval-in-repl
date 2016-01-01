@@ -68,7 +68,7 @@
 ;;; Require dependencies
 (require 'dash)
 (require 'paredit)
-
+(require 'ace-window)
 
 
 ;;;

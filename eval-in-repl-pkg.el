@@ -24,7 +24,7 @@
   ;; DOCSTRING (Shown as Summary in package.el)
   "Consistent ESS-like eval interface for various REPLs"
   ;; REQUIREMENTS
-  '((dash "0.0.0") (paredit "0.0.0"))
+  '((dash "0.0.0") (paredit "0.0.0") (ace-window "0.0.0"))
   ;; Shown as Homepage in package.el
   :url "https://github.com/kaz-yos/eval-in-repl/"
   ;; Shown as Keywords in package.el
