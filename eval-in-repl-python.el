@@ -37,7 +37,27 @@
 
 
 ;;;
+;;; CUSTOMIZATION VARIABLES
+;;
+;;; If true, do not invoke REPL if not available
+(defcustom eir-python-dedicated nil
+  "When t, create a dedicated REPL.
+
+Currently only supports a non-dedicated REPL"
+  :group 'eval-in-repl
+  :type 'boolean)
+
+
+;;;
 ;;; PYTHON-MODE RELATED
+;;; eir-python-witch-to-shell
+(defun eir-python-shell-switch-to-shell ()
+  "Switch to inferior Python process buffer."
+  (interactive)
+  (switch-to-buffer-other-window
+   (buffer-name (process-buffer (python-shell-get-or-create-process))) t))
+
+
 ;;; eir-send-to-python
 (defalias 'eir-send-to-python
   (apply-partially 'eir-send-to-repl
@@ -46,6 +66,22 @@
                    ;; fun-execute
                    #'comint-send-input)
   "Send expression to *Python* and have it evaluated.")
+
+
+;;; eir-run-python
+(defun eir-run-python ()
+  "Modified version of run-python
+
+This one does not disturb the window layout."
+  (interactive)
+  (let* ((repl-buffer-name
+          (python-shell-make-comint (python-shell-parse-command)
+                                    (python-shell-get-process-name eir-python-dedicated)
+                                    nil)))
+    ;; Start REPL and save buffer name
+    ;; Bring up REPL
+    (set-window-buffer (selected-window) repl-buffer-name))
+  (sit-for 1))
 
 
 ;;; eir-eval-in-python
@@ -58,7 +94,7 @@
   (let* (;; Save current point
 	 (initial-point (point)))
     ;;
-    (eir-repl-start "*Python*" #'run-python)
+    (eir-repl-start "*Python*" #'eir-run-python)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
