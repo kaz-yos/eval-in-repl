@@ -74,6 +74,12 @@
 ;;;
 ;;; CUSTOMIZATION VARIABLES
 ;;
+;;; If true, do not invoke REPL if not available
+(defcustom eir-invoke-repl nil
+  "When t, invokes REPL if not running already."
+  :group 'eval-in-repl
+  :type 'boolean)
+;;
 ;;; If true, jump after evaluation
 ;; Contributed by Andrea Richiardi (https://github.com/arichiardi)
 (defcustom eir-jump-after-eval t
@@ -94,7 +100,7 @@ window are delted and two-window REPL/script configuration is used."
   :group 'eval-in-repl
   :type 'boolean)
 ;;
-;;; Split
+;;; How to split window
 (defcustom eir-repl-placement 'left
   "Where to place the script when splitting
 
