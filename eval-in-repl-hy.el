@@ -53,6 +53,13 @@
   "Send expression to *inferior-lisp* and have it evaluated.")
 
 
+;;; inferior-hy
+(defun eir-inferior-hy ()
+  "Call inferior hy process at any buffer"
+  (interactive)
+  (inferior-lisp hy-mode-inferior-lisp-command))
+
+
 ;;; eir-eval-in-hy
 ;;;###autoload
 (defun eir-eval-in-hy ()
@@ -62,7 +69,7 @@
    ;; repl-buffer-regexp
    "\\*inferior-lisp\\*"
    ;; fun-repl-start
-   'inferior-lisp
+   'eir-inferior-hy
    ;; fun-repl-send
    'eir-send-to-hy
    ;; defun-string
@@ -71,19 +78,3 @@
 
 (provide 'eval-in-repl-hy)
 ;;; eval-in-repl-hy.el ends here
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
