@@ -93,6 +93,14 @@ If t, at REPL startup all windows other than the current script
 window are delted and two-window REPL/script configuration is used."
   :group 'eval-in-repl
   :type 'boolean)
+;;
+;;; Split
+(defcustom eir-repl-placement 'left
+  "Where to place the script when splitting
+
+Give a quoted symbol 'left, 'right, 'above, or 'below"
+  :group 'eval-in-repl
+  :type 'boolean)
 
 
 ;;;
@@ -121,41 +129,51 @@ Also vertically split the current frame when staring a REPL."
 
   (interactive)
   ;; Create local variables
-  (let* (window1 window2 name-script-buffer name-repl-buffer)
+  (let* (window-script
+         window-repl
+         name-script-buffer
+         name-repl-buffer)
+    ;;
+    ;; Execute body only if no REPL is found by name
     (when (not (eir--matching-elements
                 repl-buffer-regexp
                 (mapcar #'buffer-name (buffer-list))))
+
+      ;; Make window-script keep the selected window (should be script)
+      (setq window-script (selected-window))
+      ;; Make name-script-buffer keep the selected buffer (should be script)
+      (setq name-script-buffer (buffer-name))
+
+      ;; If requested, delete all other windows to start from scratch
       (when eir-delete-other-windows
         ;; C-x 1 Keep only the window from which this function was called.
         (delete-other-windows))
 
-      ;; Make window1 keep the selected (only) window
-      (setq window1 (selected-window))
-      ;; Make name-script-buffer keep the selected (only) buffer
-      (setq name-script-buffer (buffer-name))
-
-      (when eir-delete-other-windows
+      ;; Check window count to determine where to put REPL
+      (if (> (count-windows) 1)
+          ;; If more than one, use ace-select-window
+          ;; 2 windows: switch; 3+ windows selection screen
+          (setq window-repl (ace-select-window))
+        ;; If only 1 window exists, split it.
         ;; (split-window &optional WINDOW SIZE SIDE PIXELWISE)
-        ;; Split window1 (only one) without size, and create a new window on the right.
-        ;; Use the return value (new window) for window2.
-        ;; window1: left (still selected), window2: right
-        (setq window2 (split-window window1 nil "right")))
+        ;; SIDE is where to put the newly created window.
+        ;; Give a quoted symbol 'left, 'right, 'above, or 'below"
+        (setq window-repl (split-window window-script nil eir-repl-placement nil)))
 
+      ;; Shift focus to the newly created REPL window
+      (select-window window-repl)
       ;; Activate the REPL (Interactive functions are used)
       (call-interactively fun-repl-start)
-
       ;; Make name-repl-buffer keep the selected buffer (REPL)
-      ;; This does not work for python/clojure
+      ;; This does not work for run-python and cider-jack-in
       (setq name-repl-buffer (buffer-name))
 
-      ;; REPL on the left (window1)
-      ;; This line is not really necessary because it is already on the left.
-      (set-window-buffer window1 name-repl-buffer)
-      ;; Script on the right (window2)
-      (set-window-buffer window2 name-script-buffer)
+      ;; These are not necessary?
+      (set-window-buffer window-script name-script-buffer)
+      (set-window-buffer window-repl   name-repl-buffer)
 
-      ;; Select the script window on the right (window2)
-      (select-window window2))))
+      ;; Select the script window.
+      (select-window window-script))))
 
 
 ;;; eir-send-to-repl
