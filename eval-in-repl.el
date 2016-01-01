@@ -122,41 +122,40 @@ Also vertically split the current frame when staring a REPL."
   (interactive)
   ;; Create local variables
   (let* (window1 window2 name-script-buffer name-repl-buffer)
-    (if (not (eir--matching-elements
-              repl-buffer-regexp
-              (mapcar #'buffer-name (buffer-list))))
-	(progn
-          (when eir-delete-other-windows
-            ;; C-x 1 Keep only the window from which this function was called.
-            (delete-other-windows))
+    (when (not (eir--matching-elements
+                repl-buffer-regexp
+                (mapcar #'buffer-name (buffer-list))))
+      (when eir-delete-other-windows
+        ;; C-x 1 Keep only the window from which this function was called.
+        (delete-other-windows))
 
-          ;; Make window1 keep the selected (only) window
-          (setq window1 (selected-window))
-          ;; Make name-script-buffer keep the selected (only) buffer
-          (setq name-script-buffer (buffer-name))
+      ;; Make window1 keep the selected (only) window
+      (setq window1 (selected-window))
+      ;; Make name-script-buffer keep the selected (only) buffer
+      (setq name-script-buffer (buffer-name))
 
-          (when eir-delete-other-windows
-            ;; (split-window &optional WINDOW SIZE SIDE)
-            ;; Split window1 (only one) without size, and create a new window on the right.
-            ;; Use the return value (new window) for window2.
-            ;; window1: left (still selected), window2: right
-            (setq window2 (split-window window1 nil "right")))
+      (when eir-delete-other-windows
+        ;; (split-window &optional WINDOW SIZE SIDE PIXELWISE)
+        ;; Split window1 (only one) without size, and create a new window on the right.
+        ;; Use the return value (new window) for window2.
+        ;; window1: left (still selected), window2: right
+        (setq window2 (split-window window1 nil "right")))
 
-	  ;; Activate the REPL (Interactive functions are used)
-	  (call-interactively fun-repl-start)
+      ;; Activate the REPL (Interactive functions are used)
+      (call-interactively fun-repl-start)
 
-	  ;; Make name-repl-buffer keep the selected buffer (REPL)
-	  ;; This does not work for python/clojure
-	  (setq name-repl-buffer (buffer-name))
+      ;; Make name-repl-buffer keep the selected buffer (REPL)
+      ;; This does not work for python/clojure
+      (setq name-repl-buffer (buffer-name))
 
-	  ;; REPL on the left (window1)
-	  ;; This line is not really necessary because it is already on the left.
-	  (set-window-buffer window1 name-repl-buffer)
-	  ;; Script on the right (window2)
-	  (set-window-buffer window2 name-script-buffer)
+      ;; REPL on the left (window1)
+      ;; This line is not really necessary because it is already on the left.
+      (set-window-buffer window1 name-repl-buffer)
+      ;; Script on the right (window2)
+      (set-window-buffer window2 name-script-buffer)
 
-	  ;; Select the script window on the right (window2)
-	  (select-window window2)))))
+      ;; Select the script window on the right (window2)
+      (select-window window2))))
 
 
 ;;; eir-send-to-repl
