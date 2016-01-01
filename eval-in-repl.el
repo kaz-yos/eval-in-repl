@@ -170,13 +170,6 @@ Also vertically split the current frame when staring a REPL."
       (select-window window-repl)
       ;; Activate the REPL (Interactive functions are used)
       (call-interactively fun-repl-start)
-      ;; Make name-repl-buffer keep the selected buffer (REPL)
-      ;; This does not work for run-python and cider-jack-in
-      (setq name-repl-buffer (buffer-name))
-
-      ;; These are not necessary?
-      (set-window-buffer window-script name-script-buffer)
-      (set-window-buffer window-repl   name-repl-buffer)
 
       ;; Select the script window.
       (select-window window-script))))
