@@ -61,7 +61,9 @@
    ;; fun-repl-send
    #'eir-send-to-geiser
    ;; defun-string
-   "(define "))
+   "(define "
+   ;; exec-in-script
+   t))
 
 
 (provide 'eval-in-repl-geiser)
