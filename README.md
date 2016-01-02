@@ -7,13 +7,13 @@ Emacs Speaks Statistics (ESS) package has a nice function called ess-eval-region
 
 This package implements similar work flow for various read-eval-print-loops (REPLs) shown below.
 
-The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common Lisp**, **Racket**, **Scheme**, **Hy**, **Python**, **Ruby**, **Standard ML**, **OCaml**, **Prolog**, **Javascript**, and **shell script**.
+The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common Lisp**, **Racket**, **Scheme**, **Hy**, **Python**, **Ruby**, **Standard ML**, **OCaml**, **Prolog**, **Javascript**, and **shell script**. **Prolog** and **Javascript** support was contributed by other authors (see special thanks).
 
 
 **Usage: C-RET rules all**
 --------------------
 
-After installation and appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL and evaluate a line, selected region or the current expression depending on the context. The script will be shown on the right, and the REPL on the left. The REPL shows both the code executed and the value the code evaluated to. The cursor steps to the next expression in the source file (only when invoked without a selected region). A more detailed explanation is available at Qiita (http://qiita.com/kaz-yos/items/bb8016ec79cfbbf328df ).
+After installation and appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL and evaluate a line, selected region or the current expression depending on the context. The script will be shown in one window, and the REPL in another. The REPL shows both the code executed and the value the code evaluated to. The cursor steps to the next expression in the source file (only when invoked without a selected region). A more detailed explanation is available at Qiita (http://qiita.com/kaz-yos/items/bb8016ec79cfbbf328df ).
 
 **Emacs Lisp via IELM (screencast)**
 
@@ -66,10 +66,10 @@ The following files are included in the package. There are respective dependenci
  - Support for Racket and Guile Scheme via geiser.el
 
 - eval-in-repl-racket.el (depends on racket-mode.el)
- - Support for Racket via racket-mode.el
+ - Support for Racket via racket-mode.el (incompatible with geiser version)
 
 - eval-in-repl-scheme.el
- - Support for Scheme via scheme.el (depends on scheme.el and cmuscheme.el; both part of default emacs installation)
+ - Support for Scheme via scheme.el (depends on scheme.el and cmuscheme.el; both part of default emacs installation) (incompatible with geiser version)
 
 - eval-in-repl-hy.el (depends on hy-mode.el)
  - Support for Hy via hy-mode.el
@@ -102,6 +102,8 @@ The following files are included in the package. There are respective dependenci
 
 The full configuration is the following. ```eval-in-repl.el``` is always necessary. Require other files as needed and configure the respective mode-specific key bindings.
 
+The REPL startup behavior has change in version 0.9.0. Previously, a specific window configuration (REPL on left, script on right, nothing else) was strictly enforced. The current version tries to be less invasive. If only one window exists, necessarily window splitting occurs. For some versions (currently, IELM, Python, Hy, and shell), the splitting behavior can be controlled by the ```eir-repl-placement``` option. For these, versions, you can choose which window to replace if there are three or more windows present via ```ace-window```. For others, window splitting and replacement are controlled by the respective major/minor mode packages, and may be erratic.
+
 ```lisp
 ;; require the main file containing common functions
 (require 'eval-in-repl)
@@ -109,6 +111,14 @@ The full configuration is the following. ```eval-in-repl.el``` is always necessa
 ;; Uncomment if no need to jump after evaluating current line
 ;; (setq eir-jump-after-eval nil)
 
+;; Place REPL on the left if starting with one window.
+;; This currently works only for:
+;; IELM, Python, Hy, shell
+(setq eir-repl-placement 'left)
+
+;; Uncomment if you always prefer the two-window layout.
+;; Which side the REPL takes is rather erratic.
+;; (setq eir-delete-other-windows t)
 
 ;;; ielm support (for emacs lisp)
 (require 'eval-in-repl-ielm)
@@ -231,6 +241,7 @@ configuration when invoked to evaluate a line."
 **Known issues**
 --------------------
 
+- The choice of a buffer for the REPL is erratic.
 - The first invocation of a cider REPL is slow and sometimes fails.
 - If there is no \*cider-repl\*, but \*nrepl-...\* buffers, the latter are killed. This behavior may not be safe.
 - The Geiser support is incompatible with the racket-mode support (racket-mode major mode is incompatible with Geiser) and with the scheme-mode support (Geiser will invoke Guile Scheme for .scm files).
@@ -239,6 +250,7 @@ configuration when invoked to evaluate a line."
 **Version histoy**
 --------------------
 
+- 2016-01-01 0.9.0 Do not mess with the window layout at REPL startup (as much as before). eir-repl-placement option. New dependency on ```ace-window.el```.
 - 2015-11-22 0.8.0 Add Javascript support (Thanks stardiviner); Drop essh.el dependency
 - 2015-09-05 0.7.0 Add Prolog support (Thanks m00nlight); no jump option for other languages
 - 2015-06-05 0.6.0 Add defcustom configuration to configure whether to jump after eval (Thanks arichiardi)
@@ -257,7 +269,7 @@ configuration when invoked to evaluate a line."
 --------------------
 
 - This package was inspired by the wonderful Emacs Speaks Statistics (ESS) package.
-- stardiviner https://github.com/stardiviner contributed the Javascript support.
+- stardiviner https://github.com/stardiviner contributed the Javascript support and suggested better window handling.
 - Yushi Wang https://github.com/m00nlight contributed the Prolog support.
 - David Högberg https://github.com/dfh contributed temporary reversal of no jump configuration.
 - Andrea Richiardi https://github.com/arichiardi contributed the no jump customization.

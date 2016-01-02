@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.8.0
+;; Version: 0.9.0
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -62,7 +62,9 @@
    ;; fun-repl-send
    #'eir-send-to-slime
    ;; defun-string
-   "(defn "))
+   "(defn "
+   ;; exec-in-script
+   t))
 
 
 (provide 'eval-in-repl-slime)
