@@ -77,17 +77,20 @@ This function should not be invoked directly."
 (defun eir-eval-in-cider ()
   "eval-in-repl for cider."
   (interactive)
-  (eir-eval-in-repl-lisp
-   ;; repl-buffer-regexp
-   "\\*cider-repl.*\\*$"
-   ;; fun-repl-start
-   #'eir--cider-jack-in
-   ;; fun-repl-send
-   #'eir-send-to-cider
-   ;; defun-string
-   "(defn "
-   ;; exec-in-script
-   t))
+  ;; Override defcustom eir-always-split-script-window
+  ;; This option is not functional with cider currently.
+  (let* ((eir-always-split-script-window nil))
+    (eir-eval-in-repl-lisp
+     ;; repl-buffer-regexp
+     "\\*cider-repl.*\\*$"
+     ;; fun-repl-start
+     #'eir--cider-jack-in
+     ;; fun-repl-send
+     #'eir-send-to-cider
+     ;; defun-string
+     "(defn "
+     ;; exec-in-script
+     t)))
 
 
 (provide 'eval-in-repl-cider)
