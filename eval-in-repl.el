@@ -86,10 +86,10 @@ is not-nil (default), stays where it is otherwise."
 ;;
 ;;; If true, delete other windows
 ;; Contributed by stardiviner (https://github.com/stardiviner)
-(defcustom eir-delete-other-windows t
+(defcustom eir-delete-other-windows nil
   "When t deletes non-script windows at REPL startup.
 
-If t, at REPL startup all windows other than the current script
+If t, at REPL startup, all windows other than the current script
 window are delted and two-window REPL/script configuration is used."
   :group 'eval-in-repl
   :type 'boolean)
