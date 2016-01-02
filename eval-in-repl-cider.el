@@ -59,13 +59,7 @@ This function should not be invoked directly."
   ;; Activate cider
   (cider-jack-in)
   ;; Wait for connection
-  (let* ((eir--timer 0))
-    (while (not (cider-connected-p))
-      (message (concat "Waiting for cider... " (number-to-string eir--timer)))
-      (sit-for 1)
-      (setq eir--timer (+ eir--timer 1))))
-  ;; Just to make sure REPL is up and running before sending code
-  (sit-for 1))
+  (message "Please wait for cider REPL. It will take some time."))
 
 
 ;;; eir-send-to-cider
