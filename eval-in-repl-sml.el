@@ -60,7 +60,7 @@
 	 (initial-point (point)))
 
     ;; If buffer named *sml* is not found, invoke sml-run
-    (eir-repl-start "\\*sml\\*" #'sml-run)
+    (eir-repl-start "\\*sml\\*" #'sml-run t)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
