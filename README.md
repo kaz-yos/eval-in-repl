@@ -66,10 +66,10 @@ The following files are included in the package. There are respective dependenci
  - Support for Racket and Guile Scheme via geiser.el
 
 - eval-in-repl-racket.el (depends on racket-mode.el)
- - Support for Racket via racket-mode.el
+ - Support for Racket via racket-mode.el (incompatible with geiser version)
 
 - eval-in-repl-scheme.el
- - Support for Scheme via scheme.el (depends on scheme.el and cmuscheme.el; both part of default emacs installation)
+ - Support for Scheme via scheme.el (depends on scheme.el and cmuscheme.el; both part of default emacs installation) (incompatible with geiser version)
 
 - eval-in-repl-hy.el (depends on hy-mode.el)
  - Support for Hy via hy-mode.el
