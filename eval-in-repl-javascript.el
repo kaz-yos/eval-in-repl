@@ -60,7 +60,7 @@
   (let* (;; Save current point
          (initial-point (point)))
     ;;
-    (eir-repl-start "\\*js\\*" #'run-js)
+    (eir-repl-start "\\*js\\*" #'run-js t)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)

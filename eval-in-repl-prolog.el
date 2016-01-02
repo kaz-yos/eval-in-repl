@@ -52,7 +52,7 @@
 	 (initial-point (point)))
 
     ;; If buffer named *prolog* is not found, invoke run-prolog
-    (eir-repl-start "\\*prolog\\*" #'run-prolog)
+    (eir-repl-start "\\*prolog\\*" #'run-prolog t)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
