@@ -126,12 +126,14 @@ Give a quoted symbol 'left, 'right, 'above, or 'below"
 ;; A function to start a REPL if not already running
 ;; https://stat.ethz.ch/pipermail/ess-help/2012-December/008426.html
 ;; http://t7331.codeinpro.us/q/51502552e8432c0426273040
-(defun eir-repl-start (repl-buffer-regexp fun-repl-start)
+(defun eir-repl-start (repl-buffer-regexp fun-repl-start &optional exec-in-script)
   "Start a REPL if not already available.
 
 Start a REPL using a function specified in FUN-REPL-START,
-if a buffer matching REPL-BUFFER-REGEXP is not already available.
-Also vertically split the current frame when staring a REPL."
+if a buffer matching REPL-BUFFER-REGEXP is not already AVAILABLE.
+If EXEC-IN-SCRIPT is true, run FUN-REPL-START in the script buffer, which
+is the intended use for some major modes (e.g., geiser).
+Also split the current window when staring a REPL."
 
   (interactive)
   ;; Create local variables
@@ -156,19 +158,22 @@ Also vertically split the current frame when staring a REPL."
         (delete-other-windows))
 
       ;; Check window count to determine where to put REPL
-      (if (> (count-windows) 1)
-          ;; If more than one, use ace-select-window
-          ;; 2 windows: switch; 3+ windows selection screen
-          (setq window-repl (ace-select-window))
-        ;; If only 1 window exists, split it.
-        ;; (split-window &optional WINDOW SIZE SIDE PIXELWISE)
-        ;; SIDE is where to put the newly created window.
-        ;; Give a quoted symbol 'left, 'right, 'above, or 'below"
-        (setq window-repl (split-window window-script nil eir-repl-placement nil)))
+      (cond
+       ;; If executing in script, do nothing
+       (exec-in-script nil)
+       ;; If mutiple windows exist, use ace-select-window
+       ;; 2 windows: switch; 3+ windows selection screen
+       ((> (count-windows) 1) (setq window-repl (ace-select-window)))
+       ;; If only 1 window exists, split it.
+       (t (setq window-repl (split-window window-script nil eir-repl-placement nil))))
 
-      ;; Shift focus to the newly created REPL window
-      (select-window window-repl)
+      ;; Shift focus to the newly created REPL window,
+      ;; if not executing in script
+      (when (not exec-in-script)
+        (select-window window-repl))
+
       ;; Activate the REPL (Interactive functions are used)
+      ;; If executing in script, then focus is still in script
       (call-interactively fun-repl-start)
 
       ;; Select the script window.
@@ -200,20 +205,21 @@ and execute by FUN-EXECUTE."
 ;;;
 ;;; COMMON ELEMENTS FOR LISP LANGUAGES
 ;;; eir-eval-in-repl-lisp (used as a skeleton)
-(defun eir-eval-in-repl-lisp (repl-buffer-regexp fun-repl-start fun-repl-send defun-string)
+(defun eir-eval-in-repl-lisp (repl-buffer-regexp fun-repl-start fun-repl-send defun-string &optional exec-in-script)
   "eval-in-repl function for lisp languages.
 
 Evaluate expression using a REPL specified by REPL-BUFFER-REGEXP.
 If not present, a REPL is started using FUN-REPL-START.
 Send expression using a function specified in FUN-REPL-SEND.
 A function definition is detected by a string specified in DEFUN-STRING
- and handled accordingly."
+ and handled accordingly.
+EXEC-IN-SCRIPT determines if FUN-REPL-START should be run in the script."
 
   (interactive)
   (let* (;; Save current point
 	 (initial-point (point)))
     ;; Check for the presence of a REPL buffer
-    (eir-repl-start repl-buffer-regexp fun-repl-start)
+    (eir-repl-start repl-buffer-regexp fun-repl-start exec-in-script)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
