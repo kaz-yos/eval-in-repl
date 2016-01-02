@@ -57,7 +57,7 @@
    ;; repl-buffer-regexp
    "\\* Racket REPL.*\\*$\\|\\* Guile REPL.*\\*$"
    ;; fun-repl-start
-   #'switch-to-geiser
+   #'run-geiser
    ;; fun-repl-send
    #'eir-send-to-geiser
    ;; defun-string
