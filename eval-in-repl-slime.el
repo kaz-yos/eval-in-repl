@@ -62,7 +62,9 @@
    ;; fun-repl-send
    #'eir-send-to-slime
    ;; defun-string
-   "(defn "))
+   "(defn "
+   ;; exec-in-script
+   t))
 
 
 (provide 'eval-in-repl-slime)
