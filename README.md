@@ -102,7 +102,7 @@ The following files are included in the package. There are respective dependenci
 
 The full configuration is the following. ```eval-in-repl.el``` is always necessary. Require other files as needed and configure the respective mode-specific key bindings.
 
-The REPL startup behavior has change in version 0.9.0. Previously, a specific window configuration (REPL on left, script on right, nothing else) was strictly enforced. The current version tries to be less invasive. If only one window exists, necessarily window splitting occurs. For some versions (currently, IELM, Python, Hy, and shell), the splitting behavior can be controlled by the ```eir-repl-placement``` option. For these, versions, you can choose which window to replace if there are three or more windows present. For others, window splitting and replacement are controlled by the respective major/minor mode packages, and may be erratic.
+The REPL startup behavior has change in version 0.9.0. Previously, a specific window configuration (REPL on left, script on right, nothing else) was strictly enforced. The current version tries to be less invasive. If only one window exists, necessarily window splitting occurs. For some versions (currently, IELM, Python, Hy, and shell), the splitting behavior can be controlled by the ```eir-repl-placement``` option. For these, versions, you can choose which window to replace if there are three or more windows present via ```ace-window```. For others, window splitting and replacement are controlled by the respective major/minor mode packages, and may be erratic.
 
 ```lisp
 ;; require the main file containing common functions
