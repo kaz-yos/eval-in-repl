@@ -59,11 +59,13 @@ This function should not be invoked directly."
   ;; Activate cider
   (cider-jack-in)
   ;; Wait for connection
-  (let* ((time 0))
+  (let* ((eir--timer 0))
     (while (not (cider-connected-p))
-      (message (concat "Waiting for cider... " (number-to-string time)))
+      (message (concat "Waiting for cider... " (number-to-string eir--timer)))
       (sit-for 1)
-      (setq time (+ time 1)))))
+      (setq eir--timer (+ eir--timer 1))))
+  ;; Just to make sure REPL is up and running before sending code
+  (sit-for 1))
 
 
 ;;; eir-send-to-cider
@@ -89,7 +91,9 @@ This function should not be invoked directly."
    ;; fun-repl-send
    #'eir-send-to-cider
    ;; defun-string
-   "(defn "))
+   "(defn "
+   ;; exec-in-script
+   t))
 
 
 (provide 'eval-in-repl-cider)
