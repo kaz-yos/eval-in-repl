@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.8.0
+;; Version: 0.9.0
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ This function should not be invoked directly."
   (interactive)
   ;; If *nrepl-* buffers exist although *cider-repl* does not, kill them for safety.
   (let* ((nrepl-buffer-names (eir--matching-elements
-                              "\\*nrepl-.*\\*$"
+                              "\\*cider-repl.*\\*$"
                               (mapcar #'buffer-name (buffer-list)))))
     (when nrepl-buffer-names
       ;; Looping over nrepl-buffer-names for side effect
@@ -59,9 +59,13 @@ This function should not be invoked directly."
   ;; Activate cider
   (cider-jack-in)
   ;; Wait for connection
-  (when (not (cider-connected-p))
-    (message "Waiting for cider...")
-    (sit-for 1)))
+  (let* ((eir--timer 0))
+    (while (not (cider-connected-p))
+      (message (concat "Waiting for cider... " (number-to-string eir--timer)))
+      (sit-for 1)
+      (setq eir--timer (+ eir--timer 1))))
+  ;; Just to make sure REPL is up and running before sending code
+  (sit-for 1))
 
 
 ;;; eir-send-to-cider
@@ -87,7 +91,9 @@ This function should not be invoked directly."
    ;; fun-repl-send
    #'eir-send-to-cider
    ;; defun-string
-   "(defn "))
+   "(defn "
+   ;; exec-in-script
+   t))
 
 
 (provide 'eval-in-repl-cider)

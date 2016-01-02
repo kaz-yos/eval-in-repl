@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.8.0
+;; Version: 0.9.0
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -60,7 +60,7 @@
 	 (initial-point (point)))
 
     ;; If buffer named *sml* is not found, invoke sml-run
-    (eir-repl-start "\\*sml\\*" #'sml-run)
+    (eir-repl-start "\\*sml\\*" #'sml-run t)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)

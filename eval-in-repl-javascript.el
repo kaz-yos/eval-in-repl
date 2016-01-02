@@ -5,7 +5,7 @@
 ;; Author: stardiviner, Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.8.0
+;; Version: 0.9.0
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -60,7 +60,7 @@
   (let* (;; Save current point
          (initial-point (point)))
     ;;
-    (eir-repl-start "\\*js\\*" #'run-js)
+    (eir-repl-start "\\*js\\*" #'run-js t)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
