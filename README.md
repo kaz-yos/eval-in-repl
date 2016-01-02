@@ -112,9 +112,13 @@ The REPL startup behavior has change in version 0.9.0. Previously, a specific wi
 ;; (setq eir-jump-after-eval nil)
 
 ;; Place REPL on the left if starting with one window.
-;; This works only for IELM, Python, Hy, and shell.
+;; This currently works only for:
+;; IELM, Python, Hy, shell
 (setq eir-repl-placement 'left)
 
+;; Uncomment if you always prefer the two-window layout.
+;; Which side the REPL takes is rather erratic.
+;; (setq eir-delete-other-windows t)
 
 ;;; ielm support (for emacs lisp)
 (require 'eval-in-repl-ielm)
@@ -265,7 +269,7 @@ configuration when invoked to evaluate a line."
 --------------------
 
 - This package was inspired by the wonderful Emacs Speaks Statistics (ESS) package.
-- stardiviner https://github.com/stardiviner contributed the Javascript support.
+- stardiviner https://github.com/stardiviner contributed the Javascript support and suggested better window handling.
 - Yushi Wang https://github.com/m00nlight contributed the Prolog support.
 - David Högberg https://github.com/dfh contributed temporary reversal of no jump configuration.
 - Andrea Richiardi https://github.com/arichiardi contributed the no jump customization.
