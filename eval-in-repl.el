@@ -73,6 +73,9 @@
 
 ;;;
 ;;; CUSTOMIZATION VARIABLES
+;; 14.4 Customization Types
+;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Customization-Types.html
+;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Simple-Types.html#Simple-Types
 ;;
 ;;; If true, jump after evaluation
 ;; Contributed by Andrea Richiardi (https://github.com/arichiardi)
@@ -82,17 +85,17 @@
 Jumps to the next expression after REPL evaluation if this option
 is not-nil (default), stays where it is otherwise."
   :group 'eval-in-repl
-  :type 'boolean)
+  :type '(boolean))
 ;;
 ;;; If true, delete other windows
 ;; Contributed by stardiviner (https://github.com/stardiviner)
 (defcustom eir-delete-other-windows nil
-  "When t deletes non-script windows at REPL startup.
+  "When t, deletes all non-script windows at REPL startup.
 
 If t, at REPL startup, all windows other than the current script
-window are delted and two-window REPL/script configuration is used."
+window are deleted and two-window REPL/script configuration is used."
   :group 'eval-in-repl
-  :type 'boolean)
+  :type '(boolean))
 ;;
 ;;; If true, always split script window
 (defcustom eir-always-split-script-window nil
@@ -101,15 +104,16 @@ window are delted and two-window REPL/script configuration is used."
 If t, at REPL startup, the current script window is split into
 two using the eir-repl-placement setting."
   :group 'eval-in-repl
-  :type 'boolean)
+  :type '(boolean))
 ;;
 ;;; How to split window
 (defcustom eir-repl-placement 'left
-  "Where to place the script when splitting
+  "Where to place REPL when splitting script window.
 
-Give a quoted symbol 'left, 'right, 'above, or 'below"
+Give a quoted symbol 'left, 'right, 'above, or 'below."
   :group 'eval-in-repl
-  :type 'boolean)
+  :type '(symbol)
+  :options '(left right above below))
 
 
 ;;;

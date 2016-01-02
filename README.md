@@ -111,14 +111,18 @@ The REPL startup behavior has change in version 0.9.0. Previously, a specific wi
 ;; Uncomment if no need to jump after evaluating current line
 ;; (setq eir-jump-after-eval nil)
 
-;; Place REPL on the left if starting with one window.
-;; This currently works only for:
-;; IELM, Python, Hy, shell
-(setq eir-repl-placement 'left)
+;; Uncomment if you want to always split the script window into two.
+;; This will just split the current script window into two without
+;; disturbing other windows.
+;; (setq eir-always-split-script-window t)
 
 ;; Uncomment if you always prefer the two-window layout.
-;; Which side the REPL takes is rather erratic.
+;; This deletes all other windows and split the script window into two.
 ;; (setq eir-delete-other-windows t)
+
+;; Place REPL on the left of the script window when splitting.
+(setq eir-repl-placement 'left)
+
 
 ;;; ielm support (for emacs lisp)
 (require 'eval-in-repl-ielm)
@@ -241,7 +245,8 @@ configuration when invoked to evaluate a line."
 **Known issues**
 --------------------
 
-- The choice of a buffer for the REPL is erratic.
+- The ```eir-always-split-script-window``` option is not functional for cider.
+- The choice of a buffer for the REPL is dependent on the corresponding major/minor modes, and may be erratic.
 - The first invocation of a cider REPL is slow and sometimes fails.
 - If there is no \*cider-repl\*, but \*nrepl-...\* buffers, the latter are killed. This behavior may not be safe.
 - The Geiser support is incompatible with the racket-mode support (racket-mode major mode is incompatible with Geiser) and with the scheme-mode support (Geiser will invoke Guile Scheme for .scm files).
@@ -250,6 +255,7 @@ configuration when invoked to evaluate a line."
 **Version histoy**
 --------------------
 
+- 2016-01-02 0.9.1 Add ```eir-always-split-script-window```, which when turned on split the current script window at REPL start up, but does not replace any other window.
 - 2016-01-01 0.9.0 Do not mess with the window layout at REPL startup (as much as before). eir-repl-placement option. New dependency on ```ace-window.el```.
 - 2015-11-22 0.8.0 Add Javascript support (Thanks stardiviner); Drop essh.el dependency
 - 2015-09-05 0.7.0 Add Prolog support (Thanks m00nlight); no jump option for other languages
