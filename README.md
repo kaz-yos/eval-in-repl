@@ -246,7 +246,7 @@ configuration when invoked to evaluate a line."
 **Version histoy**
 --------------------
 
-- 2016-01-01 0.9.0 Do not mess with the window layout at REPL startup (as much as before). eir-repl-placement option.
+- 2016-01-01 0.9.0 Do not mess with the window layout at REPL startup (as much as before). eir-repl-placement option. New dependency on ```ace-window.el```.
 - 2015-11-22 0.8.0 Add Javascript support (Thanks stardiviner); Drop essh.el dependency
 - 2015-09-05 0.7.0 Add Prolog support (Thanks m00nlight); no jump option for other languages
 - 2015-06-05 0.6.0 Add defcustom configuration to configure whether to jump after eval (Thanks arichiardi)
