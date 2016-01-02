@@ -94,6 +94,15 @@ window are delted and two-window REPL/script configuration is used."
   :group 'eval-in-repl
   :type 'boolean)
 ;;
+;;; If true, always split script window
+(defcustom eir-always-split-script-window nil
+  "When t, always split script window at REPL startup.
+
+If t, at REPL startup, the current script window is split into
+two using the eir-repl-placement setting."
+  :group 'eval-in-repl
+  :type 'boolean)
+;;
 ;;; How to split window
 (defcustom eir-repl-placement 'left
   "Where to place the script when splitting
@@ -153,7 +162,15 @@ Also split the current window when staring a REPL."
 
       ;; Check window count to determine where to put REPL
       (cond
-       ;; If executing in script, do nothing
+       ;; If always splitting, split
+       (eir-always-split-script-window
+        (progn
+          (setq window-repl (split-window window-script nil eir-repl-placement nil))
+          ;; In order to manipulate buffer list ordering. This is not necessary?
+          ;; (select-window window-repl)
+          ;; (select-window window-script)
+          ))
+       ;; If executing REPL starter in script, do nothing
        (exec-in-script nil)
        ;; If mutiple windows exist, use ace-select-window
        ;; 2 windows: switch; 3+ windows selection screen
@@ -162,7 +179,7 @@ Also split the current window when staring a REPL."
        (t (setq window-repl (split-window window-script nil eir-repl-placement nil))))
 
       ;; Shift focus to the newly created REPL window,
-      ;; if not executing in script
+      ;; if not executing REPL starter in script
       (when (not exec-in-script)
         (select-window window-repl))
 
