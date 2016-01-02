@@ -74,12 +74,6 @@
 ;;;
 ;;; CUSTOMIZATION VARIABLES
 ;;
-;;; If true, do not invoke REPL if not available
-(defcustom eir-invoke-repl nil
-  "When t, invokes REPL if not running already."
-  :group 'eval-in-repl
-  :type 'boolean)
-;;
 ;;; If true, jump after evaluation
 ;; Contributed by Andrea Richiardi (https://github.com/arichiardi)
 (defcustom eir-jump-after-eval t
