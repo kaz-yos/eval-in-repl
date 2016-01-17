@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.9.0
+;; Version: 0.9.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -59,13 +59,7 @@ This function should not be invoked directly."
   ;; Activate cider
   (cider-jack-in)
   ;; Wait for connection
-  (let* ((eir--timer 0))
-    (while (not (cider-connected-p))
-      (message (concat "Waiting for cider... " (number-to-string eir--timer)))
-      (sit-for 1)
-      (setq eir--timer (+ eir--timer 1))))
-  ;; Just to make sure REPL is up and running before sending code
-  (sit-for 1))
+  (message "Please wait for cider REPL. It will take some time."))
 
 
 ;;; eir-send-to-cider
@@ -83,17 +77,20 @@ This function should not be invoked directly."
 (defun eir-eval-in-cider ()
   "eval-in-repl for cider."
   (interactive)
-  (eir-eval-in-repl-lisp
-   ;; repl-buffer-regexp
-   "\\*cider-repl.*\\*$"
-   ;; fun-repl-start
-   #'eir--cider-jack-in
-   ;; fun-repl-send
-   #'eir-send-to-cider
-   ;; defun-string
-   "(defn "
-   ;; exec-in-script
-   t))
+  ;; Override defcustom eir-always-split-script-window
+  ;; This option is not functional with cider currently.
+  (let* ((eir-always-split-script-window nil))
+    (eir-eval-in-repl-lisp
+     ;; repl-buffer-regexp
+     "\\*cider-repl.*\\*$"
+     ;; fun-repl-start
+     #'eir--cider-jack-in
+     ;; fun-repl-send
+     #'eir-send-to-cider
+     ;; defun-string
+     "(defn "
+     ;; exec-in-script
+     t)))
 
 
 (provide 'eval-in-repl-cider)

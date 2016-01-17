@@ -102,7 +102,11 @@ The following files are included in the package. There are respective dependenci
 
 The full configuration is the following. ```eval-in-repl.el``` is always necessary. Require other files as needed and configure the respective mode-specific key bindings.
 
-The REPL startup behavior has change in version 0.9.0. Previously, a specific window configuration (REPL on left, script on right, nothing else) was strictly enforced. The current version tries to be less invasive. If only one window exists, necessarily window splitting occurs. For some versions (currently, IELM, Python, Hy, and shell), the splitting behavior can be controlled by the ```eir-repl-placement``` option. For these, versions, you can choose which window to replace if there are three or more windows present via ```ace-window```. For others, window splitting and replacement are controlled by the respective major/minor mode packages, and may be erratic.
+The REPL startup behavior has change in version 0.9.0. Previously, a specific window configuration (REPL on left, script on right, nothing else) was strictly enforced. The newer versions try to be less invasive. If only one window exists, necessarily window splitting occurs. The splitting behavior can be controlled by the ```eir-repl-placement``` option (either one of quoted symbols 'left, 'right, 'above, or 'below). When there are multiple windows present, you can choose which window to replace via ```ace-window``` for some languages (currently, IELM, Python, Hy, and shell only). For others, window splitting and replacement are controlled by the respective major/minor mode packages, and may be erratic.
+
+The ```eir-always-split-script-window``` option introduced in version 0.9.1, when true, splits the current script window at REPL start up, but does not replace any other windows. This may be useful if you do not like to replace one of the windows that are already open, and create a new window for the REPL.
+
+To recover the old behavior of the two-window layout, both ```eir-delete-other-windows``` and ```eir-always-split-script-window``` should be set to ```t```.
 
 ```lisp
 ;; require the main file containing common functions
@@ -111,14 +115,17 @@ The REPL startup behavior has change in version 0.9.0. Previously, a specific wi
 ;; Uncomment if no need to jump after evaluating current line
 ;; (setq eir-jump-after-eval nil)
 
-;; Place REPL on the left if starting with one window.
-;; This currently works only for:
-;; IELM, Python, Hy, shell
-(setq eir-repl-placement 'left)
+;; Uncomment if you want to always split the script window into two.
+;; This will just split the current script window into two without
+;; disturbing other windows.
+;; (setq eir-always-split-script-window t)
 
 ;; Uncomment if you always prefer the two-window layout.
-;; Which side the REPL takes is rather erratic.
 ;; (setq eir-delete-other-windows t)
+
+;; Place REPL on the left of the script window when splitting.
+(setq eir-repl-placement 'left)
+
 
 ;;; ielm support (for emacs lisp)
 (require 'eval-in-repl-ielm)
@@ -241,16 +248,19 @@ configuration when invoked to evaluate a line."
 **Known issues**
 --------------------
 
-- The choice of a buffer for the REPL is erratic.
+- racket-mode support and scheme support are not well tested as I use Geiser.
+- The ```eir-always-split-script-window``` option is not functional for cider.
+- The choice of a buffer for the REPL is dependent on the corresponding major/minor modes, and may be erratic.
 - The first invocation of a cider REPL is slow and sometimes fails.
 - If there is no \*cider-repl\*, but \*nrepl-...\* buffers, the latter are killed. This behavior may not be safe.
 - The Geiser support is incompatible with the racket-mode support (racket-mode major mode is incompatible with Geiser) and with the scheme-mode support (Geiser will invoke Guile Scheme for .scm files).
 
 
-**Version histoy**
+**Version history**
 --------------------
 
-- 2016-01-01 0.9.0 Do not mess with the window layout at REPL startup (as much as before). eir-repl-placement option. New dependency on ```ace-window.el```.
+- 2016-01-17 0.9.1 Add ```eir-always-split-script-window```, which when turned on, splits the current script window at REPL start up, but does not replace any other window.
+- 2016-01-01 0.9.0 Do not mess with the window layout at REPL startup (as much as before). ```eir-repl-placement``` option to control where the REPL shows up. New dependency on ```ace-window.el```.
 - 2015-11-22 0.8.0 Add Javascript support (Thanks stardiviner); Drop essh.el dependency
 - 2015-09-05 0.7.0 Add Prolog support (Thanks m00nlight); no jump option for other languages
 - 2015-06-05 0.6.0 Add defcustom configuration to configure whether to jump after eval (Thanks arichiardi)
