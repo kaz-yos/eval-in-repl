@@ -174,11 +174,17 @@ Also split the current window when staring a REPL."
           ;; (select-window window-repl)
           ;; (select-window window-script)
           ))
-       ;; If executing REPL starter in script, do nothing
+
+       ;; If executing the REPL starter in the script buffer, do nothing
+       ;; Some modes require this:
+       ;; js, ocaml, prolog, ruby, sml, cider
+       ;; This does not allows control over where the REPL shows up.
        (exec-in-script nil)
+
        ;; If mutiple windows exist, use ace-select-window
        ;; 2 windows: switch; 3+ windows selection screen
        ((> (count-windows) 1) (setq window-repl (ace-select-window)))
+
        ;; If only 1 window exists, split it.
        (t (setq window-repl (split-window window-script nil eir-repl-placement nil))))
 
