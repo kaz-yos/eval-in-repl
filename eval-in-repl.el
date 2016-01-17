@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.9.0
+;; Version: 0.9.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -73,6 +73,9 @@
 
 ;;;
 ;;; CUSTOMIZATION VARIABLES
+;; 14.4 Customization Types
+;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Customization-Types.html
+;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Simple-Types.html#Simple-Types
 ;;
 ;;; If true, jump after evaluation
 ;; Contributed by Andrea Richiardi (https://github.com/arichiardi)
@@ -82,25 +85,35 @@
 Jumps to the next expression after REPL evaluation if this option
 is not-nil (default), stays where it is otherwise."
   :group 'eval-in-repl
-  :type 'boolean)
+  :type '(boolean))
 ;;
 ;;; If true, delete other windows
 ;; Contributed by stardiviner (https://github.com/stardiviner)
 (defcustom eir-delete-other-windows nil
-  "When t deletes non-script windows at REPL startup.
+  "When t, deletes all non-script windows at REPL startup.
 
 If t, at REPL startup, all windows other than the current script
-window are delted and two-window REPL/script configuration is used."
+window are deleted and two-window REPL/script configuration is used."
   :group 'eval-in-repl
-  :type 'boolean)
+  :type '(boolean))
+;;
+;;; If true, always split script window
+(defcustom eir-always-split-script-window nil
+  "When t, always split script window at REPL startup.
+
+If t, at REPL startup, the current script window is split into
+two using the eir-repl-placement setting."
+  :group 'eval-in-repl
+  :type '(boolean))
 ;;
 ;;; How to split window
 (defcustom eir-repl-placement 'left
-  "Where to place the script when splitting
+  "Where to place REPL when splitting script window.
 
-Give a quoted symbol 'left, 'right, 'above, or 'below"
+Give a quoted symbol 'left, 'right, 'above, or 'below."
   :group 'eval-in-repl
-  :type 'boolean)
+  :type '(symbol)
+  :options '(left right above below))
 
 
 ;;;
@@ -153,16 +166,30 @@ Also split the current window when staring a REPL."
 
       ;; Check window count to determine where to put REPL
       (cond
-       ;; If executing in script, do nothing
+       ;; If always splitting, split
+       (eir-always-split-script-window
+        (progn
+          (setq window-repl (split-window window-script nil eir-repl-placement nil))
+          ;; In order to manipulate buffer list ordering. This is not necessary?
+          ;; (select-window window-repl)
+          ;; (select-window window-script)
+          ))
+
+       ;; If executing the REPL starter in the script buffer, do nothing
+       ;; Some modes require this:
+       ;; js, ocaml, prolog, ruby, sml, cider
+       ;; This does not allows control over where the REPL shows up.
        (exec-in-script nil)
+
        ;; If mutiple windows exist, use ace-select-window
        ;; 2 windows: switch; 3+ windows selection screen
        ((> (count-windows) 1) (setq window-repl (ace-select-window)))
+
        ;; If only 1 window exists, split it.
        (t (setq window-repl (split-window window-script nil eir-repl-placement nil))))
 
       ;; Shift focus to the newly created REPL window,
-      ;; if not executing in script
+      ;; if not executing REPL starter in script
       (when (not exec-in-script)
         (select-window window-repl))
 
