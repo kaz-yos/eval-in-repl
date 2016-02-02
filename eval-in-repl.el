@@ -219,6 +219,8 @@ and execute by FUN-EXECUTE."
     (funcall fun-execute)
     ;; Come back to the script
     (select-window script-window)
+    ;; Deactivate selection
+    (deactivate-mark)
     ;; Return nil (this is a void function)
     nil))
 
