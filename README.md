@@ -178,7 +178,9 @@ To recover the old behavior of the two-window layout, both ```eir-delete-other-w
 ;;; Python support
 ;; (require 'python) ; if not done elsewhere
 (require 'eval-in-repl-python)
-(define-key python-mode-map (kbd "<C-return>") 'eir-eval-in-python)
+(add-hook 'python-mode-hook
+          '(lambda ()
+             (local-set-key (kbd "<C-return>") 'eir-eval-in-python)))
 
 ;;; Ruby support
 ;; (require 'ruby-mode) ; if not done elsewhere
