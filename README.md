@@ -261,6 +261,7 @@ configuration when invoked to evaluate a line."
 **Version history**
 --------------------
 
+- 2016-02-27 0.9.2 Deactivate selection explicitly as it is required in Emacs 25.
 - 2016-01-17 0.9.1 Add ```eir-always-split-script-window```, which when turned on, splits the current script window at REPL start up, but does not replace any other window.
 - 2016-01-01 0.9.0 Do not mess with the window layout at REPL startup (as much as before). ```eir-repl-placement``` option to control where the REPL shows up. New dependency on ```ace-window.el```.
 - 2015-11-22 0.8.0 Add Javascript support (Thanks stardiviner); Drop essh.el dependency

@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.9.1
+;; Version: 0.9.2
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -219,7 +219,7 @@ and execute by FUN-EXECUTE."
     (funcall fun-execute)
     ;; Come back to the script
     (select-window script-window)
-    ;; Deactivate selection
+    ;; Deactivate selection explicitly (necessary in Emacs 25)
     (deactivate-mark)
     ;; Return nil (this is a void function)
     nil))
