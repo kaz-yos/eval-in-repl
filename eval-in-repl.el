@@ -137,7 +137,7 @@ Give a quoted symbol 'left, 'right, 'above, or 'below."
   "Start a REPL if not already available.
 
 Start a REPL using a function specified in FUN-REPL-START,
-if a buffer matching REPL-BUFFER-REGEXP is not already AVAILABLE.
+if a buffer matching REPL-BUFFER-REGEXP is not already available.
 If EXEC-IN-SCRIPT is true, run FUN-REPL-START in the script buffer, which
 is the intended use for some major modes (e.g., geiser).
 Also split the current window when staring a REPL."
