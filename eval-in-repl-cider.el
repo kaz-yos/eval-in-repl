@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.9.2
+;; Version: 0.9.3
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -40,26 +40,10 @@
 ;;; CIDER FOR CLOJURE RELATED
 ;;; eir--cider-jack-in
 (defun eir--cider-jack-in ()
-  "Invoke cider-jack-in and wait for activation.
-
-If *nrepl-** buffers are remaining, kill them silently.
-This function should not be invoked directly."
+  "This function makes no effort in starting up a REPL.
+Please use M-x cider-jack-in separately."
   (interactive)
-  ;; If *nrepl-* buffers exist although *cider-repl* does not, kill them for safety.
-  (let* ((nrepl-buffer-names (eir--matching-elements
-                              "\\*cider-repl.*\\*$"
-                              (mapcar #'buffer-name (buffer-list)))))
-    (when nrepl-buffer-names
-      ;; Looping over nrepl-buffer-names for side effect
-      (mapc (lambda (elt)
-	      ;; kill-buffer without asking
-	      (let (kill-buffer-query-functions)
-		(kill-buffer elt)))
-	    nrepl-buffer-names)))
-  ;; Activate cider
-  (cider-jack-in)
-  ;; Wait for connection
-  (message "Please wait for cider REPL. It will take some time."))
+  (message "Currently auto start up is not supported. Use M-x cider-jack-in"))
 
 
 ;;; eir-send-to-cider

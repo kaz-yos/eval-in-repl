@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.9.2
+;; Version: 0.9.3
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -137,7 +137,7 @@ Give a quoted symbol 'left, 'right, 'above, or 'below."
   "Start a REPL if not already available.
 
 Start a REPL using a function specified in FUN-REPL-START,
-if a buffer matching REPL-BUFFER-REGEXP is not already AVAILABLE.
+if a buffer matching REPL-BUFFER-REGEXP is not already available.
 If EXEC-IN-SCRIPT is true, run FUN-REPL-START in the script buffer, which
 is the intended use for some major modes (e.g., geiser).
 Also split the current window when staring a REPL."
@@ -228,7 +228,11 @@ and execute by FUN-EXECUTE."
 ;;;
 ;;; COMMON ELEMENTS FOR LISP LANGUAGES
 ;;; eir-eval-in-repl-lisp (used as a skeleton)
-(defun eir-eval-in-repl-lisp (repl-buffer-regexp fun-repl-start fun-repl-send defun-string &optional exec-in-script)
+(defun eir-eval-in-repl-lisp (repl-buffer-regexp
+                              fun-repl-start
+                              fun-repl-send
+                              defun-string
+                              &optional exec-in-script)
   "eval-in-repl function for lisp languages.
 
 Evaluate expression using a REPL specified by REPL-BUFFER-REGEXP.
