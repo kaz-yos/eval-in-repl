@@ -13,7 +13,7 @@ The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common Lis
 **Usage: C-RET rules all**
 --------------------
 
-After installation and appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL and evaluate a line, selected region or the current expression depending on the context. The script will be shown in one window, and the REPL in another. The REPL shows both the code executed and the value the code evaluated to. The cursor steps to the next expression in the source file (only when invoked without a selected region). A more detailed explanation is available at Qiita (http://qiita.com/kaz-yos/items/bb8016ec79cfbbf328df ).
+After installation and appropriate configuration (see below), you can use C-RET in a source file to start up an appropriate REPL (except cider, which needs manual M-x ```cider-jack-in```) and evaluate a line, selected region or the current expression depending on the context. The script will be shown in one window, and the REPL in another. The REPL shows both the code executed and the value the code evaluated to. The cursor steps to the next expression in the source file (only when invoked without a selected region). A more detailed explanation is available at Qiita (http://qiita.com/kaz-yos/items/bb8016ec79cfbbf328df ).
 
 **Emacs Lisp via IELM (screencast)**
 
@@ -253,14 +253,14 @@ configuration when invoked to evaluate a line."
 - racket-mode support and scheme support are not well tested as I use Geiser.
 - The ```eir-always-split-script-window``` option is not functional for cider.
 - The choice of a buffer for the REPL is dependent on the corresponding major/minor modes, and may be erratic.
-- The first invocation of a cider REPL is slow and sometimes fails.
-- If there is no \*cider-repl\*, but \*nrepl-...\* buffers, the latter are killed. This behavior may not be safe.
+- cider currently requires manual start up with ```cider-jack-in```.
 - The Geiser support is incompatible with the racket-mode support (racket-mode major mode is incompatible with Geiser) and with the scheme-mode support (Geiser will invoke Guile Scheme for .scm files).
 
 
 **Version history**
 --------------------
 
+- 2016-04-18 0.9.3 Drop cider REPL start up function since it was not working.
 - 2016-02-27 0.9.2 Deactivate selection explicitly as it is required in Emacs 25.
 - 2016-01-17 0.9.1 Add ```eir-always-split-script-window```, which when turned on, splits the current script window at REPL start up, but does not replace any other window.
 - 2016-01-01 0.9.0 Do not mess with the window layout at REPL startup (as much as before). ```eir-repl-placement``` option to control where the REPL shows up. New dependency on ```ace-window.el```.
