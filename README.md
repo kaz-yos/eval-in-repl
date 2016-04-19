@@ -253,7 +253,7 @@ configuration when invoked to evaluate a line."
 - racket-mode support and scheme support are not well tested as I use Geiser.
 - The ```eir-always-split-script-window``` option is not functional for cider.
 - The choice of a buffer for the REPL is dependent on the corresponding major/minor modes, and may be erratic.
-- The first invocation of a cider REPL is slow and sometimes fails.
+- cider currently requires manual start up with ```cider-jack-in```.
 - If there is no \*cider-repl\*, but \*nrepl-...\* buffers, the latter are killed. This behavior may not be safe.
 - The Geiser support is incompatible with the racket-mode support (racket-mode major mode is incompatible with Geiser) and with the scheme-mode support (Geiser will invoke Guile Scheme for .scm files).
 
