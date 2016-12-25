@@ -37,12 +37,28 @@
 
 
 ;;;
+;;; CUSTOMIZATION VARIABLES
+;;
+;;; If true, always change ielm
+(defcustom eir-ielm-eval-in-current-buffer nil
+  "When t, change ielm's working buffer to current.
+
+If true, invokes ielm-change-working-buffer to set
+the ielm-working-buffer variable to the current buffer."
+  :group 'eval-in-repl
+  :type 'boolean)
+
+
+;;;
 ;;; EMACS LISP RELATED
 ;;; eir-send-to-ielm
 (defalias 'eir-send-to-ielm
   (apply-partially 'eir-send-to-repl
                    ;; fun-change-to-repl
-                   #'(lambda () (switch-to-buffer-other-window "*ielm*"))
+                   #'(lambda ()
+                       (when eir-ielm-eval-in-current-buffer
+                         (ielm-change-working-buffer (buffer-name)))
+                       (switch-to-buffer-other-window "*ielm*"))
                    ;; fun-execute
                    #'ielm-return)
   "Send expression to *ielm* and have it evaluated.")
@@ -66,4 +82,3 @@
 
 (provide 'eval-in-repl-ielm)
 ;;; eval-in-repl-ielm.el ends here
-
