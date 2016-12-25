@@ -129,6 +129,8 @@ To recover the old behavior of the two-window layout, both ```eir-delete-other-w
 
 ;;; ielm support (for emacs lisp)
 (require 'eval-in-repl-ielm)
+;; Evaluate expression in the current buffer.
+(setq eir-ielm-eval-in-current-buffer t)
 ;; for .el files
 (define-key emacs-lisp-mode-map (kbd "<C-return>") 'eir-eval-in-ielm)
 ;; for *scratch*
@@ -250,6 +252,7 @@ configuration when invoked to evaluate a line."
 **Known issues**
 --------------------
 
+- Python support is does not work well when there are empty lines within a function body.
 - racket-mode support and scheme support are not well tested as I use Geiser.
 - The ```eir-always-split-script-window``` option is not functional for cider.
 - The choice of a buffer for the REPL is dependent on the corresponding major/minor modes, and may be erratic.
@@ -260,6 +263,7 @@ configuration when invoked to evaluate a line."
 **Version history**
 --------------------
 
+- 2016-12-24 0.9.4 Add ```eir-ielm-eval-in-current-buffer```. When this is ```t```, ielm's ```ielm-working-buffer``` is always changed to the current buffer prior to evaluation.
 - 2016-04-18 0.9.3 Drop cider REPL start up function since it was not working.
 - 2016-02-27 0.9.2 Deactivate selection explicitly as it is required in Emacs 25.
 - 2016-01-17 0.9.1 Add ```eir-always-split-script-window```, which when turned on, splits the current script window at REPL start up, but does not replace any other window.
