@@ -46,6 +46,18 @@
 Currently only supports a non-dedicated REPL"
   :group 'eval-in-repl
   :type 'boolean)
+;;
+;;; If true, use python-shell-send-region instead of the copy & paste approach.
+(defcustom eir-use-python-shell-send-region nil
+  "When t, use python-shell-send-region.
+
+This option uses python-shell-send-region, which is a part of the python-mode
+as the back end. This function creates a temporary file, which is then evaluated
+by python-shell-send-file. This is are more robust approach is not affected by
+empty lines within a function body. However, this approach does not show the code
+in the REPL, which is one of the main features of eval-in-repl."
+  :group 'eval-in-repl
+  :type 'boolean)
 
 
 ;;;
@@ -129,4 +141,3 @@ This one does not disturb the window layout."
 
 (provide 'eval-in-repl-python)
 ;;; eval-in-repl-python.el ends here
-
