@@ -111,7 +111,11 @@ This one does not disturb the window layout."
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(eir-send-to-python (buffer-substring-no-properties (point) (mark)))
+	(if eir-use-python-shell-send-region
+            ;; Use the python-mode function.
+            (python-shell-send-region (point) (mark))
+          ;; Otherwise, use the copy and paste approach.
+          (eir-send-to-python (buffer-substring-no-properties (point) (mark))))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -124,11 +128,15 @@ This one does not disturb the window layout."
       (python-nav-end-of-block)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  ;; Add one more character for newline unless at EOF
-	  ;; This does not work if the statement asks for an input.
-	  (eir-send-to-python (buffer-substring-no-properties
-                               (min (+ 1 (point)) (point-max))
-                               (mark)))
+	  (if eir-use-python-shell-send-region
+              ;; Use the python-mode function.
+              (python-shell-send-region (point) (mark))
+            ;; Otherwise, use the copy and paste approach.
+            ;; Add one more character for newline unless at EOF
+            ;; This does not work if the statement asks for an input.
+            (eir-send-to-python (buffer-substring-no-properties
+                                 (min (+ 1 (point)) (point-max))
+                                 (mark))))
 	;; If empty, deselect region
 	(setq mark-active nil))
 
