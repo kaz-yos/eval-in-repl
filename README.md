@@ -21,7 +21,7 @@ You can see C-RET in action.
 
 ![ielm](screencast_ielm.gif?raw=true "ielm example")
 
-YouTube vide: https://www.youtube.com/watch?v=gNBlF67e-0w&feature=youtu.be
+YouTube video: https://www.youtube.com/watch?v=gNBlF67e-0w&feature=youtu.be
 
 **Clojure via cider.el**
 
