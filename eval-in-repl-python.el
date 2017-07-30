@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.9.4
+;; Version: 0.9.5
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -46,6 +46,18 @@
 Currently only supports a non-dedicated REPL"
   :group 'eval-in-repl
   :type 'boolean)
+;;
+;;; If true, use python-shell-send-region instead of the copy & paste approach.
+(defcustom eir-use-python-shell-send-string t
+  "When t, use python-shell-send-region.
+
+This option uses python-shell-send-region, which is a part of the python-mode
+as the back end. This function creates a temporary file, which is then evaluated
+by python-shell-send-file. This is are more robust approach is not affected by
+empty lines within a function body. However, this approach does not show the code
+in the REPL, which is one of the main features of eval-in-repl."
+  :group 'eval-in-repl
+  :type 'boolean)
 
 
 ;;;
@@ -66,6 +78,30 @@ Currently only supports a non-dedicated REPL"
                    ;; fun-execute
                    #'comint-send-input)
   "Send expression to *Python* and have it evaluated.")
+
+
+;;;
+(defun eir-python-shell-send-string (string)
+  "Wrapper for python-shell-send-string.
+
+Bring up the Python shell before call python-shell-send-string."
+  (interactive)
+  (let* (;; Assign the current buffer
+	 (script-window (selected-window)))
+    ;; Change other window to REPL
+    (python-shell-switch-to-shell)
+    ;; Move to end of buffer
+    (goto-char (point-max))
+    ;; Send the region as a string
+    (python-shell-send-string string)
+    ;; Move to end of buffer
+    (goto-char (point-max))
+    ;; Come back to the script
+    (select-window script-window)
+    ;; Deactivate selection explicitly (necessary in Emacs 25)
+    (deactivate-mark)
+    ;; Return nil (this is a void function)
+    nil))
 
 
 ;;; eir-run-python
@@ -99,7 +135,14 @@ This one does not disturb the window layout."
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(eir-send-to-python (buffer-substring-no-properties (point) (mark)))
+	(if eir-use-python-shell-send-string
+            ;; Use the python-mode function.
+            (progn
+              (eir-python-shell-send-string (buffer-substring-no-properties (point) (mark)))
+              ;; Deactivate selection explicitly (necessary in Emacs 25)
+              (deactivate-mark))
+          ;; Otherwise, use the copy and paste approach.
+          (eir-send-to-python (buffer-substring-no-properties (point) (mark))))
 
       ;; If not selected, do all the following
       ;; Move to the beginning of line
@@ -112,13 +155,22 @@ This one does not disturb the window layout."
       (python-nav-end-of-block)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  ;; Add one more character for newline unless at EOF
-	  ;; This does not work if the statement asks for an input.
-	  (eir-send-to-python (buffer-substring-no-properties
-                               (min (+ 1 (point)) (point-max))
-                               (mark)))
+	  (if eir-use-python-shell-send-string
+              ;; Use the python-mode function.
+              (progn
+                (eir-python-shell-send-string (buffer-substring-no-properties
+                                               (min (+ 1 (point)) (point-max))
+                                               (mark)))
+                ;; Deactivate selection explicitly (necessary in Emacs 25)
+                (deactivate-mark))
+            ;; Otherwise, use the copy and paste approach.
+            ;; Add one more character for newline unless at EOF
+            ;; This does not work if the statement asks for an input.
+            (eir-send-to-python (buffer-substring-no-properties
+                                 (min (+ 1 (point)) (point-max))
+                                 (mark))))
 	;; If empty, deselect region
-	(setq mark-active nil))
+	(deactivate-mark))
 
       ;; Move to the next statement code if jumping
       (if eir-jump-after-eval
@@ -129,4 +181,3 @@ This one does not disturb the window layout."
 
 (provide 'eval-in-repl-python)
 ;;; eval-in-repl-python.el ends here
-
