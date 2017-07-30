@@ -80,6 +80,30 @@ in the REPL, which is one of the main features of eval-in-repl."
   "Send expression to *Python* and have it evaluated.")
 
 
+;;;
+(defun eir-python-shell-send-string (string)
+  "Wrapper for python-shell-send-string.
+
+Bring up the Python shell before call python-shell-send-string."
+  (interactive)
+  (let* (;; Assign the current buffer
+	 (script-window (selected-window)))
+    ;; Change other window to REPL
+    (python-shell-switch-to-shell)
+    ;; Move to end of buffer
+    (goto-char (point-max))
+    ;; Send the region as a string
+    (python-shell-send-string string)
+    ;; Move to end of buffer
+    (goto-char (point-max))
+    ;; Come back to the script
+    (select-window script-window)
+    ;; Deactivate selection explicitly (necessary in Emacs 25)
+    (deactivate-mark)
+    ;; Return nil (this is a void function)
+    nil))
+
+
 ;;; eir-run-python
 (defun eir-run-python ()
   "Modified version of run-python
@@ -114,7 +138,7 @@ This one does not disturb the window layout."
 	(if eir-use-python-shell-send-string
             ;; Use the python-mode function.
             (progn
-              (python-shell-send-string (buffer-substring-no-properties (point) (mark)))
+              (eir-python-shell-send-string (buffer-substring-no-properties (point) (mark)))
               ;; Deactivate selection explicitly (necessary in Emacs 25)
               (deactivate-mark))
           ;; Otherwise, use the copy and paste approach.
@@ -134,9 +158,9 @@ This one does not disturb the window layout."
 	  (if eir-use-python-shell-send-string
               ;; Use the python-mode function.
               (progn
-                (python-shell-send-string (buffer-substring-no-properties
-                                           (min (+ 1 (point)) (point-max))
-                                           (mark)))
+                (eir-python-shell-send-string (buffer-substring-no-properties
+                                               (min (+ 1 (point)) (point-max))
+                                               (mark)))
                 ;; Deactivate selection explicitly (necessary in Emacs 25)
                 (deactivate-mark))
             ;; Otherwise, use the copy and paste approach.
