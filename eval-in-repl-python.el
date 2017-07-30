@@ -48,7 +48,7 @@ Currently only supports a non-dedicated REPL"
   :type 'boolean)
 ;;
 ;;; If true, use python-shell-send-region instead of the copy & paste approach.
-(defcustom eir-use-python-shell-send-region nil
+(defcustom eir-use-python-shell-send-string nil
   "When t, use python-shell-send-region.
 
 This option uses python-shell-send-region, which is a part of the python-mode
@@ -111,9 +111,12 @@ This one does not disturb the window layout."
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
 	;; If selected, send region
-	(if eir-use-python-shell-send-region
+	(if eir-use-python-shell-send-string
             ;; Use the python-mode function.
-            (python-shell-send-region (point) (mark))
+            (progn
+              (python-shell-send-string (buffer-substring-no-properties (point) (mark)))
+              ;; Deactivate selection explicitly (necessary in Emacs 25)
+              (deactivate-mark))
           ;; Otherwise, use the copy and paste approach.
           (eir-send-to-python (buffer-substring-no-properties (point) (mark))))
 
@@ -128,9 +131,14 @@ This one does not disturb the window layout."
       (python-nav-end-of-block)
       ;; Send region if not empty
       (if (not (equal (point) (mark)))
-	  (if eir-use-python-shell-send-region
+	  (if eir-use-python-shell-send-string
               ;; Use the python-mode function.
-              (python-shell-send-region (point) (mark))
+              (progn
+                (python-shell-send-string (buffer-substring-no-properties
+                                           (min (+ 1 (point)) (point-max))
+                                           (mark)))
+                ;; Deactivate selection explicitly (necessary in Emacs 25)
+                (deactivate-mark))
             ;; Otherwise, use the copy and paste approach.
             ;; Add one more character for newline unless at EOF
             ;; This does not work if the statement asks for an input.
@@ -138,7 +146,7 @@ This one does not disturb the window layout."
                                  (min (+ 1 (point)) (point-max))
                                  (mark))))
 	;; If empty, deselect region
-	(setq mark-active nil))
+	(deactivate-mark))
 
       ;; Move to the next statement code if jumping
       (if eir-jump-after-eval
