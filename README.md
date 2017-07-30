@@ -252,7 +252,6 @@ configuration when invoked to evaluate a line."
 **Known issues**
 --------------------
 
-- Python support is does not work well when there are empty lines within a function body.
 - racket-mode support and scheme support are not well tested as I use Geiser.
 - The ```eir-always-split-script-window``` option is not functional for cider.
 - The choice of a buffer for the REPL is dependent on the corresponding major/minor modes, and may be erratic.
@@ -263,6 +262,7 @@ configuration when invoked to evaluate a line."
 **Version history**
 --------------------
 
+- 2017-07-30 0.9.5 Add ```eir-use-python-shell-send-string``` option (default to ```t```). This avoids errors on blank lines by using ```python-mode```'s ```python-shell-send-string``` function. However, this does not allow showing code in the REPL. To recover the old behavior, set to ```nil```.
 - 2016-12-24 0.9.4 Add ```eir-ielm-eval-in-current-buffer```. When this is ```t```, ielm's ```ielm-working-buffer``` is always changed to the current buffer prior to evaluation.
 - 2016-04-18 0.9.3 Drop cider REPL start up function since it was not working.
 - 2016-02-27 0.9.2 Deactivate selection explicitly as it is required in Emacs 25.
