@@ -262,6 +262,7 @@ configuration when invoked to evaluate a line."
 **Version history**
 --------------------
 
+- 2017-07-30 0.9.6 Fix the implementation for ```inf-ruby```.
 - 2017-07-30 0.9.5 Add ```eir-use-python-shell-send-string``` option (default to ```t```). This avoids errors on blank lines by using ```python-mode```'s ```python-shell-send-string``` function. However, this does not allow showing code in the REPL. To recover the old behavior, set to ```nil```.
 - 2016-12-24 0.9.4 Add ```eir-ielm-eval-in-current-buffer```. When this is ```t```, ielm's ```ielm-working-buffer``` is always changed to the current buffer prior to evaluation.
 - 2016-04-18 0.9.3 Drop cider REPL start up function since it was not working.

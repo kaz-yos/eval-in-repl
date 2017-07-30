@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.9.4
+;; Version: 0.9.6
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@
 (defalias 'eir-send-to-ruby
   (apply-partially 'eir-send-to-repl
                    ;; fun-change-to-repl
-                   #'run-ruby
+                   #'inf-ruby
                    ;; fun-execute
                    #'comint-send-input)
   "Send expression to *ruby* and have it evaluated.")
@@ -59,7 +59,7 @@
   (let* (;; Save current point
 	 (initial-point (point)))
     ;;
-    (eir-repl-start "\\*ruby\\*" #'run-ruby t)
+    (eir-repl-start "\\*ruby\\*" #'inf-ruby t)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
