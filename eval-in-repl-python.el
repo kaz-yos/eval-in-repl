@@ -48,7 +48,7 @@ Currently only supports a non-dedicated REPL"
   :type 'boolean)
 ;;
 ;;; If true, use python-shell-send-region instead of the copy & paste approach.
-(defcustom eir-use-python-shell-send-string nil
+(defcustom eir-use-python-shell-send-string t
   "When t, use python-shell-send-region.
 
 This option uses python-shell-send-region, which is a part of the python-mode
