@@ -57,7 +57,7 @@
   (let* (;; Save current point
 	 (initial-point (point)))
     ;;
-    (eir-repl-start "\\*shell\\*" #'shell)
+    (eir-repl-start "\\*shell\\*" #'shell t)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
