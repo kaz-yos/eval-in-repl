@@ -99,6 +99,9 @@ The following files are included in the package. There are respective dependenci
 - eval-in-repl-iex.el (depends on elixir-mode.el, and alchemist.el)
  - Support for Elixir via alchemist.el
 
+- eval-in-repl-erlang.el (depends on erlang.el)
+ - Support for Erlang via erlang.el
+
 **Configuration**
 --------------------
 
@@ -254,6 +257,11 @@ configuration when invoked to evaluate a line."
 ;; (require 'alchemist)   ; if not done elsewhere
 (require 'eval-in-repl-ruby)
 (define-key elixir-mode-map (kbd "<C-return>") 'eir-eval-in-iex)
+
+;;; Erlang support
+;; (require 'erlang-mode) ; if not done elsewhere
+(require 'eval-in-repl-erlang)
+(define-key erlang-mode-map (kbd "<C-return>") 'eir-eval-in-erlang)
 ```
 
 **Known issues**
