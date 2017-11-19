@@ -96,6 +96,8 @@ The following files are included in the package. There are respective dependenci
 - eval-in-repl-shell.el
  - Support for shell
 
+- eval-in-repl-iex.el (depends on elixir-mode.el, and alchemist.el)
+ - Support for Elixir via alchemist.el
 
 **Configuration**
 --------------------
@@ -247,6 +249,11 @@ configuration when invoked to evaluate a line."
           '(lambda()
              (local-set-key (kbd "C-M-<return>") 'eir-eval-in-shell2)))
 
+;;; Elixir support
+;; (require 'elixir-mode) ; if not done elsewhere
+;; (require 'alchemist)   ; if not done elsewhere
+(require 'eval-in-repl-ruby)
+(define-key elixir-mode-map (kbd "<C-return>") 'eir-eval-in-iex)
 ```
 
 **Known issues**
