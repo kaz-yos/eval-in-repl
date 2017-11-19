@@ -102,6 +102,9 @@ The following files are included in the package. There are respective dependenci
 - eval-in-repl-erlang.el (depends on erlang.el)
  - Support for Erlang via erlang.el
 
+- eval-in-repl-elm.el (depends on elm-mode.el)
+ - Support for Elm via elm-mode.el
+
 **Configuration**
 --------------------
 
@@ -262,6 +265,11 @@ configuration when invoked to evaluate a line."
 ;; (require 'erlang-mode) ; if not done elsewhere
 (require 'eval-in-repl-erlang)
 (define-key erlang-mode-map (kbd "<C-return>") 'eir-eval-in-erlang)
+
+;;; Elm support
+;; (require 'elm-mode) ; if not done elsewhere
+(require 'eval-in-repl-elm)
+(define-key elm-mode-map (kbd "<C-return>") 'eir-eval-in-elm)
 ```
 
 **Known issues**
