@@ -115,6 +115,11 @@ Give a quoted symbol 'left, 'right, 'above, or 'below."
   :type '(symbol)
   :options '(left right above below))
 
+(defcustom eir-shell-buffer-name "*shell*"
+  "The shell buffer name that will be used for the code execution"
+  :group 'eval-in-repl
+  :type '(string))
+
 
 ;;;
 ;;; COMMON ELEMENTS
