@@ -55,10 +55,10 @@
   (interactive)
   ;; Define local variables
   (let* (;; Save current point
-		 (initial-point (point))
-		 (match-repl-regexp "$^") ;; matching.. nothing. or should i match eir-shell-buffer-name ??
-		 )
-    (eir-repl-start match-repl-regexp (lambda () (interactive) (shell eir-shell-buffer-name)) t)
+	 (initial-point (point)))
+    (eir-repl-start (regexp-quote eir-shell-buffer-name)
+		    (lambda () (interactive) (shell eir-shell-buffer-name))
+		    t)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
