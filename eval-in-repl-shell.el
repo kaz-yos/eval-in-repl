@@ -42,10 +42,10 @@
 (defalias 'eir-send-to-shell
   (apply-partially 'eir-send-to-repl
                    ;; fun-change-to-repl
-                   #'(lambda () (switch-to-buffer-other-window "*shell*"))
+                   #'(lambda () (switch-to-buffer-other-window eir-shell-buffer-name))
                    ;; fun-execute
                    #'comint-send-input)
-  "Send expression to *shell* and have it evaluated.")
+  "Send expression to 'eir-shell-buffer-name and have it evaluated.")
 
 
 ;;; eir-eval-in-shell
@@ -56,8 +56,9 @@
   ;; Define local variables
   (let* (;; Save current point
 	 (initial-point (point)))
-    ;;
-    (eir-repl-start "\\*shell\\*" #'shell t)
+    (eir-repl-start (regexp-quote eir-shell-buffer-name)
+		    (lambda () (interactive) (shell eir-shell-buffer-name))
+		    t)
 
     ;; Check if selection is present
     (if (and transient-mark-mode mark-active)
