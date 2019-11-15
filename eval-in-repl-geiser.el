@@ -55,7 +55,7 @@
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
-   "\\* Racket REPL.*\\*$\\|\\* Guile REPL.*\\*$"
+   "\\* Racket REPL.*\\*$\\|\\* Guile REPL.*\\*$\\|\\* Mit REPL.*\\*$"
    ;; fun-repl-start
    #'run-geiser
    ;; fun-repl-send
