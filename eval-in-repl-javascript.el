@@ -34,8 +34,10 @@
 ;;; Require dependencies
 (require 'eval-in-repl)
 
-(require 'js3-mode)
-(require 'js2-mode)
+(if (featurep 'js3-mode)
+    (require 'js3-mode))
+(if (featurep 'js2-mode)
+    (require 'js2-mode))
 (require 'js-comint)
 
 
