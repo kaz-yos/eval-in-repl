@@ -108,9 +108,6 @@ The following files are included in the package. There are respective dependenci
 - eval-in-repl-elm.el (depends on elm-mode.el)
  - Support for Elm via elm-mode.el
 
-- eval-in-repl-scala.el (depends on scala-mode.el, and ensime.el)
- - Support for Scala via ensime.el
-
 **Configuration**
 --------------------
 
@@ -276,11 +273,6 @@ configuration when invoked to evaluate a line."
 ;; (require 'elm-mode) ; if not done elsewhere
 (require 'eval-in-repl-elm)
 (define-key elm-mode-map (kbd "<C-return>") 'eir-eval-in-elm)
-
-;;; Scala support
-;; (require 'ensime) ; if not done elsewhere
-(require 'eval-in-repl-scala)
-(define-key scala-mode-map (kbd "<C-return>") 'eir-eval-in-scala)
 ```
 
 **Known issues**
