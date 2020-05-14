@@ -10,7 +10,7 @@ This package implements similar work flow for various read-eval-print-loops (REP
 The languages currently supported are: **Emacs Lisp**, **Clojure**, **Common
 Lisp**, **Racket**, **Scheme**, **Hy**, **Python**, **Ruby**, **Standard ML**,
 **OCaml**, **Prolog**, **Javascript**, **shell script**, **Elixr**, **Erlang**,
-**Elm** and **Scala**. **Prolog** and **Javascript** support was contributed by other authors (see special thanks).
+**Elm**..
 
 
 **Usage: C-RET rules all**
@@ -23,8 +23,6 @@ After installation and appropriate configuration (see below), you can use C-RET 
 You can see C-RET in action.
 
 ![ielm](screencast_ielm.gif?raw=true "ielm example")
-
-YouTube video: https://www.youtube.com/watch?v=gNBlF67e-0w&feature=youtu.be
 
 **Clojure via cider.el**
 
