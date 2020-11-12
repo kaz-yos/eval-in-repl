@@ -40,30 +40,28 @@
 ;;
 ;;; eir-send-to-shell
 
-(defun eir-send-to-shell (string)
-  (let* ((mode (buffer-local-value 'major-mode (get-buffer eir-shell-buffer-name)))
-	 (funs (cond ((eq mode 'shell-mode) (list
-					     #'(lambda (string)
-						 (goto-char (point-max))
-						 (insert string))
-					     #'comint-send-input))
-		     ((eq mode 'term-mode) (list
-					    #'(lambda (string)
-						(term-send-string (current-buffer) string))
-					    #'term-send-input))
-		     (t (error "was expecting shell or term mode")))))
-    ;; some code just copied from eval-in-repl.el
-    (let ((script-window (selected-window)))
-      (switch-to-buffer-other-window eir-shell-buffer-name)
-      (with-current-buffer eir-shell-buffer-name
-	(funcall (car funs) string)
-	(funcall (cadr funs)))
-      (select-window script-window)
-      (deactivate-mark))))
+(cl-defgeneric eir-shell-execute ()
+  nil)
+
+(cl-defmethod eir-shell-execute (&context (major-mode shell-mode))
+  (comint-send-input))
+
+(cl-defmethod eir-shell-execute (&context (major-mode term-mode))
+  (term-send-input))
+
+(defalias 'eir-send-to-shell
+  (apply-partially 'eir-send-to-repl
+                   ;; fun-change-to-repl
+                   #'(lambda () (switch-to-buffer-other-window eir-shell-buffer-name))
+                   ;; fun-execute
+                   #'eir-shell-execute)
+  "Send expression to 'eir-shell-buffer-name and have it evaluated.")
+
+;; overwriting the generic eir-insert for term-mode:
+(cl-defmethod eir-insert (string &context (major-mode term-mode))
+  (term-send-string (current-buffer) string))
 
 (defun eir-create-shell (shell-name)
-  ;; TODO needs to be interactive? I remember something about shell not playing well...?
-  (interactive)
   (cond ((eq eir-shell-type 'shell)
 	 (shell shell-name))
 	((eq eir-shell-type 'term)

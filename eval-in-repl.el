@@ -215,6 +215,8 @@ Also split the current window when staring a REPL."
       ;; Select the script window.
       (select-window window-script))))
 
+(cl-defgeneric eir-insert (string)
+  (insert string))
 
 ;;; eir-send-to-repl
 (defun eir-send-to-repl (fun-change-to-repl fun-execute region-string)
@@ -229,7 +231,7 @@ and execute by FUN-EXECUTE."
     ;; Move to end of buffer
     (goto-char (point-max))
     ;; Insert the string
-    (insert region-string)
+    (eir-insert region-string)
     ;; Execute
     (funcall fun-execute)
     ;; Come back to the script
