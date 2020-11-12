@@ -64,9 +64,9 @@
 (defun eir-create-shell (shell-name)
   ;; TODO needs to be interactive? I remember something about shell not playing well...?
   (interactive)
-  (cond ((eq eir-shell-mode 'shell)
+  (cond ((eq eir-shell-type 'shell)
 	 (shell shell-name))
-	((eq eir-shell-mode 'term)
+	((eq eir-shell-type 'term)
 	 ;; make-term wraps the passed name with asterisks ie *<passed-name>*
 	 ;; TODO remove asterisks only from beginning and end of shell-name
 	 ;; NOT from all the string

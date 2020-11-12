@@ -120,14 +120,14 @@ Give a quoted symbol 'left, 'right, 'above, or 'below."
   :group 'eval-in-repl
   :type '(string))
 
-(defcustom eir-shell-mode 'shell
+(defcustom eir-shell-type 'shell
   "The shell mode to be used for newly spawned shells (ie shell or term)"
   :group 'eval-in-repl
   :type '(symbol)
   :options '(shell term))
 
 (defcustom eir-shell-term-program "/bin/bash"
-  "The default term program to be used when eir-shell-mode is 'term"
+  "The default term program to be used when eir-shell-type is 'term"
   :group 'eval-in-repl
   :type '(string))
 
