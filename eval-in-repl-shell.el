@@ -52,20 +52,25 @@
 						(term-send-string (current-buffer) string))
 					    #'term-send-input))
 		     (t (error "was expecting shell or term mode")))))
-    (with-current-buffer eir-shell-buffer-name
-      (funcall (car funs) string)
-      (funcall (cadr funs)))
-    ))
+    ;; some code just copied from eval-in-repl.el
+    (let ((script-window (selected-window)))
+      (switch-to-buffer-other-window eir-shell-buffer-name)
+      (with-current-buffer eir-shell-buffer-name
+	(funcall (car funs) string)
+	(funcall (cadr funs)))
+      (select-window script-window)
+      (deactivate-mark))))
 
-(defun eir-create-shell ()
+(defun eir-create-shell (shell-name)
   ;; TODO needs to be interactive? I remember something about shell not playing well...?
   (interactive)
   (cond ((eq eir-shell-mode 'shell)
-	 (shell eir-shell-buffer-name))
+	 (shell shell-name))
 	((eq eir-shell-mode 'term)
 	 ;; make-term wraps the passed name with asterisks ie *<passed-name>*
-	 ;; TODO remove these asterisks if present
-	 (make-term eir-shell-buffer-name eir-shell-term-program))))
+	 ;; TODO remove asterisks only from beginning and end of shell-name
+	 ;; NOT from all the string
+	 (make-term (replace-regexp-in-string "\*" "" shell-name) eir-shell-term-program))))
 
 ;;; eir-eval-in-shell
 ;;;###autoload
