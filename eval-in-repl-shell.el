@@ -39,14 +39,33 @@
 ;;; SHELL RELATED
 ;;
 ;;; eir-send-to-shell
-(defalias 'eir-send-to-shell
-  (apply-partially 'eir-send-to-repl
-                   ;; fun-change-to-repl
-                   #'(lambda () (switch-to-buffer-other-window eir-shell-buffer-name))
-                   ;; fun-execute
-                   #'comint-send-input)
-  "Send expression to 'eir-shell-buffer-name and have it evaluated.")
 
+(defun eir-send-to-shell (string)
+  (let* ((mode (buffer-local-value 'major-mode (get-buffer eir-shell-buffer-name)))
+	 (funs (cond ((eq mode 'shell-mode) (list
+					     #'(lambda (string)
+						 (goto-char (point-max))
+						 (insert string))
+					     #'comint-send-input))
+		     ((eq mode 'term-mode) (list
+					    #'(lambda (string)
+						(term-send-string (current-buffer) string))
+					    #'term-send-input))
+		     (t (error "was expecting shell or term mode")))))
+    (with-current-buffer eir-shell-buffer-name
+      (funcall (car funs) string)
+      (funcall (cadr funs)))
+    ))
+
+(defun eir-create-shell ()
+  ;; TODO needs to be interactive? I remember something about shell not playing well...?
+  (interactive)
+  (cond ((eq eir-shell-mode 'shell)
+	 (shell eir-shell-buffer-name))
+	((eq eir-shell-mode 'term)
+	 ;; make-term wraps the passed name with asterisks ie *<passed-name>*
+	 ;; TODO remove these asterisks if present
+	 (make-term eir-shell-buffer-name eir-shell-term-program))))
 
 ;;; eir-eval-in-shell
 ;;;###autoload
@@ -57,7 +76,7 @@
   (let* (;; Save current point
 	 (initial-point (point)))
     (eir-repl-start (regexp-quote eir-shell-buffer-name)
-		    (lambda () (interactive) (shell eir-shell-buffer-name))
+		    (lambda () (interactive) (eir-create-shell eir-shell-buffer-name))
 		    t)
 
     ;; Check if selection is present
