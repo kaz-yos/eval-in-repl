@@ -216,6 +216,10 @@ Also split the current window when staring a REPL."
       (select-window window-script))))
 
 (cl-defgeneric eir-insert (string)
+  "Default implementation of eir-insert is just to insert a string into the apropriate buffer.
+Other REPLs however might need other implementations (see for example eval-in-repl-shell.el
+for term-mode).
+Define your own with cl-defmethod"
   (insert string))
 
 ;;; eir-send-to-repl

@@ -57,18 +57,19 @@
                    #'eir-shell-execute)
   "Send expression to 'eir-shell-buffer-name and have it evaluated.")
 
-;; overwriting the generic eir-insert for term-mode:
 (cl-defmethod eir-insert (string &context (major-mode term-mode))
+  "Overwrites the default implementation of eir-insert that just calls (insert string)"
   (term-send-string (current-buffer) string))
+
+(defun eir--remove-surrounding-stars (string)
+  (replace-regexp-in-string "^[*]\\(.+\\)[*]$" "\\1" string))
 
 (defun eir-create-shell (shell-name)
   (cond ((eq eir-shell-type 'shell)
 	 (shell shell-name))
 	((eq eir-shell-type 'term)
 	 ;; make-term wraps the passed name with asterisks ie *<passed-name>*
-	 ;; TODO remove asterisks only from beginning and end of shell-name
-	 ;; NOT from all the string
-	 (make-term (replace-regexp-in-string "\*" "" shell-name) eir-shell-term-program))))
+	 (make-term (eir--remove-surrounding-stars shell-name) eir-shell-term-program))))
 
 ;;; eir-eval-in-shell
 ;;;###autoload
