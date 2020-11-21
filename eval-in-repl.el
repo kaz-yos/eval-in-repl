@@ -124,7 +124,7 @@ Give a quoted symbol 'left, 'right, 'above, or 'below."
   "The shell mode to be used for newly spawned shells (ie shell or term)"
   :group 'eval-in-repl
   :type '(symbol)
-  :options '(shell term))
+  :options '(shell term vterm))
 
 (defcustom eir-shell-term-program "/bin/bash"
   "The default term program to be used when eir-shell-type is 'term"

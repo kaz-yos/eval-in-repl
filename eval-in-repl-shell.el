@@ -49,6 +49,9 @@
 (cl-defmethod eir-shell-execute (&context (major-mode term-mode))
   (term-send-input))
 
+(cl-defmethod eir-shell-execute (&context (major-mode vterm-mode))
+  (vterm-send-return))
+
 (defalias 'eir-send-to-shell
   (apply-partially 'eir-send-to-repl
                    ;; fun-change-to-repl
@@ -61,15 +64,27 @@
   "Overwrites the default implementation of eir-insert that just calls (insert string)"
   (term-send-string (current-buffer) string))
 
+(cl-defmethod eir-insert (string &context (major-mode vterm-mode))
+  "term-send-string seems to work with vterm. Is there another command that should be used instead?"
+  (term-send-string (current-buffer) string))
+
 (defun eir--remove-surrounding-stars (string)
   (replace-regexp-in-string "^[*]\\(.+\\)[*]$" "\\1" string))
 
-(defun eir-create-shell (shell-name)
-  (cond ((eq eir-shell-type 'shell)
-	 (shell shell-name))
-	((eq eir-shell-type 'term)
-	 ;; make-term wraps the passed name with asterisks ie *<passed-name>*
-	 (make-term (eir--remove-surrounding-stars shell-name) eir-shell-term-program))))
+(cl-defgeneric eir-create-shell (shell-name)
+  (error "Could not create shell"))
+
+(cl-defmethod eir-create-shell (shell-name &context (eir-shell-type (eql shell)))
+  (shell shell-name))
+
+(cl-defmethod eir-create-shell (shell-name &context (eir-shell-type (eql term)))
+  ;; make-term wraps the passed name with asterisks ie *<passed-name>*
+  (make-term (eir--remove-surrounding-stars shell-name) eir-shell-term-program))
+
+(cl-defmethod eir-create-shell (shell-name &context (eir-shell-type (eql vterm)))
+  ;; vterm messes with the window configuration
+  (save-window-excursion
+    (vterm shell-name)))
 
 ;;; eir-eval-in-shell
 ;;;###autoload
