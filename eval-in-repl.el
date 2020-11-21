@@ -120,6 +120,16 @@ Give a quoted symbol 'left, 'right, 'above, or 'below."
   :group 'eval-in-repl
   :type '(string))
 
+(defcustom eir-shell-type 'shell
+  "The shell mode to be used for newly spawned shells (ie shell or term)"
+  :group 'eval-in-repl
+  :type '(symbol)
+  :options '(shell term vterm))
+
+(defcustom eir-shell-term-program "/bin/bash"
+  "The default term program to be used when eir-shell-type is 'term"
+  :group 'eval-in-repl
+  :type '(string))
 
 ;;;
 ;;; COMMON ELEMENTS
@@ -205,6 +215,12 @@ Also split the current window when staring a REPL."
       ;; Select the script window.
       (select-window window-script))))
 
+(cl-defgeneric eir-insert (string)
+  "Default implementation of eir-insert is just to insert a string into the apropriate buffer.
+Other REPLs however might need other implementations (see for example eval-in-repl-shell.el
+for term-mode).
+Define your own with cl-defmethod"
+  (insert string))
 
 ;;; eir-send-to-repl
 (defun eir-send-to-repl (fun-change-to-repl fun-execute region-string)
@@ -219,7 +235,7 @@ and execute by FUN-EXECUTE."
     ;; Move to end of buffer
     (goto-char (point-max))
     ;; Insert the string
-    (insert region-string)
+    (eir-insert region-string)
     ;; Execute
     (funcall fun-execute)
     ;; Come back to the script

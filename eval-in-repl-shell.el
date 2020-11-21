@@ -39,14 +39,52 @@
 ;;; SHELL RELATED
 ;;
 ;;; eir-send-to-shell
+
+(cl-defgeneric eir-shell-execute ()
+  nil)
+
+(cl-defmethod eir-shell-execute (&context (major-mode shell-mode))
+  (comint-send-input))
+
+(cl-defmethod eir-shell-execute (&context (major-mode term-mode))
+  (term-send-input))
+
+(cl-defmethod eir-shell-execute (&context (major-mode vterm-mode))
+  (vterm-send-return))
+
 (defalias 'eir-send-to-shell
   (apply-partially 'eir-send-to-repl
                    ;; fun-change-to-repl
                    #'(lambda () (switch-to-buffer-other-window eir-shell-buffer-name))
                    ;; fun-execute
-                   #'comint-send-input)
+                   #'eir-shell-execute)
   "Send expression to 'eir-shell-buffer-name and have it evaluated.")
 
+(cl-defmethod eir-insert (string &context (major-mode term-mode))
+  "Overwrites the default implementation of eir-insert that just calls (insert string)"
+  (term-send-string (current-buffer) string))
+
+(cl-defmethod eir-insert (string &context (major-mode vterm-mode))
+  "term-send-string seems to work with vterm. Is there another command that should be used instead?"
+  (term-send-string (current-buffer) string))
+
+(defun eir--remove-surrounding-stars (string)
+  (replace-regexp-in-string "^[*]\\(.+\\)[*]$" "\\1" string))
+
+(cl-defgeneric eir-create-shell (shell-name)
+  (error "Could not create shell"))
+
+(cl-defmethod eir-create-shell (shell-name &context (eir-shell-type (eql shell)))
+  (shell shell-name))
+
+(cl-defmethod eir-create-shell (shell-name &context (eir-shell-type (eql term)))
+  ;; make-term wraps the passed name with asterisks ie *<passed-name>*
+  (make-term (eir--remove-surrounding-stars shell-name) eir-shell-term-program))
+
+(cl-defmethod eir-create-shell (shell-name &context (eir-shell-type (eql vterm)))
+  ;; vterm messes with the window configuration
+  (save-window-excursion
+    (vterm shell-name)))
 
 ;;; eir-eval-in-shell
 ;;;###autoload
@@ -57,7 +95,7 @@
   (let* (;; Save current point
 	 (initial-point (point)))
     (eir-repl-start (regexp-quote eir-shell-buffer-name)
-		    (lambda () (interactive) (shell eir-shell-buffer-name))
+		    (lambda () (interactive) (eir-create-shell eir-shell-buffer-name))
 		    t)
 
     ;; Check if selection is present
