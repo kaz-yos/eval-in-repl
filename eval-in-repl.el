@@ -5,7 +5,7 @@
 ;; Author: Kazuki YOSHIDA <kazukiyoshida@mail.harvard.edu>
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
-;; Version: 0.9.6
+;; Version: 0.9.7
 ;; Package-Requires: (dash paredit ace-window)
 
 ;; This program is free software; you can redistribute it and/or modify
