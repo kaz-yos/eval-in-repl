@@ -84,7 +84,10 @@
 (cl-defmethod eir-create-shell (shell-name &context (eir-shell-type (eql vterm)))
   ;; vterm messes with the window configuration
   (save-window-excursion
-    (vterm shell-name)))
+    ;; Start vterm, and force buffer name to stay shell-name (in case
+    ;; when vterm-buffer-name-string is customized)
+    (with-current-buffer (vterm shell-name)
+      (setq-local vterm-buffer-name-string nil))))
 
 ;;; eir-eval-in-shell
 ;;;###autoload
