@@ -35,6 +35,14 @@
 (require 'eval-in-repl)
 (require 'geiser-mode)
 
+;;;
+;;; CUSTOMIZATION VARIABLES
+;;; eir-geiser-regexp
+(defcustom eir-geiser-repl-regexp
+  "\\* Racket REPL.*\\*$\\|\\* Guile REPL.*\\*$\\|\\* Mit REPL.*\\*$"
+  "The regular expression used to search the geiser buffer."
+  :group 'eval-in-repl
+  :type 'string)
 
 ;;;
 ;;; GEISER RELATED
@@ -55,7 +63,7 @@
   (interactive)
   (eir-eval-in-repl-lisp
    ;; repl-buffer-regexp
-   "\\* Racket REPL.*\\*$\\|\\* Guile REPL.*\\*$\\|\\* Mit REPL.*\\*$"
+   eir-geiser-repl-regexp
    ;; fun-repl-start
    #'run-geiser
    ;; fun-repl-send
