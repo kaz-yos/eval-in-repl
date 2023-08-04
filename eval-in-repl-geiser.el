@@ -6,6 +6,7 @@
 ;; Keywords: tools, convenience
 ;; URL: https://github.com/kaz-yos/eval-in-repl
 ;; Version: 0.9.4
+;; Package-Requires: ((emacs "24") (geiser "0.26"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -39,7 +40,7 @@
 ;;; CUSTOMIZATION VARIABLES
 ;;; eir-geiser-regexp
 (defcustom eir-geiser-repl-regexp
-  "\\* Racket REPL.*\\*$\\|\\* Guile REPL.*\\*$\\|\\* Mit REPL.*\\*$"
+  "\\*Geiser \\(?:Guile\\|Mit\\|Racket\\) REPL\\*.*$"
   "The regular expression used to search the geiser buffer."
   :group 'eval-in-repl
   :type 'string)
@@ -50,9 +51,9 @@
 (defalias 'eir-send-to-geiser
   (apply-partially 'eir-send-to-repl
                    ;; fun-change-to-repl
-                   #'switch-to-geiser
+                   #'geiser-repl-switch
                    ;; fun-execute
-                   #'geiser-repl--maybe-send)
+                   #'geiser-repl-maybe-send)
   "Send expression to * Racket/Guile REPL * and have it evaluated.")
 
 
@@ -65,7 +66,7 @@
    ;; repl-buffer-regexp
    eir-geiser-repl-regexp
    ;; fun-repl-start
-   #'run-geiser
+   #'geiser
    ;; fun-repl-send
    #'eir-send-to-geiser
    ;; defun-string
